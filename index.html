@@ -3,7 +3,9 @@
 <title>Restora Home — восстановление и отделка домов под ключ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- шрифты грузятся не блокируя скрипт/кадры: media=print не считается блокирующим для последующих <script>, onload переключает на все медиа -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap"></noscript>
 <style>
   :root{
     --ink:#0e0d0a;--ink2:#15130e;--bone:#efe9df;
@@ -195,16 +197,23 @@
 
   const imgs  = new Array(N+1);
   const iimgs = new Array(NI+1);
-  let loaded = 0; const TOTAL = N + NI;
+  let iLoaded = 0, loaded = 0;
 
   function drawStory(i){ i=Math.max(1,Math.min(N,Math.round(i))); const im=imgs[i]; if(im&&im.complete) ctx.drawImage(im,0,0,cv.width,cv.height); }
   function drawIntro(i){ i=Math.max(1,Math.min(NI,Math.round(i))); const im=iimgs[i]; if(im&&im.complete) ctx.drawImage(im,0,0,cv.width,cv.height); }
 
   function preload(){
-    function bump(){ loaded++; const pct=Math.round(loaded/TOTAL*100); lf.style.width=pct+'%'; lpct.textContent=pct+'%';
-      if(loaded===TOTAL){ setTimeout(()=>loader.classList.add('gone'),250); start(); } }
-    for(let i=1;i<=N;i++){ const im=new Image(); im.onload=bump; im.onerror=bump; im.src=PATH(i); imgs[i]=im; }
-    for(let i=1;i<=NI;i++){ const im=new Image(); im.onload=bump; im.onerror=bump; im.src=IPATH(i); iimgs[i]=im; }
+    // интро (151 кадр) грузим первым и отдельно от истории (755 кадров) —
+    // сайт становится интерактивным сразу после интро, не дожидаясь всех 906
+    function bumpIntro(){
+      iLoaded++; const pct=Math.round(iLoaded/NI*100); lf.style.width=pct+'%'; lpct.textContent=pct+'%';
+      if(iLoaded===NI){ setTimeout(()=>loader.classList.add('gone'),250); start(); loadStory(); }
+    }
+    function bumpStory(){ loaded++; }
+    function loadStory(){
+      for(let i=1;i<=N;i++){ const im=new Image(); im.onload=bumpStory; im.onerror=bumpStory; im.src=PATH(i); imgs[i]=im; }
+    }
+    for(let i=1;i<=NI;i++){ const im=new Image(); im.onload=bumpIntro; im.onerror=bumpIntro; im.src=IPATH(i); iimgs[i]=im; }
   }
 
   const dotsEl=document.getElementById('dots');
@@ -282,7 +291,7 @@
   addEventListener('touchmove',e=>{if(ty===null)return;const y=e.touches[0].clientY;const dy=ty-y;ty=y;
     if(phase==='intro'){armed=true;return;}
     if(phase==='outro'||trans)return;
-    tAccum+=dy; if(Math.abs(tAccum)>50){ tAccum>0?stepDown():stepUp(); tAccum=0; ty=null; }
+    tAccum+=dy; if(Math.abs(tAccum)>30){ tAccum>0?stepDown():stepUp(); tAccum=0; ty=null; }
     e.preventDefault&&e.preventDefault();},{passive:false});
   addEventListener('touchend',()=>{ty=null;});
   addEventListener('keydown',e=>{
