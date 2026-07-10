@@ -4,8 +4,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- шрифты грузятся не блокируя скрипт/кадры: media=print не считается блокирующим для последующих <script>, onload переключает на все медиа -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;700;800&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;700;800&display=swap"></noscript>
 <style>
   :root{
     --ink:#1c1712;--ink2:#f7f2e7;--bone:#1e1913;
@@ -26,7 +26,19 @@
 
   /* ===== BRAND / LOGO ===== */
   .brand{position:fixed;top:30px;left:5vw;z-index:40;display:flex;align-items:center;gap:12px}
-  .brand .mark{width:26px;height:24px;flex:none;overflow:visible}
+  .brand .mark{width:28px;height:23px;flex:none;overflow:visible}
+  .brand .mark path{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:100;stroke-dashoffset:100;animation:hdraw2 7s cubic-bezier(.65,0,.35,1) infinite}
+  .brand .mark .hm-roof{stroke:var(--clay);animation-delay:0s}
+  .brand .mark .hm-wall{stroke:var(--bone);opacity:.82;animation-delay:.5s}
+  .brand .mark .hm-door{stroke:var(--gold);animation-delay:1s}
+  @keyframes hdraw2{
+    0%{stroke-dashoffset:100;opacity:0}
+    5%{opacity:1}
+    30%{stroke-dashoffset:0;opacity:1}
+    88%{stroke-dashoffset:0;opacity:1}
+    100%{stroke-dashoffset:0;opacity:0}
+  }
   .brand .wm{display:flex;flex-direction:column;line-height:1}
   .brand .name{font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:.06em;color:var(--bone)}
   .brand .name b{color:var(--muted);font-weight:400;margin:0 .1em}
@@ -38,6 +50,17 @@
   /* ===== top rail + state ===== */
   .rail{position:fixed;top:0;left:0;height:1px;background:var(--gold);opacity:.75;z-index:41;width:0;transition:width .12s linear}
   .state{position:fixed;top:31px;left:50%;transform:translateX(-50%);z-index:42;font-size:9px;letter-spacing:.46em;text-transform:uppercase;color:var(--muted);font-weight:400}
+
+  /* ===== верхние пилюли: заявка / услуги ===== */
+  .navpills{position:fixed;top:22px;right:5vw;z-index:40;display:flex;align-items:center;gap:10px}
+  .pill{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 20px;border-radius:999px;
+    font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.02em;text-decoration:none;
+    text-transform:none;transition:transform .35s var(--ease),background .35s var(--ease),opacity .35s var(--ease)}
+  .pill-dark{background:var(--bone);color:var(--ink2)}
+  .pill-dark i{font-style:normal;color:var(--gold);font-size:16px;line-height:0}
+  .pill-dark:hover{transform:translateY(-1px);background:#000}
+  .pill-light{background:rgba(30,25,19,.06);color:var(--bone);opacity:.85}
+  .pill-light:hover{background:rgba(30,25,19,.11);opacity:1}
 
   /* ===== dots ===== */
   .dots{position:fixed;right:4.5vw;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:17px}
@@ -75,7 +98,7 @@
   .eyebrow{position:relative;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;font-weight:400;padding-top:16px}
   .eyebrow::before{content:"";position:absolute;top:0;width:22px;height:1px;background:var(--gold);opacity:.85}
   .left .eyebrow::before{right:0}.right .eyebrow::before{left:0}
-  h2{font-family:var(--serif);font-size:clamp(30px,3.7vw,50px);font-weight:500;line-height:1.02;margin-bottom:18px;letter-spacing:-.005em;color:var(--bone)}
+  h2{font-family:var(--sans);font-size:clamp(32px,4.2vw,56px);font-weight:800;line-height:0.98;margin-bottom:18px;letter-spacing:-.025em;color:var(--bone)}
   .left p{color:var(--muted);font-size:14.5px;line-height:1.7;max-width:320px;margin-left:auto;font-weight:300}
 
   .cta{display:inline-flex;align-items:center;gap:9px;margin-top:26px;color:var(--bone);text-decoration:none;
@@ -153,6 +176,9 @@
     .brand .services{max-width:210px;column-gap:6px;row-gap:2px;margin-top:7px}
     .brand .services span{font-size:7.5px;letter-spacing:.06em}
     .state{display:none}
+    .navpills{top:18px;right:4vw;gap:6px}
+    .pill{height:27px;padding:0 11px;font-size:9px;gap:3px}
+    .pill-dark i{font-size:12px}
     .dots{right:auto;left:50%;top:auto;bottom:18px;transform:translateX(-50%);flex-direction:row;gap:16px}
     .hint{display:none}
   }
@@ -191,9 +217,10 @@
   </svg>
   <span>Restora Home</span><div class="lb"><div class="lf" id="lf"></div></div><em id="lpct">0%</em>
 </div>
-<div class="brand" aria-label="Restora Home"><svg class="mark" viewBox="0 0 44 40" role="img" aria-hidden="true"><path d="M6 21 L22 7 L38 21" fill="none" stroke="var(--bone)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/><path d="M11 21 L33 21" stroke="var(--gold)" stroke-width="1.1" stroke-linecap="round"/><path d="M22 21 L22 31" stroke="var(--bone)" stroke-width="1.1" stroke-linecap="round" opacity=".85"/><path d="M11 31 L33 31" stroke="rgba(30,25,19,.25)" stroke-width="1" stroke-linecap="round"/></svg><span class="wm"><span class="name">Restora<b>·</b>Home</span><span class="sub">Кострома и область</span><span class="services"><span>Строительство</span><i>·</i><span>Восстановление</span><i>·</i><span>Монтаж и отделка</span><i>·</i><span>Благоустройство</span></span></span></div>
+<div class="brand" aria-label="Restora Home"><svg class="mark" viewBox="0 0 120 96" role="img" aria-hidden="true"><path class="hm-roof" d="M8 46 L60 8 L112 46" pathLength="100"/><path class="hm-wall" d="M20 46 L20 84 L100 84 L100 46" pathLength="100"/><path class="hm-door" d="M52 84 L52 58 L68 58 L68 84" pathLength="100"/></svg><span class="wm"><span class="name">Restora<b>·</b>Home</span><span class="sub">Кострома и область</span><span class="services"><span>Строительство</span><i>·</i><span>Восстановление</span><i>·</i><span>Монтаж и отделка</span><i>·</i><span>Благоустройство</span></span></span></div>
 <div class="rail" id="rail"></div>
 <div class="state" id="stateLbl"></div>
+<div class="navpills"><a href="#" class="pill pill-dark">Заявка<i>•</i></a><a href="#" class="pill pill-light">Услуги</a></div>
 <div class="dots" id="dots"></div>
 
 <div class="stage">
