@@ -37,10 +37,24 @@ async function sendTelegramMessage(chatId, text) {
   return true;
 }
 
+// Отправляет GIF/анимацию по прямой ссылке (Telegram сам её скачивает — файл
+// не проходит через нашу функцию). caption поддерживает те же HTML-теги, что и sendMessage.
+async function sendTelegramAnimation(chatId, animationUrl, caption) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  if (!token || !chatId) return false;
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendAnimation`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, animation: animationUrl, caption, parse_mode: "HTML" }),
+  });
+  if (!response.ok) throw new Error(`Telegram API: ${response.status} ${await response.text()}`);
+  return true;
+}
+
 // Обязательно перед вставкой пользовательских данных в HTML-сообщение Telegram —
 // защита от инъекции тегов при parse_mode: "HTML"
 function escapeHtml(str) {
   return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-module.exports = { redis, redisConfigured, sendTelegramMessage, escapeHtml };
+module.exports = { redis, redisConfigured, sendTelegramMessage, sendTelegramAnimation, escapeHtml };

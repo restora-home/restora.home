@@ -1,7 +1,10 @@
 // Webhook Telegram-бота: любой человек находит бота и вводит пароль,
 // после чего его chat_id добавляется в Redis-set "authorized_chats".
 // Заявки с сайта (api/contact.js) рассылаются всем id из этого сета.
-const { redis, redisConfigured, sendTelegramMessage } = require("./_lib");
+const { redis, redisConfigured, sendTelegramMessage, sendTelegramAnimation } = require("./_lib");
+
+// Гифка с сайта (та же анимация домика, что в шапке/лоадере), отдаётся статикой с прод-домена
+const WELCOME_GIF_URL = "https://restora-home.ru/assets/bot-welcome.gif";
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -38,7 +41,13 @@ async function handleMessage(chatId, text) {
 
   if (!isAuthorized) {
     if (text === "/start") {
-      return sendTelegramMessage(chatId, "🏠 Restora Home\n\nВведите пароль, чтобы получать заявки с сайта в этот чат.");
+      const caption = "🏠 Restora Home\n\nВведите пароль, чтобы получать заявки с сайта в этот чат.";
+      try {
+        return await sendTelegramAnimation(chatId, WELCOME_GIF_URL, caption);
+      } catch (err) {
+        console.error("sendAnimation failed, falling back to text:", err);
+        return sendTelegramMessage(chatId, caption);
+      }
     }
     if (!password) return sendTelegramMessage(chatId, "⚠️ Пароль доступа не настроен администратором.");
     if (text === password) {
