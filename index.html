@@ -290,27 +290,35 @@
     if(['ArrowUp','PageUp'].includes(e.key)){e.preventDefault(); stepUp(); }
   });
   dots.forEach(d=>d.addEventListener('click',()=>{ if(phase==='intro')armed=true; else if(phase==='story'&&!trans) transitionTo(+d.dataset.i); }));
+  // тап/клик по экрану тоже запускает доигрыш интро — на случай, если скролл/тач не считался первым касанием
+  addEventListener('click',()=>{ if(phase==='intro') armed=true; });
 
   // ===== ГЛАВНЫЙ ЦИКЛ =====
   let lastT=performance.now(), introAcc=0;
+  let outroT0=0, outroFrom=1;
+  const OUTRO_MS=380;   // доигрыш интро всегда укладывается в это время, а не ждёт конца цикла (было до ~5с)
   function loop(now){
     const dt=now-lastT; lastT=now;
 
-    if(phase==='intro'||phase==='outro'){
-      // как только пользователь дёрнул — переключаемся на доигрыш до конца
-      if(phase==='intro' && armed) phase='outro';
-      introAcc+=dt; const step=1000/INTRO_FPS;
-      while(introAcc>=step){ introAcc-=step; introFrame++;
-        if(introFrame>NI){
-          if(phase==='outro'){
-            // петля доиграла до конца -> входим в историю
-            phase='story'; curFrame=STOPS[0]; targetFrame=STOPS[0]; idx=0; trans=null;
-            drawStory(STOPS[0]); showStop(0); requestAnimationFrame(loop); return;
-          }
-          introFrame=1;                       // обычное зацикливание, пока не armed
-        }
+    if(phase==='intro'){
+      if(armed){ phase='outro'; outroT0=now; outroFrom=introFrame; }
+      else{
+        introAcc+=dt; const step=1000/INTRO_FPS;
+        while(introAcc>=step){ introAcc-=step; introFrame++; if(introFrame>NI) introFrame=1; }
+        drawIntro(introFrame); requestAnimationFrame(loop); return;
       }
-      drawIntro(introFrame); requestAnimationFrame(loop); return;
+    }
+    if(phase==='outro'){
+      // быстро доигрываем от текущего кадра до конца петли за фиксированное время
+      const k=Math.min(1,(now-outroT0)/OUTRO_MS);
+      introFrame=Math.round(outroFrom+(NI-outroFrom)*k);
+      drawIntro(introFrame);
+      if(k>=1){
+        // петля доиграла -> входим в историю
+        phase='story'; curFrame=STOPS[0]; targetFrame=STOPS[0]; idx=0; trans=null;
+        drawStory(STOPS[0]); showStop(0);
+      }
+      requestAnimationFrame(loop); return;
     }
 
     // STORY — только плавные направленные переходы
