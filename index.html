@@ -207,6 +207,44 @@
     .brand .services{display:none}
     .stage{padding:78px 6vw 36px}
   }
+
+  /* ===== модальное окно заявки ===== */
+  .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(20,16,12,.42);backdrop-filter:blur(3px);
+    opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+  .modal-backdrop.on{opacity:1;pointer-events:auto}
+  .lead-modal{position:fixed;z-index:201;top:50%;left:50%;transform:translate(-50%,-46%);width:min(420px,88vw);
+    background:var(--ink2);border-radius:20px;padding:36px 32px 28px;
+    box-shadow:0 50px 100px -30px rgba(20,16,12,.35),0 10px 40px rgba(20,16,12,.15);
+    opacity:0;pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .lead-modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+  .modal-close{position:absolute;top:18px;right:18px;width:30px;height:30px;border:none;border-radius:50%;
+    background:rgba(30,25,19,.06);color:var(--bone);font-size:18px;line-height:1;cursor:pointer;
+    transition:background .3s var(--ease)}
+  .modal-close:hover{background:rgba(30,25,19,.12)}
+  .modal-eyebrow{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .lead-modal h3{font-family:var(--sans);font-weight:800;font-size:26px;letter-spacing:-.02em;color:var(--bone);margin-bottom:8px}
+  .modal-sub{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:22px;max-width:320px}
+  #leadForm{display:flex;flex-direction:column;gap:14px}
+  #leadForm label{display:flex;flex-direction:column;gap:7px;font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);font-weight:500}
+  #leadForm label i{font-style:normal;text-transform:none;letter-spacing:0;opacity:.7;font-size:10px}
+  #leadForm input,#leadForm textarea{font-family:var(--sans);font-size:14.5px;font-weight:400;color:var(--bone);
+    background:transparent;border:none;border-bottom:1px solid rgba(30,25,19,.22);padding:6px 2px 9px;
+    text-transform:none;letter-spacing:normal;user-select:text;resize:none;transition:border-color .3s var(--ease)}
+  #leadForm input::placeholder,#leadForm textarea::placeholder{color:var(--dim)}
+  #leadForm input:focus,#leadForm textarea:focus{outline:none;border-color:var(--gold)}
+  .modal-submit{margin-top:10px;height:46px;border:none;border-radius:999px;background:var(--bone);color:var(--ink2);
+    font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.03em;cursor:pointer;
+    transition:background .3s var(--ease),opacity .3s var(--ease)}
+  .modal-submit:hover{background:#000}
+  .modal-submit:disabled{opacity:.55;cursor:default}
+  .modal-status{min-height:16px;font-size:12px;text-align:center;margin-top:2px;color:var(--muted)}
+  .modal-status.err{color:var(--clay)}
+  .modal-status.ok{color:#3f7a4a}
+  @media(max-width:480px){
+    .lead-modal{padding:30px 22px 24px}
+    .lead-modal h3{font-size:22px}
+  }
 </style></head><body>
 
 <div class="loader" id="loader">
@@ -234,12 +272,12 @@
   </div>
   <div class="frame"><canvas id="cv" width="608" height="608"></canvas></div>
   <div class="side right">
-    <div class="pane on" data-i="0"><div class="stat"><div class="n">бесплатно</div><div class="l">выезд на замер</div></div><div class="stat"><div class="n">смета</div><div class="l">цена за каждый этап</div></div><a href="#" class="cta">Оставить заявку</a></div>
-    <div class="pane" data-i="1"><div class="stat"><div class="n">дерево</div><div class="l">сохраняем, не меняем</div></div><div class="stat"><div class="n">под ключ</div><div class="l">одна бригада на всё</div></div><a href="#" class="cta">Рассчитать</a></div>
-    <div class="pane" data-i="2"><div class="stat"><div class="n">полный</div><div class="l">цикл от дизайна</div></div><div class="stat"><div class="n">без</div><div class="l">скрытых платежей</div></div><a href="#" class="cta">Обсудить проект</a></div>
-    <div class="pane" data-i="3"><div class="stat"><div class="n">проект</div><div class="l">дизайн интерьера</div></div><div class="stat"><div class="n">«под ключ»</div><div class="l">черновая и чистовая</div></div><a href="#" class="cta">Обсудить проект</a></div>
-    <div class="pane" data-i="4"><div class="stat"><div class="n">локально</div><div class="l">без капремонта</div></div><div class="stat"><div class="n">под бюджет</div><div class="l">технология по карману</div></div><a href="#" class="cta">Вызвать мастера</a></div>
-    <div class="pane" data-i="5"><div class="stat"><div class="n">+5–7 лет</div><div class="l">жизни кровле</div></div><div class="stat"><div class="n">до / после</div><div class="l">покажем фото работ</div></div><a href="#" class="cta">Вызвать мастера</a></div>
+    <div class="pane on" data-i="0"><div class="stat"><div class="n">бесплатно</div><div class="l">выезд на замер</div></div><div class="stat"><div class="n">смета</div><div class="l">цена за каждый этап</div></div><a href="#" class="cta" data-topic="Восстановление домов">Оставить заявку</a></div>
+    <div class="pane" data-i="1"><div class="stat"><div class="n">дерево</div><div class="l">сохраняем, не меняем</div></div><div class="stat"><div class="n">под ключ</div><div class="l">одна бригада на всё</div></div><a href="#" class="cta" data-topic="Восстановление · результат">Рассчитать</a></div>
+    <div class="pane" data-i="2"><div class="stat"><div class="n">полный</div><div class="l">цикл от дизайна</div></div><div class="stat"><div class="n">без</div><div class="l">скрытых платежей</div></div><a href="#" class="cta" data-topic="Отделка под ключ">Обсудить проект</a></div>
+    <div class="pane" data-i="3"><div class="stat"><div class="n">проект</div><div class="l">дизайн интерьера</div></div><div class="stat"><div class="n">«под ключ»</div><div class="l">черновая и чистовая</div></div><a href="#" class="cta" data-topic="Отделка · дизайн-проект">Обсудить проект</a></div>
+    <div class="pane" data-i="4"><div class="stat"><div class="n">локально</div><div class="l">без капремонта</div></div><div class="stat"><div class="n">под бюджет</div><div class="l">технология по карману</div></div><a href="#" class="cta" data-topic="Кровля и локальный ремонт">Вызвать мастера</a></div>
+    <div class="pane" data-i="5"><div class="stat"><div class="n">+5–7 лет</div><div class="l">жизни кровле</div></div><div class="stat"><div class="n">до / после</div><div class="l">покажем фото работ</div></div><a href="#" class="cta" data-topic="Ремонт · результат">Вызвать мастера</a></div>
   </div>
 </div>
 <div class="hint" id="hint">Листайте вниз ↓</div>
@@ -349,22 +387,25 @@
     if(accum>=STEP_THRESHOLD){ accum=0; stepLock=true; setTimeout(()=>stepLock=false,120); stepDown(); }
     else if(accum<=-STEP_THRESHOLD){ accum=0; stepLock=true; setTimeout(()=>stepLock=false,120); stepUp(); }
   }
-  addEventListener('wheel',e=>{e.preventDefault();onScroll(e.deltaY);},{passive:false});
+  // window.__modalOpen — выставляется формой заявки (отдельный скрипт ниже), чтобы движок
+  // не листал историю, пока открыто модальное окно и пользователь скроллит/печатает в нём
+  addEventListener('wheel',e=>{if(window.__modalOpen)return;e.preventDefault();onScroll(e.deltaY);},{passive:false});
   let ty=null, tAccum=0;
-  addEventListener('touchstart',e=>{ty=e.touches[0].clientY;tAccum=0;},{passive:true});
-  addEventListener('touchmove',e=>{if(ty===null)return;const y=e.touches[0].clientY;const dy=ty-y;ty=y;
+  addEventListener('touchstart',e=>{if(window.__modalOpen)return;ty=e.touches[0].clientY;tAccum=0;},{passive:true});
+  addEventListener('touchmove',e=>{if(window.__modalOpen)return;if(ty===null)return;const y=e.touches[0].clientY;const dy=ty-y;ty=y;
     if(phase==='intro'){armed=true;return;}
     if(phase==='outro'||trans)return;
     tAccum+=dy; if(Math.abs(tAccum)>30){ tAccum>0?stepDown():stepUp(); tAccum=0; ty=null; }
     e.preventDefault&&e.preventDefault();},{passive:false});
   addEventListener('touchend',()=>{ty=null;});
   addEventListener('keydown',e=>{
+    if(window.__modalOpen)return;
     if(['ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault(); stepDown(); }
     if(['ArrowUp','PageUp'].includes(e.key)){e.preventDefault(); stepUp(); }
   });
   dots.forEach(d=>d.addEventListener('click',()=>{ if(phase==='intro')armed=true; else if(phase==='story'&&!trans) transitionTo(+d.dataset.i); }));
   // тап/клик по экрану тоже запускает доигрыш интро — на случай, если скролл/тач не считался первым касанием
-  addEventListener('click',()=>{ if(phase==='intro') armed=true; });
+  addEventListener('click',()=>{ if(window.__modalOpen)return; if(phase==='intro') armed=true; });
 
   // ===== ГЛАВНЫЙ ЦИКЛ =====
   let lastT=performance.now(), introAcc=0;
@@ -407,5 +448,95 @@
 
   function start(){ phase='intro'; introFrame=1; armed=false; drawIntro(1); showStop(0); lastT=performance.now(); requestAnimationFrame(loop); }
   preload();
+</script>
+
+<!-- ===== форма заявки: полностью отдельный скрипт, не связан со скролл-движком ===== -->
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <button type="button" class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
+  <div class="modal-eyebrow" id="modalEyebrow">Восстановление домов</div>
+  <h3 id="modalTitle">Оставить заявку</h3>
+  <p class="modal-sub">Перезвоним в течение рабочего дня и обсудим детали.</p>
+  <form id="leadForm" novalidate>
+    <label>Имя<input type="text" name="name" required autocomplete="name" placeholder="Как к вам обращаться"></label>
+    <label>Телефон<input type="tel" name="phone" required autocomplete="tel" placeholder="+7 900 000-00-00"></label>
+    <label>Комментарий <i>необязательно</i><textarea name="message" rows="2" placeholder="Что хотите обсудить"></textarea></label>
+    <input type="hidden" name="topic" id="modalTopic" value="">
+    <button type="submit" class="modal-submit" id="modalSubmit">Отправить заявку</button>
+    <p class="modal-status" id="modalStatus" role="status"></p>
+  </form>
+</div>
+
+<script>
+(function(){
+  var ctas = [].slice.call(document.querySelectorAll('.cta'));
+  var backdrop = document.getElementById('modalBackdrop');
+  var modal = document.getElementById('leadModal');
+  var closeBtn = document.getElementById('modalClose');
+  var form = document.getElementById('leadForm');
+  var statusEl = document.getElementById('modalStatus');
+  var eyebrowEl = document.getElementById('modalEyebrow');
+  var titleEl = document.getElementById('modalTitle');
+  var topicInput = document.getElementById('modalTopic');
+  var submitBtn = document.getElementById('modalSubmit');
+
+  function openModal(cta){
+    var topic = cta.getAttribute('data-topic') || 'Заявка с сайта';
+    var label = cta.textContent.trim();
+    eyebrowEl.textContent = topic;
+    titleEl.textContent = label;
+    form.reset();
+    topicInput.value = topic;
+    statusEl.textContent = '';
+    statusEl.className = 'modal-status';
+    window.__modalOpen = true;
+    backdrop.classList.add('on'); modal.classList.add('on');
+    setTimeout(function(){ var n=form.querySelector('input[name="name"]'); if(n) n.focus(); }, 300);
+  }
+  function closeModal(){
+    backdrop.classList.remove('on'); modal.classList.remove('on');
+    window.__modalOpen = false;
+  }
+  ctas.forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); openModal(a); }); });
+  backdrop.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && modal.classList.contains('on')) closeModal(); });
+
+  function showStatus(text, isError, isOk){
+    statusEl.textContent = text;
+    statusEl.className = 'modal-status' + (isError?' err':'') + (isOk?' ok':'');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var data = {
+      name: (form.name.value||'').trim(),
+      phone: (form.phone.value||'').trim(),
+      message: (form.message.value||'').trim(),
+      topic: topicInput.value
+    };
+    if(!data.name){ showStatus('Укажите имя', true); form.name.focus(); return; }
+    var digits = data.phone.replace(/\D/g,'');
+    if(digits.length < 10){ showStatus('Проверьте номер телефона', true); form.phone.focus(); return; }
+
+    submitBtn.disabled = true;
+    showStatus('Отправляем…', false);
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function(res){
+      return res.json().catch(function(){ return {}; }).then(function(json){
+        if(!res.ok) throw new Error(json.error || 'Ошибка отправки');
+        showStatus('Заявка отправлена. Скоро свяжемся!', false, true);
+        submitBtn.disabled = false;
+        setTimeout(closeModal, 1800);
+      });
+    }).catch(function(err){
+      showStatus(err.message || 'Не получилось отправить, попробуйте ещё раз', true);
+      submitBtn.disabled = false;
+    });
+  });
+})();
 </script>
 </body></html>
