@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Восстановление домов в Костроме — Restora Home</title>
+<meta name="description" content="Восстановление старых домов в Костроме и области: сруб, фундамент, кровля, фасад. Не ломаем — оживляем. Бесплатный выезд, смета по этапам.">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;700;800&display=swap">
+</head><body>
+
+<div class="topbar">
+  <a href="../index.html" class="back">← На главную</a>
+  <div class="right">
+    <a href="tel:+79639303637" class="phone">+7 963 930-36-37</a>
+    <span class="brand">Restora<b>·</b>Home</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="tags">Услуга · Кострома, Костромская область</div>
+    <h1>Восстановление домов</h1>
+    <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер, меняем то, что действительно отжило.</p>
+    <div class="trust">
+      <span>Бесплатный выезд</span>
+      <span>Смета по этапам</span>
+      <span>Кострома и область</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary cta" data-topic="Восстановление домов">Оставить заявку</a>
+      <a href="../index.html#services" class="btn btn-ghost">Все услуги</a>
+    </div>
+  </header>
+
+  <section class="sect">
+    <div class="eyebrow">Что входит</div>
+    <h2>От осмотра до новоселья</h2>
+    <div class="grid">
+      <div class="item"><span class="num">01</span><h3>Оценка состояния</h3><p>Осматриваем сруб и фундамент, честно говорим, что стоит восстанавливать, а что менять.</p></div>
+      <div class="item"><span class="num">02</span><h3>Венцы сруба</h3><p>Замена и лечение повреждённых нижних венцов — самое частое, что требует старый дом.</p></div>
+      <div class="item"><span class="num">03</span><h3>Обработка дерева</h3><p>Защита от гнили, плесени и насекомых.</p></div>
+      <div class="item"><span class="num">04</span><h3>Кровля</h3><p>Ремонт и утепление крыши, если она течёт или промерзает.</p></div>
+      <div class="item"><span class="num">05</span><h3>Фасад</h3><p>Восстанавливаем внешний вид, сохраняя характер дома, а не превращая его в новодел.</p></div>
+      <div class="item"><span class="num">06</span><h3>Инженерные системы</h3><p>Обновление электрики и коммуникаций внутри — по необходимости.</p></div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="eyebrow">Как считаем смету</div>
+    <h2>Прозрачно на каждом шаге</h2>
+    <ol class="steps">
+      <li><span class="num">01</span><div><h3>Заявка и созвон</h3><p>Обсуждаем задачу, бюджет и сроки.</p></div></li>
+      <li><span class="num">02</span><div><h3>Бесплатный выезд и замер</h3><p>Приезжаем на объект и оцениваем объём работ.</p></div></li>
+      <li><span class="num">03</span><div><h3>Смета по этапам</h3><p>Фиксируем цену за каждый этап — без сюрпризов в процессе.</p></div></li>
+      <li><span class="num">04</span><div><h3>Работы</h3><p>Показываем прогресс на каждом этапе.</p></div></li>
+      <li><span class="num">05</span><div><h3>Сдача объекта</h3><p>Принимаете результат, а не обещания.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="closing">
+    <h2>Снова как новый —<br>но с душой</h2>
+    <p>Оставьте заявку — приедем на бесплатный замер и посчитаем смету по этапам.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary cta" data-topic="Восстановление домов">Оставить заявку</a>
+    </div>
+  </section>
+</div>
+
+<div class="foot">
+  <span>Restora·Home</span>
+  <span>Кострома и Костромская область</span>
+  <a href="tel:+79639303637">+7 963 930-36-37</a>
+  <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram</a>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <button type="button" class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
+  <div class="modal-eyebrow" id="modalEyebrow">Заявка</div>
+  <h3 id="modalTitle">Оставить заявку</h3>
+  <p class="modal-sub">Перезвоним в течение рабочего дня и обсудим детали.</p>
+  <form id="leadForm" novalidate>
+    <label>Имя<input type="text" name="name" required autocomplete="name" placeholder="Как к вам обращаться"></label>
+    <label>Телефон<input type="tel" name="phone" required autocomplete="tel" placeholder="+7 900 000-00-00"></label>
+    <label>Комментарий <i>необязательно</i><textarea name="message" rows="2" placeholder="Что хотите обсудить"></textarea></label>
+    <input type="hidden" name="topic" id="modalTopic" value="">
+    <button type="submit" class="modal-submit" id="modalSubmit">Отправить заявку</button>
+    <p class="modal-status" id="modalStatus" role="status"></p>
+  </form>
+</div>
+<script src="lead-modal.js"></script>
+</body></html>
