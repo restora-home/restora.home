@@ -57,4 +57,58 @@ function escapeHtml(str) {
   return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-module.exports = { redis, redisConfigured, sendTelegramMessage, sendTelegramAnimation, escapeHtml };
+// Для api/admin-content.js и api/admin-save.js (визуальный редактор на /admin).
+const crypto = require("crypto");
+
+// Сравнение постоянной длины буфера — чтобы не давать утечку по времени ответа,
+// на каком символе пароль разошёлся с ожидаемым
+function verifyAdminPassword(req) {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected) return false;
+  const provided = req.headers["x-admin-password"];
+  if (typeof provided !== "string") return false;
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
+function githubEnv() {
+  return {
+    token: process.env.GITHUB_TOKEN,
+    owner: process.env.GITHUB_OWNER || "restora-home",
+    repo: process.env.GITHUB_REPO || "restora.home",
+    baseBranch: process.env.GITHUB_BASE_BRANCH || "main",
+  };
+}
+
+async function githubApi(path, options) {
+  options = options || {};
+  const { token } = githubEnv();
+  const response = await fetch(`https://api.github.com${path}`, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      "User-Agent": "restora-home-admin",
+      ...(options.headers || {}),
+    },
+  });
+  if (!response.ok) {
+    const text = await response.text().catch(() => "");
+    throw new Error(`GitHub API ${options.method || "GET"} ${path}: ${response.status} ${text}`);
+  }
+  return response.status === 204 ? null : response.json();
+}
+
+module.exports = {
+  redis,
+  redisConfigured,
+  sendTelegramMessage,
+  sendTelegramAnimation,
+  escapeHtml,
+  verifyAdminPassword,
+  githubEnv,
+  githubApi,
+};
