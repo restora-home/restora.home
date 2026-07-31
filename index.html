@@ -68,16 +68,19 @@
   .offcanvas__contact a:hover{color:#fff}
 
   /* ===== заглушки под реальные фото: плоские, без рамок/радиуса — как полноразмерные фото у референса.
-     увеличиваются от чуть меньшего размера до полного при скролле — так снято на видео референса ===== */
-  .photo-slot{position:relative;background:#f2f2f2;overflow:hidden;
-    display:flex;align-items:center;justify-content:center;
-    transform:scale(.88);opacity:.5;transition:transform 1.1s var(--ease),opacity 1.1s var(--ease)}
-  .photo-slot.in-view{transform:scale(1);opacity:1}
+     масштаб — НЕ разовый триггер, а напрямую функция позиции скролла (см. скрипт ниже):
+     на видео референса фото растёт ровно настолько, насколько прокручено, без transition-задержки ===== */
+  .photo-slot{position:relative;background:#f2f2f2;overflow:hidden;will-change:transform,opacity;
+    display:flex;align-items:center;justify-content:center}
   .photo-slot svg{width:18%;height:18%;stroke:#c9c9c9;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;
     font-family:var(--sans)}
   .photo-slot.on-dark span{color:#fff}
-  @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none;opacity:1;transition:none} }
+  /* ===== значок-стрелка "открыть" — проявляется на фото-проектах, когда рост почти завершён ===== */
+  .photo-arrow{position:absolute;top:14px;left:14px;width:32px;height:32px;border-radius:50%;
+    background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink);
+    opacity:0;transition:opacity .3s var(--ease)}
+  @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} .photo-arrow{display:none} }
 
   /* ===== HERO: огромный логотип-надпись, минимум chrome — как у референса ===== */
   .hero{position:relative;padding:60px 5vw 40px;text-align:center}
@@ -329,7 +332,7 @@
     </div>
 
     <div class="service-feature reveal">
-      <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 3</span></div>
+      <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span class="photo-arrow">↗</span><span>Фото 3</span></div>
       <h3>Отделка и электромонтаж под ключ</h3>
       <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
       <a href="uslugi/otdelka-elektromontazh.html" class="link-arrow">Подробнее об услуге</a>
@@ -337,19 +340,19 @@
 
     <div class="service-grid reveal">
       <div>
-        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 4</span></div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span class="photo-arrow">↗</span><span>Фото 4</span></div>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div>
-        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 5</span></div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span class="photo-arrow">↗</span><span>Фото 5</span></div>
         <h3>Восстановление домов</h3>
         <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
         <a href="uslugi/vosstanovlenie-domov.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div>
-        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 6</span></div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span class="photo-arrow">↗</span><span>Фото 6</span></div>
         <h3>Баня, беседка, сарай</h3>
         <p>Небольшие постройки на участке — быстро и аккуратно, без долгих согласований.</p>
         <a href="uslugi/banya-besedka.html" class="link-arrow">Подробнее об услуге</a>
@@ -579,7 +582,7 @@
 <!-- ===== появление секций при прокрутке ===== -->
 <script>
 (function(){
-  var els = [].slice.call(document.querySelectorAll('.reveal, .photo-slot'));
+  var els = [].slice.call(document.querySelectorAll('.reveal'));
   if(!els.length) return;
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
@@ -587,6 +590,45 @@
     });
   }, { threshold: 0.1 });
   els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<!-- ===== фото растут напрямую от позиции скролла (не разовый триггер) — так снято на видео референса:
+     скорость роста = скорость скролла, можно прокрутить обратно и фото уменьшится назад ===== -->
+<script>
+(function(){
+  var slots = [].slice.call(document.querySelectorAll('.photo-slot'));
+  if(!slots.length) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var arrows = new WeakMap();
+  slots.forEach(function(el){
+    var a = el.querySelector('.photo-arrow');
+    if(a) arrows.set(el, a);
+  });
+
+  var ticking = false;
+  function update(){
+    var vh = window.innerHeight;
+    var start = vh;        // прогресс 0: верх фото ещё у нижнего края экрана
+    var end = vh * 0.55;   // прогресс 1: верх фото доехал до середины экрана
+    slots.forEach(function(el){
+      var top = el.getBoundingClientRect().top;
+      var raw = (start - top) / (start - end);
+      var p = raw < 0 ? 0 : raw > 1 ? 1 : raw;
+      el.style.transform = 'scale(' + (0.86 + 0.14 * p).toFixed(3) + ')';
+      el.style.opacity = (0.3 + 0.7 * p).toFixed(3);
+      var arrow = arrows.get(el);
+      if(arrow) arrow.style.opacity = p > 0.85 ? 1 : 0;
+    });
+    ticking = false;
+  }
+  function onScroll(){
+    if(!ticking){ requestAnimationFrame(update); ticking = true; }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
 </body></html>
