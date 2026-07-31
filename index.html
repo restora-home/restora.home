@@ -181,7 +181,9 @@
   /* ===== футер: сплошной синий, как у референса ===== */
   .site-footer{background:var(--navy);color:#fff}
   .footer-inner{max-width:1300px;margin:0 auto;padding:56px 1.6vw 32px}
-  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:56px;
+  /* margin-bottom резервирует место под макс. лаг translateY ниже (LAG*RANGE в скрипте) —
+     иначе transform (не влияет на layout) наедет на footer-bottom */
+  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:150px;
     will-change:transform}
   .footer-mark{width:28px;aspect-ratio:283/332.02}
   .footer-mark .piece{fill:#fff}
@@ -690,8 +692,8 @@
   var el = document.querySelector('.footer-top');
   if(!el) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var LAG = 0.2;
-  var RANGE = 260;
+  var LAG = 0.3;
+  var RANGE = 300;
   var ticking = false;
   function update(){
     var rect = el.getBoundingClientRect();
