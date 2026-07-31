@@ -665,12 +665,18 @@
 })();
 </script>
 
-<!-- ===== фото до/после (сохранённая покадровая анимация, frames/f0001..f0755.webp):
-     окно СНАЧАЛА маленькое и растёт, пока секция ещё подъезжает снизу (обычный скролл),
-     и продолжает расти всё время, пока идёт листание кадров в зафиксированном состоянии —
-     финальный размер ограничен нативным разрешением кадров (608px), иначе апскейл даст мыло.
-     И размер, и текущий кадр берутся не напрямую из scrollY, а из сглаженного (лерп) значения,
-     поэтому скролл/листание ощущаются плавно, без резких скачков ===== -->
+<!-- ===== фото до/после: раньше 755 отдельных webp-кадров (23МБ) качались почти для
+     каждого посетителя — при 1000 польз/день это ~680ГБ/мес, в 6.8 раза больше лимита
+     Vercel Hobby в 100ГБ. Пробовал переложить это на видео (декодировать один сжатый
+     ролик в кадры через canvas) — при живой проверке поймал плавающий баг конкретно
+     в моменте распаковки видео в кадры (не воспроизводится стабильно, слишком рискованно
+     для продакшна). Вместо этого — тот же самый, уже проверенный способ (Image() + canvas),
+     что работал раньше, просто с прореженной выборкой: не все 755 кадров, а каждый 8-й
+     (96 файлов, ~3МБ) — на такой медленной покадровой анимации разница на глаз незаметна,
+     а трафик сразу укладывается в лимит с запасом (~87ГБ/мес при 1000 польз/день).
+     Порядок загрузки — сперва первый и последний кадр, потом середина, потом четверти
+     и т.д. (как у Apple Flow) — грубый, но полный скраб готов почти сразу.
+     Размер окна и текущий кадр берутся из сглаженного (лерп) значения скролла ===== -->
 <script>
 (function(){
   var section = document.getElementById('splitScrub');
@@ -678,7 +684,16 @@
   var box = document.getElementById('scrubPhoto');
   if(!section || !canvas || !box) return;
   var ctx = canvas.getContext('2d');
-  var TOTAL = 755;
+
+  // индексы прореженных кадров: каждый 8-й из 755 исходных + гарантированно последний
+  var FRAME_STEP = 8;
+  var SOURCE_TOTAL = 755;
+  var FRAME_NUMS = [];
+  for(var n = 1; n <= SOURCE_TOTAL; n += FRAME_STEP){ FRAME_NUMS.push(n); }
+  if(FRAME_NUMS[FRAME_NUMS.length - 1] !== SOURCE_TOTAL) FRAME_NUMS.push(SOURCE_TOTAL);
+  var TOTAL = FRAME_NUMS.length;
+
+  function frameSrc(i){ return 'frames/f' + String(FRAME_NUMS[i]).padStart(4, '0') + '.webp'; }
 
   function targetWidths(){
     var vw = window.innerWidth;
@@ -720,19 +735,44 @@
   var lastDrawnIdx = -1;
   var loadingStarted = false;
 
-  function frameSrc(i){ return 'frames/f' + String(i + 1).padStart(4, '0') + '.webp'; }
+  // порядок загрузки методом деления пополам: 0, последний, середина, четверти, ...
+  // так покрытие по всей длине становится широким очень быстро
+  function checkpointOrder(total){
+    var order = [0, total - 1];
+    var seen = {}; order.forEach(function(i){ seen[i] = true; });
+    var queue = [[0, total - 1]];
+    while(queue.length){
+      var pair = queue.shift();
+      var a = pair[0], b = pair[1];
+      if(b - a < 2) continue;
+      var mid = Math.round((a + b) / 2);
+      if(!seen[mid]){ seen[mid] = true; order.push(mid); }
+      queue.push([a, mid], [mid, b]);
+    }
+    return order;
+  }
 
   function startLoading(){
     if(loadingStarted) return;
     loadingStarted = true;
-    for(var i = 0; i < TOTAL; i++){
-      (function(idx){
-        var img = new Image();
-        img.onload = function(){ loadedCount = Math.max(loadedCount, idx + 1); };
-        img.src = frameSrc(idx);
-        frames[idx] = img;
-      })(i);
+    var order = checkpointOrder(TOTAL);
+    order.forEach(function(idx){
+      var img = new Image();
+      img.onload = function(){ loadedCount++; };
+      img.src = frameSrc(idx);
+      frames[idx] = img;
+    });
+  }
+
+  function nearestLoaded(wanted){
+    if(frames[wanted] && frames[wanted].complete && frames[wanted].naturalWidth) return wanted;
+    for(var r = 1; r < TOTAL; r++){
+      var lo = wanted - r, hi = wanted + r;
+      if(lo >= 0 && frames[lo] && frames[lo].complete && frames[lo].naturalWidth) return lo;
+      if(hi < TOTAL && frames[hi] && frames[hi].complete && frames[hi].naturalWidth) return hi;
+      if(lo < 0 && hi >= TOTAL) break;
     }
+    return -1;
   }
 
   function drawFrame(idx){
@@ -767,9 +807,11 @@
     box.style.width = (w.min + (w.max - w.min) * masterP).toFixed(1) + 'px';
     sizeCanvas();
 
-    var wanted = Math.round(pinnedP * (TOTAL - 1));
-    var avail = Math.min(wanted, loadedCount - 1);
-    if(avail >= 0) drawFrame(avail);
+    if(loadedCount > 0){
+      var wanted = Math.round(pinnedP * (TOTAL - 1));
+      var avail = nearestLoaded(wanted);
+      if(avail >= 0) drawFrame(avail);
+    }
 
     requestAnimationFrame(frame);
   }
@@ -778,7 +820,7 @@
     entries.forEach(function(entry){
       if(entry.isIntersecting){ startLoading(); io.disconnect(); }
     });
-  }, { rootMargin: '1200px 0px' });
+  }, { rootMargin: '800px 0px' });
   io.observe(section);
 
   sizeCanvas();
