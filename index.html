@@ -178,25 +178,39 @@
   .stories-grid p{color:var(--muted);font-size:14px;line-height:1.6}
   @media(max-width:820px){ .stories-grid{grid-template-columns:1fr} }
 
-  /* ===== футер: сплошной синий, как у референса ===== */
+  /* ===== футер: сплошной синий, как у референса. Сделан крупнее (больше отступов),
+     лого+нав сгруппированы в одну левую колонку (как у референса), контакты — справа ===== */
   .site-footer{background:var(--navy);color:#fff}
-  .footer-inner{max-width:1300px;margin:0 auto;padding:56px 1.6vw 32px}
-  /* margin-bottom резервирует место под макс. лаг translateY ниже (LAG*RANGE в скрипте) —
-     иначе transform (не влияет на layout) наедет на footer-bottom */
-  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:150px;
-    will-change:transform}
-  .footer-mark{width:28px;aspect-ratio:283/332.02}
+  .footer-inner{max-width:1300px;margin:0 auto;padding:96px 1.6vw 48px}
+  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:72px}
+  .footer-left{display:flex;flex-direction:column;gap:32px}
+  .footer-mark{width:34px;aspect-ratio:283/332.02}
   .footer-mark .piece{fill:#fff}
-  .footer-nav{display:flex;flex-direction:column;gap:10px}
+  .footer-nav{display:flex;flex-direction:column;gap:12px}
   .footer-nav a{color:#fff;text-decoration:none;font-size:15px;opacity:.92;transition:opacity .3s var(--ease)}
   .footer-nav a:hover{opacity:1;text-decoration:underline}
   .footer-social{display:flex;flex-direction:column;gap:10px;align-items:flex-end;text-align:right}
   .footer-social a{color:#cfe0ff;text-decoration:none;font-size:14px}
   .footer-social a:hover{color:#fff}
   .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#9fb3dd;margin-top:32px}
-  /* ===== гигантская надпись повторяется в футере белым по синему — тот же приём, что в hero ===== */
+  /* ===== элементы верхнего блока футера появляются по одному снизу-вверх при скролле —
+     своя (не как у референса дословно) анимация, но раскладка блоков — как у референса ===== */
+  .footer-top .footer-mark,.footer-nav a,.footer-social a{
+    opacity:0;transform:translateY(26px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+  .footer-top.in-view .footer-mark{opacity:1;transform:none;transition-delay:0s}
+  .footer-top.in-view .footer-nav a:nth-child(1){opacity:1;transform:none;transition-delay:.1s}
+  .footer-top.in-view .footer-nav a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
+  .footer-top.in-view .footer-nav a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
+  .footer-top.in-view .footer-social a:nth-child(1){opacity:1;transform:none;transition-delay:.1s}
+  .footer-top.in-view .footer-social a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
+  .footer-top.in-view .footer-social a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
+  @media(prefers-reduced-motion:reduce){
+    .footer-top .footer-mark,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
+  }
+  /* ===== гигантская надпись повторяется в футере белым по синему — тот же приём, что в hero,
+     увеличена (было 300px кап) для более крупного, весомого футера ===== */
   .footer-wordmark{font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
-    font-size:clamp(56px,19.6vw,300px);color:#fff;margin-top:40px;overflow:hidden;white-space:nowrap;
+    font-size:clamp(64px,21vw,340px);color:#fff;margin-top:56px;overflow:hidden;white-space:nowrap;
     width:100vw;margin-left:calc(50% - 50vw)}
 
   @media(max-width:820px){
@@ -450,6 +464,7 @@
   <footer class="site-footer" id="footer">
     <div class="footer-inner">
       <div class="footer-top">
+        <div class="footer-left">
         <svg class="footer-mark" viewBox="0 0 283.000000 332.020590" role="img" aria-hidden="true"><g transform="translate(-4.000000,336.000000) scale(0.100000,-0.100000)"><path class="piece" d="M40 2628 l0 -733 101 100 101 100 611 610 612 610 19 23 19 22 -731
 0 -732 0 0 -732z"/><path class="piece" d="M817 2582 l-777 -777 0 -370 0 -370 405 405 405 405 0 367 0 368 377
 0 376 0 294 292 294 293 -3 10 -3 11 -76 72 -76 72 -219 0 -219 0 -778 -778z"/><path class="piece" d="M1960 2880 l-275 -269 98 -98 97 -98 0 -168 0 -168 13 8 12 8 180
@@ -466,6 +481,7 @@
           <a href="#services">Услуги</a>
           <a href="#footer">Контакты</a>
         </nav>
+        </div>
         <div class="footer-social">
           <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram ↗</a>
           <a href="tel:+79639303637">+7 963 930-36-37</a>
@@ -684,30 +700,19 @@
 })();
 </script>
 
-<!-- ===== верхний блок футера отстаёт от общего скролла — замерено покадрово на видео референса:
-     пока навы (лого/нав/контакты) едет ~на 80% скорости самой панели и слова-логотипа снизу,
-     это НЕ масштаб и НЕ fade — просто небольшой лаг по вертикали ===== -->
+<!-- ===== элементы футера (лого, пункты нава, контакты) появляются по одному снизу вверх,
+     когда футер попадает в область видимости — раскладка блоков как у референса, анимация своя ===== -->
 <script>
 (function(){
   var el = document.querySelector('.footer-top');
   if(!el) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var LAG = 0.3;
-  var RANGE = 300;
-  var ticking = false;
-  function update(){
-    var rect = el.getBoundingClientRect();
-    var vh = window.innerHeight;
-    var scrolledIn = vh - rect.top;
-    if(scrolledIn < 0) scrolledIn = 0;
-    if(scrolledIn > RANGE) scrolledIn = RANGE;
-    el.style.transform = 'translateY(' + (scrolledIn * LAG).toFixed(2) + 'px)';
-    ticking = false;
-  }
-  function onScroll(){ if(!ticking){ requestAnimationFrame(update); ticking = true; } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ el.classList.add('in-view'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  io.observe(el);
 })();
 </script>
 </body></html>
