@@ -685,8 +685,10 @@
   if(!section || !canvas || !box) return;
   var ctx = canvas.getContext('2d');
 
-  // индексы прореженных кадров: каждый 8-й из 755 исходных + гарантированно последний
-  var FRAME_STEP = 8;
+  // индексы прореженных кадров: каждый 16-й из 755 исходных + гарантированно последний.
+  // Кадров меньше, чем раньше, но переходы между ними сглаживаются альфа-блендом
+  // (см. drawBlended) — на глаз анимация не грубее, а по факту даже плавнее
+  var FRAME_STEP = 16;
   var SOURCE_TOTAL = 755;
   var FRAME_NUMS = [];
   for(var n = 1; n <= SOURCE_TOTAL; n += FRAME_STEP){ FRAME_NUMS.push(n); }
@@ -707,13 +709,13 @@
     canvas.height = Math.max(1, Math.round(rect.height * dpr));
   }
 
-  function drawCover(img){
+  function drawCover(img, skipClear){
     var cw = canvas.width, ch = canvas.height;
     var iw = img.naturalWidth, ih = img.naturalHeight;
     if(!iw || !ih) return;
     var scale = Math.max(cw / iw, ch / ih);
     var dw = iw * scale, dh = ih * scale;
-    ctx.clearRect(0, 0, cw, ch);
+    if(!skipClear) ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
   }
 
@@ -782,6 +784,25 @@
     lastDrawnIdx = idx;
   }
 
+  // рисует плавный переход между двумя ближайшими загруженными кадрами:
+  // сперва нижний кадр целиком, поверх — верхний с прозрачностью по дробной части
+  // прогресса — так с меньшим числом кадров переход всё равно выглядит гладким
+  function drawBlended(loIdx, hiIdx, mix){
+    var loAvail = nearestLoaded(loIdx);
+    var hiAvail = nearestLoaded(hiIdx);
+    if(loAvail < 0 && hiAvail < 0) return;
+    if(loAvail < 0) loAvail = hiAvail;
+    if(hiAvail < 0) hiAvail = loAvail;
+
+    if(loAvail === hiAvail){ drawFrame(loAvail); return; }
+
+    drawCover(frames[loAvail]);
+    ctx.globalAlpha = mix;
+    drawCover(frames[hiAvail], true);
+    ctx.globalAlpha = 1;
+    lastDrawnIdx = hiAvail;
+  }
+
   var smoothTraveled = 0;
   function rawTraveled(){
     var rect = section.getBoundingClientRect();
@@ -808,9 +829,10 @@
     sizeCanvas();
 
     if(loadedCount > 0){
-      var wanted = Math.round(pinnedP * (TOTAL - 1));
-      var avail = nearestLoaded(wanted);
-      if(avail >= 0) drawFrame(avail);
+      var wantedF = pinnedP * (TOTAL - 1);
+      var loIdx = Math.floor(wantedF);
+      var hiIdx = Math.min(TOTAL - 1, loIdx + 1);
+      drawBlended(loIdx, hiIdx, wantedF - loIdx);
     }
 
     requestAnimationFrame(frame);
