@@ -248,34 +248,32 @@
   .reveal.in-view{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none} }
 
-  /* ===== загрузочная анимация — пересмотрено на 15fps вместо 6fps, было неточно:
-     1) точки проявляются вразброс на тёмно-синем экране (~0-0.5с)
-     2) надпись "въезжает" СПРАВА и садится В ПРАВЫЙ НИЖНИЙ УГОЛ (не по центру, не увеличением на месте!)
-     3) вся тёмно-синяя панель целиком УЕЗЖАЕТ вправо (translateX, не opacity-фейд), открывая страницу под ней ===== */
-  #preloader{position:fixed;inset:0;z-index:500;background:var(--navy);overflow:hidden;
-    transform:translateX(0);transition:transform .6s cubic-bezier(.65,0,.35,1)}
-  #preloader.done{transform:translateX(100%)}
-  .preloader-word{position:absolute;right:5vw;bottom:7vh;font-family:var(--sans);font-weight:800;
-    letter-spacing:-.04em;color:#fff;font-size:clamp(40px,7vw,90px);line-height:.86;
-    opacity:0;transform:translateX(50px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
-  #preloader.word-in .preloader-word{opacity:1;transform:none}
-  .preloader-dots{position:absolute;inset:0;pointer-events:none}
-  .preloader-dots i{position:absolute;width:5px;height:5px;background:#fff;border-radius:50%;opacity:0;
-    transition:opacity .35s var(--ease)}
-  #preloader.dots-in .preloader-dots i{opacity:.6}
-  .preloader-dots i:nth-child(1){top:8%;left:32%;transition-delay:0s}
-  .preloader-dots i:nth-child(2){top:14%;left:58%;transition-delay:.05s}
-  .preloader-dots i:nth-child(3){top:12%;left:78%;transition-delay:.09s}
-  .preloader-dots i:nth-child(4){top:22%;left:92%;transition-delay:.14s}
-  .preloader-dots i:nth-child(5){top:30%;left:6%;transition-delay:.18s}
-  .preloader-dots i:nth-child(6){top:36%;left:44%;transition-delay:.22s}
-  .preloader-dots i:nth-child(7){top:32%;left:70%;transition-delay:.26s}
-  .preloader-dots i:nth-child(8){top:40%;left:88%;transition-delay:.3s}
+  /* ===== загрузочная анимация — подтверждено покадрово (f005,f008,f012,f018,f022,f028 при 15fps):
+     1) логотип СОБИРАЕТСЯ по центру экрана из своих геометрических частей (кусок за куском, не готовый fade-ин)
+     2) собранный логотип едет и одновременно уменьшается — из центра в левый верхний угол шапки,
+        точно на своё финальное место (координаты берутся у реального .topbar-brand .mark через JS)
+     3) синяя панель одновременно поднимается вверх (scaleY от низа, transform-origin:top) — не opacity-фейд
+        и не сдвиг вбок — открывая страницу снизу, как штора ===== */
+  #preloader{position:fixed;top:0;left:0;width:100%;height:100vh;z-index:500;background:var(--navy);
+    overflow:hidden;transform-origin:top;transition:transform .65s cubic-bezier(.7,0,.3,1)}
+  #preloader.done{transform:scaleY(.001)}
+  .preloader-logo{position:fixed;top:50%;left:50%;width:110px;height:110px;margin:-55px 0 0 -55px;
+    transition:top .6s cubic-bezier(.7,0,.3,1),left .6s cubic-bezier(.7,0,.3,1),
+    width .6s cubic-bezier(.7,0,.3,1),height .6s cubic-bezier(.7,0,.3,1),margin .6s cubic-bezier(.7,0,.3,1)}
+  .preloader-logo svg{width:100%;height:100%;display:block}
+  .preloader-logo svg g{fill:#fff}
+  .preloader-logo svg g > *{opacity:0;transition:opacity .22s ease}
+  #preloader.assembling .preloader-logo svg g > *:nth-child(1){opacity:1;transition-delay:0s}
+  #preloader.assembling .preloader-logo svg g > *:nth-child(2){opacity:1;transition-delay:.09s}
+  #preloader.assembling .preloader-logo svg g > *:nth-child(3){opacity:1;transition-delay:.18s}
+  #preloader.assembling .preloader-logo svg g > *:nth-child(4){opacity:1;transition-delay:.27s}
+  #preloader.assembling .preloader-logo svg g > *:nth-child(5){opacity:1;transition-delay:.36s}
   @media(prefers-reduced-motion:reduce){ #preloader{display:none} }
 </style></head><body>
 <div id="preloader" aria-hidden="true">
-  <div class="preloader-dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="preloader-word">RESTORA</div>
+  <div class="preloader-logo">
+    <svg viewBox="0 0 40 40"><g><rect x="6" y="6" width="8" height="28"/><rect x="14" y="6" width="16" height="7"/><rect x="23" y="13" width="7" height="9"/><rect x="14" y="19" width="12" height="7"/><polygon points="19,25 30,36 21,36 12,26"/></g></svg>
+  </div>
 </div>
 
 <div class="topbar">
@@ -578,13 +576,26 @@
 <script>
 (function(){
   var pre = document.getElementById('preloader');
-  if(!pre) return;
+  var logo = pre ? pre.querySelector('.preloader-logo') : null;
+  if(!pre || !logo) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ pre.remove(); return; }
   document.body.style.overflow = 'hidden';
+  var target = document.querySelector('.topbar-brand .mark');
+
   requestAnimationFrame(function(){
-    pre.classList.add('dots-in');
-    setTimeout(function(){ pre.classList.add('word-in'); }, 450);
-    setTimeout(function(){ pre.classList.add('done'); document.body.style.overflow = ''; }, 950);
+    pre.classList.add('assembling');
+    setTimeout(function(){
+      if(target){
+        var r = target.getBoundingClientRect();
+        logo.style.top = r.top + 'px';
+        logo.style.left = r.left + 'px';
+        logo.style.width = r.width + 'px';
+        logo.style.height = r.height + 'px';
+        logo.style.margin = '0';
+      }
+      pre.classList.add('done');
+    }, 900);
+    setTimeout(function(){ document.body.style.overflow = ''; }, 1500);
     setTimeout(function(){ pre.remove(); }, 1600);
   });
 })();
