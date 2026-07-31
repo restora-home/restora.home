@@ -25,8 +25,7 @@
   .topbar-brand{justify-self:center;display:flex;align-items:center;gap:9px;text-decoration:none}
   .topbar-brand .mark{width:22px;height:18px;flex:none}
   .topbar-brand .mark path{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke:var(--navy)}
-  .topbar-brand .name{font-family:var(--sans);font-weight:700;font-size:16px;letter-spacing:.01em;color:var(--ink)}
-  .topbar-brand .name b{color:var(--navy);font-weight:700;margin:0 .12em}
+  .topbar-brand .name{font-family:var(--sans);font-weight:800;font-size:16px;letter-spacing:.08em;color:var(--ink)}
 
   .menu-trigger{justify-self:start;display:inline-flex;align-items:center;gap:10px;background:none;border:none;
     color:var(--ink);font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.14em;
@@ -110,6 +109,38 @@
     .hero-photo{aspect-ratio:16/10}
   }
 
+  /* ===== лента фото под hero: 4 заглушки в ряд, как галерея объекта у референса ===== */
+  .photo-strip{padding:0 8vw 90px;max-width:1160px;margin:0 auto}
+  .photo-strip__inner{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .photo-strip .photo-slot{aspect-ratio:3/4}
+  .photo-strip .photo-slot svg{width:22%;height:22%}
+  .photo-strip .photo-slot span{font-size:9px;padding:5px 9px;left:10px;bottom:10px}
+  @media(max-width:820px){
+    .photo-strip{padding:0 6vw 60px}
+    .photo-strip__inner{grid-template-columns:repeat(2,1fr)}
+  }
+
+  /* ===== философия: один абзац + фото, как "Our guiding values" у референса — не сетка иконок ===== */
+  .philosophy-grid{display:grid;grid-template-columns:1fr .8fr;gap:64px;align-items:center}
+  .philosophy-text p{color:var(--muted);font-size:16px;line-height:1.75;font-weight:400;max-width:520px}
+  .philosophy-photo{aspect-ratio:1}
+  @media(max-width:820px){
+    .philosophy-grid{grid-template-columns:1fr;gap:32px}
+  }
+
+  /* ===== с кем работаем: заглушки под логотипы партнёров/поставщиков, пока их нет ===== */
+  .partners-row{display:flex;gap:16px;flex-wrap:wrap}
+  .partner-slot{flex:1 1 200px;aspect-ratio:3/1.4;background:var(--off);border:1px dashed #cdd2da;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    font-weight:700;color:#9aa1ad}
+
+  /* ===== заглушка под отзыв клиента: явно помечена, реального текста пока нет ===== */
+  .testimonial-box{max-width:760px;margin:0 auto;text-align:center}
+  .testimonial-box svg{width:34px;height:26px;stroke:var(--navy);fill:none;stroke-width:1.4;margin:0 auto 24px}
+  .testimonial-box p{font-family:var(--sans);font-size:clamp(19px,2.2vw,26px);font-weight:500;line-height:1.5;
+    color:var(--ink);letter-spacing:-.01em;margin-bottom:20px}
+  .testimonial-attrib{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
   /* ===== кнопки и ссылки-стрелки: плоские, малый радиус, без "стекла" ===== */
   .cta,.link-arrow{display:inline-flex;align-items:center;gap:9px;margin-top:26px;color:var(--ink);text-decoration:none;
     font-family:var(--sans);font-weight:500;letter-spacing:.03em;font-size:13px;
@@ -148,13 +179,6 @@
     background:var(--navy-soft);border:1px solid #dde5f5;margin-bottom:18px}
   .icon-badge svg{width:24px;height:24px;stroke:var(--navy);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
-  /* ===== ценности: без карточек, чистый ритм колонок ===== */
-  .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:36px}
-  .value-item .icon-badge{width:44px;height:44px}
-  .value-item h3{font-family:var(--sans);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.3}
-  .value-item p{color:var(--muted);font-size:13.5px;line-height:1.6;font-weight:400}
-  @media(max-width:820px){ .values-grid{grid-template-columns:1fr 1fr;gap:28px} }
-  @media(max-width:540px){ .values-grid{grid-template-columns:1fr;gap:26px} }
 
   /* ===== горизонтальная лента услуг: листается, не статичная сетка ===== */
   .cards{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-left:8vw;
@@ -236,8 +260,7 @@
   .footer-col a{display:block;color:#fff;text-decoration:none;font-size:13.5px;margin-bottom:10px;opacity:.9;
     transition:opacity .3s var(--ease)}
   .footer-col a:hover{opacity:1;text-decoration:underline}
-  .footer-brand .f-name{font-family:var(--sans);font-weight:800;font-size:19px;color:#fff;margin-bottom:10px}
-  .footer-brand .f-name b{color:#9fb3dd;font-weight:700;margin:0 .12em}
+  .footer-brand .f-name{font-family:var(--sans);font-weight:800;font-size:20px;letter-spacing:.08em;color:#fff;margin-bottom:10px}
   .footer-brand .f-loc{font-size:12.5px;color:#b9c7e6}
   .footer-bottom{padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:11px;color:#8fa3cf}
   @media(max-width:820px){
@@ -324,16 +347,16 @@
   /* ===== появление элементов при скролле ===== */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .reveal.in-view{opacity:1;transform:none}
-  .reveal-stagger.in-view .card:nth-child(1),.reveal-stagger.in-view .steps li:nth-child(1),.reveal-stagger.in-view .value-item:nth-child(1){transition-delay:.05s}
-  .reveal-stagger.in-view .card:nth-child(2),.reveal-stagger.in-view .steps li:nth-child(2),.reveal-stagger.in-view .value-item:nth-child(2){transition-delay:.12s}
-  .reveal-stagger.in-view .card:nth-child(3),.reveal-stagger.in-view .steps li:nth-child(3),.reveal-stagger.in-view .value-item:nth-child(3){transition-delay:.19s}
-  .reveal-stagger.in-view .card:nth-child(4),.reveal-stagger.in-view .steps li:nth-child(4),.reveal-stagger.in-view .value-item:nth-child(4){transition-delay:.26s}
+  .reveal-stagger.in-view .card:nth-child(1),.reveal-stagger.in-view .steps li:nth-child(1),.reveal-stagger.in-view .partner-slot:nth-child(1){transition-delay:.05s}
+  .reveal-stagger.in-view .card:nth-child(2),.reveal-stagger.in-view .steps li:nth-child(2),.reveal-stagger.in-view .partner-slot:nth-child(2){transition-delay:.12s}
+  .reveal-stagger.in-view .card:nth-child(3),.reveal-stagger.in-view .steps li:nth-child(3),.reveal-stagger.in-view .partner-slot:nth-child(3){transition-delay:.19s}
+  .reveal-stagger.in-view .card:nth-child(4),.reveal-stagger.in-view .steps li:nth-child(4),.reveal-stagger.in-view .partner-slot:nth-child(4){transition-delay:.26s}
   .reveal-stagger.in-view .card:nth-child(5),.reveal-stagger.in-view .steps li:nth-child(5){transition-delay:.33s}
-  .reveal-stagger .card,.reveal-stagger .steps li,.reveal-stagger .value-item{opacity:0;transform:translateY(24px);
+  .reveal-stagger .card,.reveal-stagger .steps li,.reveal-stagger .partner-slot{opacity:0;transform:translateY(24px);
     transition:opacity .7s var(--ease),transform .7s var(--ease)}
-  .reveal-stagger.in-view .card,.reveal-stagger.in-view .steps li,.reveal-stagger.in-view .value-item{opacity:1;transform:none}
+  .reveal-stagger.in-view .card,.reveal-stagger.in-view .steps li,.reveal-stagger.in-view .partner-slot{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){
-    .reveal,.reveal-stagger .card,.reveal-stagger .steps li,.reveal-stagger .value-item{opacity:1;transform:none;transition:none}
+    .reveal,.reveal-stagger .card,.reveal-stagger .steps li,.reveal-stagger .partner-slot{opacity:1;transform:none;transition:none}
   }
 </style></head><body>
 
@@ -341,7 +364,7 @@
   <button type="button" class="menu-trigger" id="menuTrigger" aria-expanded="false" aria-controls="offcanvas">
     <span class="menu-trigger__lines"><i></i><i></i></span><span>Меню</span>
   </button>
-  <a href="#" class="topbar-brand" aria-label="Restora Home"><svg class="mark" viewBox="0 0 120 96" role="img" aria-hidden="true"><path d="M8 46 L60 8 L112 46"/><path d="M20 46 L20 84 L100 84 L100 46"/><path d="M52 84 L52 58 L68 58 L68 84"/></svg><span class="name">Restora<b>·</b>Home</span></a>
+  <a href="#" class="topbar-brand" aria-label="Restora"><svg class="mark" viewBox="0 0 120 96" role="img" aria-hidden="true"><path d="M8 46 L60 8 L112 46"/><path d="M20 46 L20 84 L100 84 L100 46"/><path d="M52 84 L52 58 L68 58 L68 84"/></svg><span class="name">RESTORA</span></a>
   <nav class="navpills"><a href="#" class="btn-pill cta" data-topic="Заявка с сайта">Заявка<i></i></a></nav>
 </div>
 
@@ -383,28 +406,26 @@
   </div>
 </header>
 
+<div class="photo-strip">
+  <div class="photo-strip__inner reveal-stagger">
+    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 2</span></div>
+    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 3</span></div>
+    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 4</span></div>
+    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 5</span></div>
+  </div>
+</div>
+
 <main>
-  <section class="sect values alt">
-    <div class="values-grid reveal-stagger">
-      <div class="value-item">
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M8 14 L13 19 L21 8"/><path d="M4 8 h4 M4 20 h4"/></svg></div>
-        <h3>Одна бригада, весь цикл</h3>
-        <p>Отделка, электрика, фасад — без стыков между разными подрядчиками.</p>
+  <section class="sect philosophy alt">
+    <div class="philosophy-grid reveal">
+      <div class="philosophy-text">
+        <div class="eyebrow">Наш подход</div>
+        <h2>Каждый объект — как свой</h2>
+        <p>Мы не берём в работу десятки объектов одновременно — на каждый дом у бригады есть время, внимание и ответственность. Отделка, электрика, фасад и восстановление — в одних руках, без стыков между подрядчиками. Смету фиксируем по этапам заранее, а если дом можно спасти — сохраняем дерево и характер вместо того, чтобы сносить и строить с нуля.</p>
       </div>
-      <div class="value-item">
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><rect x="7" y="4" width="14" height="20" rx="2"/><path d="M10.5 9.5h7M10.5 13.5h7M10.5 17.5h4"/></svg></div>
-        <h3>Смета по этапам</h3>
-        <p>Фиксируем цену за каждый этап заранее — без сюрпризов в процессе.</p>
-      </div>
-      <div class="value-item">
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M14 24c-5-4-9-8.5-9-13.5A5.5 5.5 0 0 1 14 8a5.5 5.5 0 0 1 9 2.5C23 15.5 19 20 14 24Z"/></svg></div>
-        <h3>Не ломаем — оживляем</h3>
-        <p>Сохраняем дерево и характер дома, меняем только то, что действительно отжило.</p>
-      </div>
-      <div class="value-item">
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M14 25s8-8.5 8-14.5A8 8 0 0 0 6 10.5C6 16.5 14 25 14 25Z"/><circle cx="14" cy="10.5" r="2.6"/></svg></div>
-        <h3>Кострома и область</h3>
-        <p>Работаем локально, знаем рынок, приезжаем на замер бесплатно.</p>
+      <div class="photo-slot philosophy-photo">
+        <svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg>
+        <span>Фото 6</span>
       </div>
     </div>
   </section>
@@ -416,28 +437,28 @@
     </div>
     <div class="cards reveal-stagger">
       <div class="card card-main">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 2</span></div>
+        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 7</span></div>
         <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M16 3 L8 16 H13 L11 25 L21 11 H15 L16 3"/></svg></div>
         <h3>Отделка и электромонтаж под ключ</h3>
         <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи. Не нужно отдельно искать электрика, отделочника и прораба.</p>
         <a href="uslugi/otdelka-elektromontazh.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div class="card">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 3</span></div>
+        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 8</span></div>
         <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M4 15 L14 5 L24 15"/><path d="M7 15 V24 H21 V15"/><path d="M11 24 V17 H17 V24"/></svg></div>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div class="card">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 4</span></div>
+        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 9</span></div>
         <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M5 15 L14 6 L23 15"/><path d="M8 15 V23 H20 V15"/><path d="M21.5 18.5a5 5 0 1 1-1.3-3.3"/><path d="M21.5 12.5v3.2h-3.2"/></svg></div>
         <h3>Восстановление домов</h3>
         <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер, меняем то, что действительно отжило.</p>
         <a href="uslugi/vosstanovlenie-domov.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div class="card">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 5</span></div>
+        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 10</span></div>
         <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M5 22 L14 8 L23 22"/><path d="M10 22 V16 H18 V22"/><path d="M14 8 V4"/></svg></div>
         <h3>Баня, беседка, сарай</h3>
         <p>Небольшие постройки на участке — быстро и аккуратно, без долгих согласований.</p>
@@ -520,6 +541,27 @@
     </div>
   </section>
 
+  <section class="sect collaborators alt">
+    <div class="sect-head reveal">
+      <div class="eyebrow">С кем работаем</div>
+      <h2>Материалы и подрядчики</h2>
+    </div>
+    <div class="partners-row reveal-stagger">
+      <div class="partner-slot">Партнёр 1</div>
+      <div class="partner-slot">Партнёр 2</div>
+      <div class="partner-slot">Партнёр 3</div>
+      <div class="partner-slot">Партнёр 4</div>
+    </div>
+  </section>
+
+  <section class="sect testimonial">
+    <div class="testimonial-box reveal">
+      <svg viewBox="0 0 32 24"><path d="M2 22 V13 C2 6 6 2 12 2 V7 C8 7 6 9 6 13 H12 V22 H2 Z M20 22 V13 C20 6 24 2 30 2 V7 C26 7 24 9 24 13 H30 V22 H20 Z"/></svg>
+      <p>Здесь появится отзыв клиента о работе — как только заказчики согласятся поделиться впечатлениями.</p>
+      <div class="testimonial-attrib">Отзыв появится после первых завершённых объектов</div>
+    </div>
+  </section>
+
   <section class="sect process alt" id="process">
     <div class="sect-head reveal">
       <div class="eyebrow">Как мы работаем</div>
@@ -546,7 +588,7 @@
       </div>
       <div class="footer-grid">
         <div class="footer-col footer-brand">
-          <div class="f-name">Restora<b>·</b>Home</div>
+          <div class="f-name">RESTORA</div>
           <p class="f-loc">Кострома и Костромская область</p>
         </div>
         <div class="footer-col">
@@ -563,7 +605,7 @@
           <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram</a>
         </div>
       </div>
-      <div class="footer-bottom">© 2026 Restora Home</div>
+      <div class="footer-bottom">© 2026 RESTORA</div>
     </div>
   </footer>
 </main>
