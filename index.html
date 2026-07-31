@@ -685,10 +685,12 @@
   if(!section || !canvas || !box) return;
   var ctx = canvas.getContext('2d');
 
-  // индексы прореженных кадров: каждый 16-й из 755 исходных + гарантированно последний.
-  // Кадров меньше, чем раньше, но переходы между ними сглаживаются альфа-блендом
-  // (см. drawBlended) — на глаз анимация не грубее, а по факту даже плавнее
-  var FRAME_STEP = 16;
+  // индексы прореженных кадров: каждый 10-й из 755 исходных + гарантированно последний.
+  // Пока пользователь активно листает — кадры блендятся (см. drawBlended), лёгкая
+  // смазанность в движении почти не заметна. А как только скролл останавливается —
+  // картинка доезжает (settleToward) до ближайшего настоящего резкого кадра, так что
+  // мутного застывшего блендинга в покое пользователь не видит вообще
+  var FRAME_STEP = 10;
   var SOURCE_TOTAL = 755;
   var FRAME_NUMS = [];
   for(var n = 1; n <= SOURCE_TOTAL; n += FRAME_STEP){ FRAME_NUMS.push(n); }
@@ -813,8 +815,19 @@
     return t;
   }
 
+  // сколько кадров подряд скролл почти не двигался — по этому счётчику определяем,
+  // что пользователь остановился и можно "доехать" до резкого кадра
+  var idleFrames = 0;
+  var lastTarget = -1;
+  var displayF = -1;
+  var IDLE_AFTER = 8;
+
   function frame(){
     var target = rawTraveled();
+    if(lastTarget >= 0 && Math.abs(target - lastTarget) < 0.4) idleFrames++;
+    else idleFrames = 0;
+    lastTarget = target;
+
     smoothTraveled += (target - smoothTraveled) * 0.13;
     if(Math.abs(target - smoothTraveled) < 0.05) smoothTraveled = target;
 
@@ -830,6 +843,19 @@
 
     if(loadedCount > 0){
       var wantedF = pinnedP * (TOTAL - 1);
+      if(displayF < 0) displayF = wantedF;
+
+      if(idleFrames > IDLE_AFTER){
+        // пользователь остановился: плавно доезжаем до ближайшего целого (резкого) кадра
+        var settleTo = Math.round(wantedF);
+        displayF += (settleTo - displayF) * 0.22;
+        if(Math.abs(settleTo - displayF) < 0.01) displayF = settleTo;
+      } else {
+        // активный скролл: следуем за пальцем/колесом напрямую, без задержки
+        displayF = wantedF;
+      }
+
+      wantedF = displayF;
       var loIdx = Math.floor(wantedF);
       var hiIdx = Math.min(TOTAL - 1, loIdx + 1);
       drawBlended(loIdx, hiIdx, wantedF - loIdx);
