@@ -1,72 +1,69 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Restora Home — отделка, электромонтаж и восстановление домов в Костроме</title>
+<title>Restora — отделка, электромонтаж и восстановление домов в Костроме</title>
 <meta name="description" content="Отделка и электромонтаж под ключ, восстановление старых домов, фасадные и монтажные работы в Костроме и области. Бесплатный выезд, смета по этапам. Оставьте заявку.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap"></noscript>
 <style>
   :root{
-    --navy:#0c388d;--navy-deep:#082860;--navy-soft:#eef2fa;
-    --ink:#12141a;--muted:#666d7a;--line:#e4e6ea;
-    --paper:#ffffff;--off:#f6f7f9;
+    --navy:#0c388d;
+    --ink:#1a1a1a;--muted:#6b6b6b;--line:#e5e5e5;
+    --paper:#ffffff;
     --sans:"Inter",system-ui,-apple-system,sans-serif;
+    --serif:"Playfair Display",Georgia,serif;
     --ease:cubic-bezier(.22,.61,.30,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;
     -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img,.photo-slot{max-width:100%}
 
-  /* ===== TOPBAR: белая липкая шапка, тонкая линия снизу, без блюра — плоский корпоративный стиль ===== */
+  /* ===== kicker: маленький квадрат + подпись — так помечены разделы у референса ===== */
+  .kicker{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);font-weight:400;margin-bottom:18px}
+  .kicker i{width:6px;height:6px;background:var(--ink);flex:none}
+
+  /* ===== TOPBAR: логотип слева, "Menu" по центру, заявка справа — без карточек и теней ===== */
   .topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-    padding:20px 5vw;background:var(--paper);border-bottom:1px solid var(--line)}
-  .topbar-brand{justify-self:center;display:flex;align-items:center;gap:9px;text-decoration:none}
+    padding:22px 5vw;background:var(--paper)}
+  .topbar-brand{justify-self:start;display:flex;align-items:center;gap:8px;text-decoration:none}
   .topbar-brand .mark{width:22px;height:18px;flex:none}
   .topbar-brand .mark path{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke:var(--navy)}
-  .topbar-brand .name{font-family:var(--sans);font-weight:800;font-size:16px;letter-spacing:.08em;color:var(--ink)}
 
-  .menu-trigger{justify-self:start;display:inline-flex;align-items:center;gap:10px;background:none;border:none;
-    color:var(--ink);font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.14em;
-    text-transform:uppercase;cursor:pointer;padding:6px 4px}
-  .menu-trigger__lines{width:20px;height:13px;position:relative;flex:none}
-  .menu-trigger__lines i{position:absolute;left:0;width:100%;height:1.6px;background:var(--ink);border-radius:1px;
+  .menu-trigger{justify-self:center;display:inline-flex;align-items:center;gap:16px;background:#f5f5f5;border:none;
+    color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:400;cursor:pointer;padding:11px 20px}
+  .menu-trigger__lines{width:26px;height:11px;position:relative;flex:none}
+  .menu-trigger__lines i{position:absolute;left:0;width:100%;height:1.4px;background:var(--ink);
     transition:transform .35s var(--ease)}
   .menu-trigger__lines i:nth-child(1){top:0}
   .menu-trigger__lines i:nth-child(2){bottom:0}
-  .menu-trigger.is-open .menu-trigger__lines i:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
-  .menu-trigger.is-open .menu-trigger__lines i:nth-child(2){transform:translateY(-5.5px) rotate(-45deg)}
+  .menu-trigger.is-open .menu-trigger__lines i:nth-child(1){transform:translateY(5px) rotate(20deg)}
+  .menu-trigger.is-open .menu-trigger__lines i:nth-child(2){transform:translateY(-5px) rotate(-20deg)}
 
   .navpills{justify-self:end}
-  .btn-pill{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 22px;border-radius:8px;
-    font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.03em;text-decoration:none;
-    background:var(--navy);color:#fff;border:1px solid var(--navy);transition:background .25s var(--ease)}
-  .btn-pill:hover{background:var(--navy-deep);border-color:var(--navy-deep)}
-  .btn-pill i{display:block;width:6px;height:6px;border-radius:50%;flex:none;background:#fff;
-    animation:dotPulse 2.2s ease-in-out infinite}
-  @keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.4}}
-  @media(prefers-reduced-motion:reduce){ .btn-pill i,.quick-cta__dot{animation:none} }
+  .top-cta{color:var(--ink);text-decoration:underline;text-underline-offset:4px;font-size:14px;font-weight:400}
 
-  /* ===== полноэкранная навигация: инверсия в фирменный синий — контраст с белым сайтом ===== */
-  .offcanvas{position:fixed;inset:0;z-index:150;background:var(--navy-deep);opacity:0;visibility:hidden;
+  /* ===== offcanvas меню ===== */
+  .offcanvas{position:fixed;inset:0;z-index:150;background:var(--navy);opacity:0;visibility:hidden;
     transition:opacity .5s var(--ease),visibility .5s var(--ease)}
   .offcanvas.on{opacity:1;visibility:visible}
-  .offcanvas__inner{position:relative;max-width:1160px;margin:0 auto;padding:120px 8vw 60px;height:100%;
+  .offcanvas__inner{position:relative;max-width:1200px;margin:0 auto;padding:120px 6vw 60px;height:100%;
     display:flex;flex-direction:column;justify-content:space-between}
   .offcanvas__close{position:absolute;top:24px;right:5vw;width:44px;height:44px;border-radius:50%;
     border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;font-size:20px;
     line-height:1;cursor:pointer;transition:background .3s var(--ease)}
   .offcanvas__close:hover{background:rgba(255,255,255,.16)}
   .offcanvas__nav{display:flex;flex-direction:column;gap:2px}
-  .offcanvas__nav .offcanvas__link{display:flex;align-items:baseline;gap:22px;font-family:var(--sans);
-    font-size:clamp(28px,5.6vw,54px);font-weight:700;letter-spacing:-.01em;text-transform:none;color:#fff;
+  .offcanvas__nav .offcanvas__link{display:flex;align-items:baseline;gap:22px;font-family:var(--serif);font-style:italic;
+    font-size:clamp(28px,5.6vw,54px);font-weight:600;color:#fff;
     text-decoration:none;padding:14px 0;margin-top:0;border-bottom:1px solid rgba(255,255,255,.16);
     opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s var(--ease)}
   .offcanvas__nav .offcanvas__link::after{content:none}
-  .offcanvas__nav .offcanvas__link span{font-family:var(--sans);font-size:12px;font-weight:400;color:#9fb3dd;letter-spacing:.1em}
+  .offcanvas__nav .offcanvas__link span{font-family:var(--sans);font-style:normal;font-size:12px;font-weight:400;color:#9fb3dd;letter-spacing:.1em}
   .offcanvas__nav .offcanvas__link:hover{color:#cfe0ff}
-  .offcanvas__nav .offcanvas__link--cta{color:#fff;background:rgba(255,255,255,.08);padding-left:20px;border-radius:8px}
+  .offcanvas__nav .offcanvas__link--cta{color:#fff}
   .offcanvas.on .offcanvas__nav .offcanvas__link{opacity:1;transform:none}
   .offcanvas.on .offcanvas__nav .offcanvas__link:nth-child(1){transition-delay:.08s}
   .offcanvas.on .offcanvas__nav .offcanvas__link:nth-child(2){transition-delay:.14s}
@@ -80,229 +77,139 @@
     .offcanvas__nav .offcanvas__link{padding:11px 0}
   }
 
-  /* ===== контакты в hero ===== */
-  .hero-contact{display:flex;gap:20px;flex-wrap:wrap;margin-top:26px}
-  .hero-contact a{font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.01em;color:var(--muted);
-    text-decoration:none;transition:color .3s var(--ease)}
-  .hero-contact a:hover{color:var(--navy)}
-
-  /* ===== HERO: двухколоночный — текст + фото-заглушка объекта, как у референса ===== */
-  .hero{position:relative;padding:80px 8vw 90px;max-width:1160px;margin:0 auto;
-    display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-  .hero .eyebrow{position:relative;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--navy);
-    margin-bottom:22px;font-weight:600;padding-left:30px}
-  .hero .eyebrow::before{content:"";position:absolute;left:0;top:.6em;width:22px;height:2px;background:var(--navy)}
-  .hero h1{font-family:var(--sans);font-size:clamp(30px,3.6vw,54px);font-weight:800;line-height:1.05;letter-spacing:-.03em;
-    color:var(--ink);margin-bottom:24px}
-  .hero-sub{color:var(--muted);font-size:16px;line-height:1.7;font-weight:400;margin-bottom:36px}
-  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
-
-  /* ===== заглушки под реальные фото объектов: помечены явно, не выдаются за настоящие ===== */
-  .photo-slot{position:relative;background:var(--off);border:1px dashed #cdd2da;border-radius:12px;overflow:hidden;
+  /* ===== заглушки под реальные фото: плоские, без рамок/радиуса — как полноразмерные фото у референса ===== */
+  .photo-slot{position:relative;background:#f2f2f2;overflow:hidden;
     display:flex;align-items:center;justify-content:center}
-  .photo-slot svg{width:26%;height:26%;stroke:#c3c8d1;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
-  .photo-slot span{position:absolute;left:14px;bottom:14px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-    font-weight:700;color:#8b93a3;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px}
-  .hero-photo{aspect-ratio:4/5}
-  @media(max-width:960px){
-    .hero{grid-template-columns:1fr;gap:32px}
-    .hero-photo{aspect-ratio:16/10}
+  .photo-slot svg{width:18%;height:18%;stroke:#c9c9c9;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+  .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;
+    font-family:var(--sans)}
+  .photo-slot.on-dark span{color:#fff}
+
+  /* ===== HERO: огромный логотип-надпись, минимум chrome — как у референса ===== */
+  .hero{position:relative;padding:60px 5vw 40px;text-align:center}
+  .hero-top{display:flex;justify-content:flex-end;margin-bottom:60px}
+  .hero-tag{max-width:340px;text-align:left;font-size:14px;line-height:1.5;color:var(--ink)}
+  .hero-word{font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
+    font-size:clamp(70px,15vw,260px);color:var(--navy);text-align:left}
+  .hero-bottom{display:flex;justify-content:space-between;margin-top:36px;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink)}
+  @media(max-width:700px){
+    .hero{padding:40px 6vw 24px}
+    .hero-top{justify-content:flex-start}
+    .hero-tag{max-width:none}
   }
 
-  /* ===== лента фото под hero: 4 заглушки в ряд, как галерея объекта у референса ===== */
-  .photo-strip{padding:0 8vw 90px;max-width:1160px;margin:0 auto}
-  .photo-strip__inner{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-  .photo-strip .photo-slot{aspect-ratio:3/4}
-  .photo-strip .photo-slot svg{width:22%;height:22%}
-  .photo-strip .photo-slot span{font-size:9px;padding:5px 9px;left:10px;bottom:10px}
-  @media(max-width:820px){
-    .photo-strip{padding:0 6vw 60px}
-    .photo-strip__inner{grid-template-columns:repeat(2,1fr)}
+  /* ===== одно большое фото между двумя словами ===== */
+  .split{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:60px 5vw;max-width:1300px;margin:0 auto}
+  .split .word{font-family:var(--serif);font-size:clamp(28px,4vw,52px);color:var(--ink);flex:none}
+  .split .photo-slot{width:min(480px,42vw);aspect-ratio:1/1.08}
+  .split-caption{text-align:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  @media(max-width:700px){
+    .split{flex-direction:column;padding:40px 6vw}
+    .split .word{font-size:32px}
+    .split .photo-slot{width:100%}
   }
 
-  /* ===== философия: один абзац + фото, как "Our guiding values" у референса — не сетка иконок ===== */
-  .philosophy-grid{display:grid;grid-template-columns:1fr .8fr;gap:64px;align-items:center}
-  .philosophy-text p{color:var(--muted);font-size:16px;line-height:1.75;font-weight:400;max-width:520px}
-  .philosophy-photo{aspect-ratio:1}
-  @media(max-width:820px){
-    .philosophy-grid{grid-template-columns:1fr;gap:32px}
-  }
+  /* ===== кнопки/ссылки: простой подчёркнутый текст, как "See all projects" у референса ===== */
+  .cta,.link-arrow{display:inline-block;color:var(--ink);text-decoration:underline;text-underline-offset:4px;
+    font-family:var(--sans);font-weight:400;font-size:15px;transition:color .25s var(--ease)}
+  .cta:hover,.link-arrow:hover{color:var(--navy)}
+  .cta-block{display:inline-block;border:none;background:var(--navy);color:#fff;text-decoration:none;
+    font-weight:600;letter-spacing:.02em;padding:16px 30px;font-size:14px;
+    transition:background .25s var(--ease)}
+  .cta-block:hover{background:#082860}
 
-  /* ===== с кем работаем: заглушки под логотипы партнёров/поставщиков, пока их нет ===== */
-  .partners-row{display:flex;gap:16px;flex-wrap:wrap}
-  .partner-slot{flex:1 1 200px;aspect-ratio:3/1.4;background:var(--off);border:1px dashed #cdd2da;border-radius:10px;
-    display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-    font-weight:700;color:#9aa1ad}
-
-  /* ===== заглушка под отзыв клиента: явно помечена, реального текста пока нет ===== */
-  .testimonial-box{max-width:760px;margin:0 auto;text-align:center}
-  .testimonial-box svg{width:34px;height:26px;stroke:var(--navy);fill:none;stroke-width:1.4;margin:0 auto 24px}
-  .testimonial-box p{font-family:var(--sans);font-size:clamp(19px,2.2vw,26px);font-weight:500;line-height:1.5;
-    color:var(--ink);letter-spacing:-.01em;margin-bottom:20px}
-  .testimonial-attrib{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
-
-  /* ===== кнопки и ссылки-стрелки: плоские, малый радиус, без "стекла" ===== */
-  .cta,.link-arrow{display:inline-flex;align-items:center;gap:9px;margin-top:26px;color:var(--ink);text-decoration:none;
-    font-family:var(--sans);font-weight:500;letter-spacing:.03em;font-size:13px;
-    padding-bottom:3px;border-bottom:1px solid var(--line);transition:border-color .3s var(--ease),color .3s var(--ease),gap .3s var(--ease)}
-  .cta::after,.link-arrow::after{content:"→";font-size:14px;transition:transform .3s var(--ease);color:var(--navy)}
-  .cta:hover,.link-arrow:hover{border-color:var(--navy);color:var(--navy);gap:13px}
-  .cta:hover::after,.link-arrow:hover::after{transform:translateX(2px)}
-
-  .cta-block{border:1px solid var(--navy);background:var(--navy);color:#fff;margin-top:0;
-    font-weight:600;letter-spacing:.02em;padding:15px 28px;border-radius:8px;font-size:13.5px;
-    transition:background .25s var(--ease),border-color .25s var(--ease)}
-  .cta-block::after{display:none}
-  .cta-block:hover{background:var(--navy-deep);border-color:var(--navy-deep)}
-
-  .cta-ghost{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;padding:15px 28px;
-    text-decoration:none;color:var(--ink);font-family:var(--sans);font-weight:600;letter-spacing:.02em;font-size:13.5px;
-    background:transparent;transition:border-color .25s var(--ease),background .25s var(--ease)}
-  .cta-ghost:hover{border-color:var(--navy);background:var(--navy-soft)}
-
-  .stat{margin-bottom:28px}
-  .stat .n{font-family:var(--sans);font-weight:700;font-size:clamp(20px,1.7vw,26px);color:var(--ink);line-height:1}
-  .stat .l{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:9px;font-weight:600}
-
-  /* ===== контент секциями ===== */
+  /* ===== секции: широкие, плоские, разделены тонкой линией сверху ===== */
   main{position:relative;background:var(--paper)}
-  .sect{padding:88px 8vw;max-width:1160px;margin:0 auto}
-  .sect.alt{background:var(--off);max-width:none;padding-left:0;padding-right:0}
-  .sect.alt > *{max-width:1160px;margin-left:auto;margin-right:auto;padding-left:8vw;padding-right:8vw}
-  .sect-head{max-width:640px;margin-bottom:52px}
-  .sect-head .eyebrow{position:relative;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--navy);
-    margin-bottom:18px;font-weight:600;padding-left:30px}
-  .sect-head .eyebrow::before{content:"";position:absolute;top:.6em;left:0;width:22px;height:2px;background:var(--navy)}
-  .sect-head h2{font-family:var(--sans);font-size:clamp(28px,3.6vw,42px);font-weight:800;line-height:1.08;color:var(--ink);letter-spacing:-.02em}
+  .sect{padding:100px 5vw;max-width:1300px;margin:0 auto}
+  .sect-head{border-top:1px solid var(--line);padding-top:22px}
+  .sect-head h2{font-family:var(--sans);font-weight:800;font-size:clamp(30px,4.4vw,54px);line-height:1.05;
+    color:var(--ink);letter-spacing:-.02em;max-width:760px}
+  .sect-head.serif h2{font-family:var(--serif);font-weight:600;font-style:italic;letter-spacing:-.01em}
+  .sect-head p{color:var(--muted);font-size:15px;line-height:1.7;margin-top:18px;max-width:560px}
+  .sect-head .see-all{display:block;text-align:center;margin-top:40px}
 
-  .icon-badge{width:48px;height:48px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;
-    background:var(--navy-soft);border:1px solid #dde5f5;margin-bottom:18px}
-  .icon-badge svg{width:24px;height:24px;stroke:var(--navy);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-
-
-  /* ===== горизонтальная лента услуг: листается, не статичная сетка ===== */
-  .cards{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-left:8vw;
-    padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .cards::-webkit-scrollbar{display:none}
-  .card{position:relative;overflow:hidden;flex:0 0 clamp(260px,32vw,360px);scroll-snap-align:start;
-    background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:0 0 28px;min-height:250px;
-    display:flex;flex-direction:column;transition:border-color .3s var(--ease),box-shadow .3s var(--ease)}
-  .card:hover{border-color:var(--navy);box-shadow:0 16px 40px -28px rgba(12,56,141,.35)}
-  .card > .icon-badge,.card > h3,.card > p,.card > .cta,.card > .link-arrow{margin-left:28px;margin-right:28px}
-  .card h3{position:relative;font-family:var(--sans);font-size:19px;font-weight:700;color:var(--ink);margin-bottom:14px;line-height:1.25}
-  .card p{position:relative;color:var(--muted);font-size:13.5px;line-height:1.65;font-weight:400}
-  .card .cta,.card .link-arrow{position:relative;margin-top:auto;padding-top:20px}
-  .card-main{flex-basis:clamp(360px,50vw,560px);background:var(--navy-soft);border-color:#dde5f5}
-  .card-main .icon-badge{background:#fff;border-color:#cfdcf3}
-  .card-main h3{font-size:23px}
-  .card-other{background:var(--off);border-style:dashed;padding:32px 28px}
-  .card-other .icon-badge svg{stroke:var(--muted)}
-  .card-other > .icon-badge,.card-other > h3,.card-other > p,.card-other > .cta{margin-left:0;margin-right:0}
-  .card-other > .icon-badge{margin-top:0}
-  .icon-badge{position:relative;margin-top:24px}
-  .cards-nav{display:flex;align-items:center;gap:14px;margin-top:24px}
-
-  /* ===== заглушка под фото объекта в карточке услуги (вместо реальной фотографии, которой пока нет) ===== */
-  .card-photo{aspect-ratio:16/10;border-radius:0;border-width:0 0 1px}
-  .card-photo svg{width:20%;height:20%}
-  .card-photo span{font-size:9.5px;padding:5px 10px}
-
-  /* ===== Восстановление домов: до/после ===== */
-  .story{display:grid;grid-template-columns:min(420px,42vw) 1fr;gap:56px;align-items:center;margin-top:8px}
-  .story-frame{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;border:1px solid var(--line);
-    box-shadow:0 30px 70px -36px rgba(12,56,141,.25)}
-  .story-frame canvas{width:100%;height:100%;display:block}
-  .story-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper);
-    font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:opacity .4s var(--ease)}
-  .story-loading.gone{opacity:0;pointer-events:none}
-  .story-pane{display:none}
-  .story-pane.on{display:block;animation:paneIn .5s var(--ease)}
-  @keyframes paneIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .story-text h3{font-family:var(--sans);font-size:clamp(23px,2.4vw,32px);font-weight:800;line-height:1.1;letter-spacing:-.01em;color:var(--ink);margin-bottom:14px}
-  .story-text p{color:var(--muted);font-size:14.5px;line-height:1.7;max-width:420px;font-weight:400}
-  .story-stats{display:flex;gap:32px;margin:22px 0 4px}
-  .story-stats .stat{margin-bottom:0}
-  .story-nav{display:flex;align-items:center;gap:14px;margin-top:30px}
-  .story-arrow{width:40px;height:40px;flex:none;border-radius:50%;border:1px solid var(--line);
-    background:var(--paper);color:var(--ink);font-size:15px;cursor:pointer;
-    transition:border-color .3s var(--ease),background .3s var(--ease)}
-  .story-arrow:hover{border-color:var(--navy);background:var(--navy-soft)}
-  .story-arrow:disabled{opacity:.3;cursor:default}
-  .story-dots{display:flex;gap:10px}
-  .story-dots i{width:6px;height:6px;border-radius:50%;border:1px solid var(--line);cursor:pointer;
-    transition:transform .3s var(--ease),background .3s,border-color .3s}
-  .story-dots i.on{background:var(--navy);border-color:var(--navy);transform:scale(1.5)}
-  .story-label{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);margin-left:2px;
-    padding:6px 12px;border-radius:999px;background:var(--off);border:1px solid var(--line)}
-
-  .steps{list-style:none;display:flex;flex-direction:column;gap:14px}
-  .steps li{display:flex;align-items:center;gap:24px;padding:22px 26px;border-radius:12px;
-    background:var(--paper);border:1px solid var(--line);transition:border-color .3s var(--ease)}
-  .steps li:hover{border-color:var(--navy)}
-  .steps .icon-badge{width:44px;height:44px;border-radius:50%;margin-bottom:0}
-  .steps .icon-badge svg{width:21px;height:21px}
-  .steps .step-no{font-family:var(--sans);font-size:11px;letter-spacing:.16em;color:var(--navy);font-weight:700;display:block;margin-bottom:3px}
-  .steps h3{font-family:var(--sans);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px}
-  .steps p{color:var(--muted);font-size:13.5px;line-height:1.6;font-weight:400}
-  .badges{display:flex;flex-wrap:wrap;gap:10px;margin:36px 0 40px}
-  .badges span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border:1px solid var(--line);
-    border-radius:999px;padding:9px 16px;background:var(--off);font-weight:600}
-
-  /* ===== футер: инверсия в фирменный синий — крупное закрывающее сообщение ===== */
-  .site-footer{background:var(--navy-deep);color:#fff}
-  .footer-inner{max-width:1160px;margin:0 auto;padding:96px 8vw 40px}
-  .footer-cta{text-align:center;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:44px}
-  .footer-cta h2{font-family:var(--sans);font-weight:800;font-size:clamp(28px,4vw,44px);letter-spacing:-.02em;color:#fff;margin-bottom:28px}
-  .footer-cta .cta-block{background:#fff;color:var(--navy-deep);border-color:#fff}
-  .footer-cta .cta-block:hover{background:#e7edf8}
-  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:40px}
-  .footer-col__title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8fa3cf;margin-bottom:16px;font-weight:700}
-  .footer-col a{display:block;color:#fff;text-decoration:none;font-size:13.5px;margin-bottom:10px;opacity:.9;
-    transition:opacity .3s var(--ease)}
-  .footer-col a:hover{opacity:1;text-decoration:underline}
-  .footer-brand .f-name{font-family:var(--sans);font-weight:800;font-size:20px;letter-spacing:.08em;color:#fff;margin-bottom:10px}
-  .footer-brand .f-loc{font-size:12.5px;color:#b9c7e6}
-  .footer-bottom{padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:11px;color:#8fa3cf}
+  /* ===== философия: асимметрично — абзац слева, смещённое фото ===== */
+  .philosophy-body{margin-top:56px;display:grid;grid-template-columns:1fr .9fr;gap:60px;align-items:start}
+  .philosophy-body p{color:var(--muted);font-size:16px;line-height:1.8;max-width:480px}
+  .philosophy-photo{aspect-ratio:.85;margin-left:auto;width:78%}
   @media(max-width:820px){
-    .footer-inner{padding:72px 6vw 32px}
-    .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
-    .footer-brand{grid-column:span 2}
-  }
-  @media(max-width:540px){
-    .footer-grid{grid-template-columns:1fr}
-    .footer-brand{grid-column:span 1}
+    .philosophy-body{grid-template-columns:1fr;gap:32px}
+    .philosophy-photo{width:100%;margin-left:0}
   }
 
+  /* ===== услуги: полноразмерные фото друг под другом, без карточек ===== */
+  .service-feature{margin-top:56px}
+  .service-feature .photo-slot{aspect-ratio:16/9;margin-bottom:28px}
+  .service-feature h3{font-family:var(--serif);font-weight:600;font-size:clamp(22px,2.6vw,32px);margin-bottom:12px}
+  .service-feature p{color:var(--muted);font-size:15px;line-height:1.7;max-width:560px;margin-bottom:16px}
+  .service-grid{margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:48px 40px}
+  .service-grid .photo-slot{aspect-ratio:4/3;margin-bottom:22px}
+  .service-grid h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:10px}
+  .service-grid p{color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:14px}
+  .service-other{grid-column:1/-1;border-top:1px solid var(--line);padding-top:32px;text-align:center}
+  .service-other h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:10px}
+  .service-other p{color:var(--muted);font-size:14px;margin-bottom:14px}
+  @media(max-width:820px){ .service-grid{grid-template-columns:1fr} }
+
+  /* ===== с кем работаем / awards: простые списки с тонкими разделителями, без боксов ===== */
+  .list-rows{margin-top:48px;border-top:1px solid var(--line)}
+  .list-row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:22px 0;border-bottom:1px solid var(--line)}
+  .list-row .name{font-family:var(--serif);font-size:19px;color:var(--ink)}
+  .list-row .desc{font-size:14px;color:var(--muted);text-align:right}
+  @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
+
+  /* ===== отзыв клиента: крупная курсивная цитата по центру ===== */
+  .testimonial-box{max-width:820px;margin:0 auto;text-align:center}
+  .testimonial-box p{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(20px,2.6vw,30px);
+    line-height:1.5;color:var(--ink);margin-bottom:22px}
+  .testimonial-attrib{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+  /* ===== истории клиентов ===== */
+  .stories-grid{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px 40px}
+  .stories-grid .photo-slot{aspect-ratio:4/3;margin-bottom:20px}
+  .stories-grid h3{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:8px}
+  .stories-grid p{color:var(--muted);font-size:14px;line-height:1.6}
+  @media(max-width:820px){ .stories-grid{grid-template-columns:1fr} }
+
+  /* ===== футер: сплошной синий, как у референса ===== */
+  .site-footer{background:var(--navy);color:#fff}
+  .footer-inner{max-width:1300px;margin:0 auto;padding:56px 5vw 32px}
+  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:56px}
+  .footer-mark{width:30px;height:26px}
+  .footer-mark path{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke:#fff}
+  .footer-nav{display:flex;flex-direction:column;gap:10px}
+  .footer-nav a{color:#fff;text-decoration:none;font-size:15px;opacity:.92;transition:opacity .3s var(--ease)}
+  .footer-nav a:hover{opacity:1;text-decoration:underline}
+  .footer-social{display:flex;flex-direction:column;gap:10px;align-items:flex-end;text-align:right}
+  .footer-social a{color:#cfe0ff;text-decoration:none;font-size:14px}
+  .footer-social a:hover{color:#fff}
+  .footer-recent{border-top:1px solid rgba(255,255,255,.18);padding-top:28px}
+  .footer-recent .kicker{color:#cfe0ff}
+  .footer-recent .kicker i{background:#cfe0ff}
+  .footer-recent .photo-slot{aspect-ratio:16/8;margin-top:20px;background:#0a2f75}
+  .footer-recent .photo-slot svg{stroke:#3a5ea8}
+  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#9fb3dd;margin-top:32px}
+
   @media(max-width:820px){
-    .hero{padding:90px 6vw 60px}
-    .sect{padding:60px 6vw}
-    .sect.alt > *{padding-left:6vw;padding-right:6vw}
-    .sect-head{margin-bottom:34px}
-    .card{flex-basis:78vw}
-    .card-main{flex-basis:86vw}
-    .story{grid-template-columns:1fr;gap:30px}
-    .story-frame{max-width:420px;margin:0 auto;width:100%}
+    .sect{padding:64px 6vw}
     .topbar{padding:16px 6vw}
-    .topbar-brand .name{font-size:14.5px}
-    .menu-trigger span:last-child{display:none}
-    .hero-contact{gap:14px}
-    .hero-contact a{font-size:11px}
   }
 
-  /* ===== модальное окно заявки: светлая тема ===== */
+  /* ===== модальное окно заявки ===== */
   .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(12,20,40,.45);
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
   .modal-backdrop.on{opacity:1;pointer-events:auto}
   .lead-modal{position:fixed;z-index:201;top:50%;left:50%;transform:translate(-50%,-46%);width:min(420px,88vw);
-    background:#fff;border:1px solid var(--line);border-radius:16px;padding:36px 32px 28px;
+    background:#fff;border:1px solid var(--line);padding:36px 32px 28px;
     box-shadow:0 50px 100px -30px rgba(12,20,40,.35);
     opacity:0;pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
   .lead-modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
   .modal-close{position:absolute;top:18px;right:18px;width:30px;height:30px;border:none;border-radius:50%;
-    background:var(--off);color:var(--ink);font-size:18px;line-height:1;cursor:pointer;transition:background .3s var(--ease)}
+    background:#f2f2f2;color:var(--ink);font-size:18px;line-height:1;cursor:pointer;transition:background .3s var(--ease)}
   .modal-close:hover{background:var(--line)}
-  .modal-eyebrow{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);margin-bottom:10px;font-weight:700}
-  .lead-modal h3{font-family:var(--sans);font-weight:800;font-size:25px;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px}
+  .modal-eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:10px;font-weight:700}
+  .lead-modal h3{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--ink);margin-bottom:8px}
   .modal-sub{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:22px;max-width:320px}
   #leadForm{display:flex;flex-direction:column;gap:14px}
   #leadForm label{display:flex;flex-direction:column;gap:7px;font-size:10.5px;letter-spacing:.1em;
@@ -313,10 +220,10 @@
     text-transform:none;letter-spacing:normal;user-select:text;resize:none;transition:border-color .3s var(--ease)}
   #leadForm input::placeholder,#leadForm textarea::placeholder{color:#a7adb8}
   #leadForm input:focus,#leadForm textarea:focus{outline:none;border-color:var(--navy)}
-  .modal-submit{margin-top:10px;height:46px;border:none;border-radius:8px;background:var(--navy);color:#fff;
+  .modal-submit{margin-top:10px;height:46px;border:none;background:var(--navy);color:#fff;
     font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.02em;cursor:pointer;
     transition:background .3s var(--ease),opacity .3s var(--ease)}
-  .modal-submit:hover{background:var(--navy-deep)}
+  .modal-submit:hover{background:#082860}
   .modal-submit:disabled{opacity:.55;cursor:default}
   .modal-status{min-height:16px;font-size:12px;text-align:center;margin-top:2px;color:var(--muted)}
   .modal-status.err{color:#c0392b}
@@ -326,46 +233,18 @@
     .lead-modal h3{font-size:21px}
   }
 
-  /* ===== плавающая нижняя панель быстрых действий: плоская, без "стекла" ===== */
-  .quick-cta{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + clamp(.9rem,3vw,1.6rem));
-    transform:translateX(-50%);z-index:90;display:flex;gap:12px;
-    transition:opacity .4s var(--ease),transform .4s var(--ease),visibility .4s var(--ease)}
-  .quick-cta.is-hidden{opacity:0;visibility:hidden;transform:translateX(-50%) translateY(14px);pointer-events:none}
-  .quick-cta__btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:8px;
-    font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.03em;white-space:nowrap;
-    text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);
-    box-shadow:0 12px 30px -16px rgba(12,20,40,.25);transition:border-color .2s var(--ease),transform .2s var(--ease)}
-  .quick-cta__btn:hover{border-color:var(--navy);transform:translateY(-2px)}
-  .quick-cta__btn--accent{background:var(--navy);border-color:var(--navy);color:#fff}
-  .quick-cta__dot{width:6px;height:6px;flex:none;border-radius:50%;background:var(--navy);animation:dotPulse 2.2s ease-in-out infinite}
-  .quick-cta__btn--accent .quick-cta__dot{background:#fff}
-  @media(max-width:480px){
-    .quick-cta{gap:8px}
-    .quick-cta__btn{padding:11px 16px;letter-spacing:.02em;font-size:10.5px}
-  }
-
   /* ===== появление элементов при скролле ===== */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .reveal.in-view{opacity:1;transform:none}
-  .reveal-stagger.in-view .card:nth-child(1),.reveal-stagger.in-view .steps li:nth-child(1),.reveal-stagger.in-view .partner-slot:nth-child(1){transition-delay:.05s}
-  .reveal-stagger.in-view .card:nth-child(2),.reveal-stagger.in-view .steps li:nth-child(2),.reveal-stagger.in-view .partner-slot:nth-child(2){transition-delay:.12s}
-  .reveal-stagger.in-view .card:nth-child(3),.reveal-stagger.in-view .steps li:nth-child(3),.reveal-stagger.in-view .partner-slot:nth-child(3){transition-delay:.19s}
-  .reveal-stagger.in-view .card:nth-child(4),.reveal-stagger.in-view .steps li:nth-child(4),.reveal-stagger.in-view .partner-slot:nth-child(4){transition-delay:.26s}
-  .reveal-stagger.in-view .card:nth-child(5),.reveal-stagger.in-view .steps li:nth-child(5){transition-delay:.33s}
-  .reveal-stagger .card,.reveal-stagger .steps li,.reveal-stagger .partner-slot{opacity:0;transform:translateY(24px);
-    transition:opacity .7s var(--ease),transform .7s var(--ease)}
-  .reveal-stagger.in-view .card,.reveal-stagger.in-view .steps li,.reveal-stagger.in-view .partner-slot{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){
-    .reveal,.reveal-stagger .card,.reveal-stagger .steps li,.reveal-stagger .partner-slot{opacity:1;transform:none;transition:none}
-  }
+  @media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none} }
 </style></head><body>
 
 <div class="topbar">
+  <a href="#" class="topbar-brand" aria-label="Restora"><svg class="mark" viewBox="0 0 120 96" role="img" aria-hidden="true"><path d="M8 46 L60 8 L112 46"/><path d="M20 46 L20 84 L100 84 L100 46"/><path d="M52 84 L52 58 L68 58 L68 84"/></svg></a>
   <button type="button" class="menu-trigger" id="menuTrigger" aria-expanded="false" aria-controls="offcanvas">
-    <span class="menu-trigger__lines"><i></i><i></i></span><span>Меню</span>
+    <span>Меню</span><span class="menu-trigger__lines"><i></i><i></i></span>
   </button>
-  <a href="#" class="topbar-brand" aria-label="Restora"><svg class="mark" viewBox="0 0 120 96" role="img" aria-hidden="true"><path d="M8 46 L60 8 L112 46"/><path d="M20 46 L20 84 L100 84 L100 46"/><path d="M52 84 L52 58 L68 58 L68 84"/></svg><span class="name">RESTORA</span></a>
-  <nav class="navpills"><a href="#" class="btn-pill cta" data-topic="Заявка с сайта">Заявка<i></i></a></nav>
+  <nav class="navpills"><a href="#" class="top-cta cta" data-topic="Заявка с сайта">Заявка</a></nav>
 </div>
 
 <div class="offcanvas" id="offcanvas" aria-hidden="true">
@@ -373,8 +252,8 @@
     <button type="button" class="offcanvas__close" id="offcanvasClose" aria-label="Закрыть меню">×</button>
     <nav class="offcanvas__nav">
       <a href="#services" class="offcanvas__link"><span>01</span>Услуги</a>
-      <a href="#restoration" class="offcanvas__link"><span>02</span>Восстановление домов</a>
-      <a href="#process" class="offcanvas__link"><span>03</span>Как мы работаем</a>
+      <a href="#podhod" class="offcanvas__link"><span>02</span>О нас</a>
+      <a href="#footer" class="offcanvas__link"><span>03</span>Контакты</a>
       <a href="#" class="offcanvas__link offcanvas__link--cta cta" data-topic="Заявка с сайта"><span>04</span>Оставить заявку</a>
     </nav>
     <div class="offcanvas__contact">
@@ -386,350 +265,160 @@
 </div>
 
 <header class="hero">
-  <div>
-    <div class="eyebrow">Кострома и Костромская область</div>
-    <h1>Отделка и электромонтаж под ключ.<br>Восстанавливаем дома с историей.</h1>
-    <p class="hero-sub">Внутренняя и внешняя отделка, электрика, фасады, малые постройки — одна бригада, прозрачная смета по этапам.</p>
-    <div class="hero-ctas">
-      <a href="#" class="cta cta-block" data-topic="Заявка с сайта">Оставить заявку</a>
-      <a href="#services" class="cta-ghost">Смотреть услуги</a>
-    </div>
-    <div class="hero-contact">
-      <a href="tel:+79639303637">+7 963 930-36-37</a>
-      <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
-      <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram</a>
+  <div class="hero-top">
+    <div class="hero-tag">
+      <div class="kicker"><i></i>О компании</div>
+      Дом с историей — это не бетон и не смета. Отделываем, восстанавливаем и строим так, будто это наш собственный дом.
     </div>
   </div>
-  <div class="photo-slot hero-photo">
-    <svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg>
-    <span>Фото 1 — объект клиента</span>
+  <div class="hero-word">RESTORA</div>
+  <div class="hero-bottom">
+    <span>Кострома</span>
+    <span>Область</span>
   </div>
 </header>
 
-<div class="photo-strip">
-  <div class="photo-strip__inner reveal-stagger">
-    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 2</span></div>
-    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 3</span></div>
-    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 4</span></div>
-    <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 5</span></div>
-  </div>
+<div class="split">
+  <div class="word">Надёжно</div>
+  <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 1</span></div>
+  <div class="word">Аккуратно</div>
 </div>
 
 <main>
-  <section class="sect philosophy alt">
-    <div class="philosophy-grid reveal">
-      <div class="philosophy-text">
-        <div class="eyebrow">Наш подход</div>
-        <h2>Каждый объект — как свой</h2>
-        <p>Мы не берём в работу десятки объектов одновременно — на каждый дом у бригады есть время, внимание и ответственность. Отделка, электрика, фасад и восстановление — в одних руках, без стыков между подрядчиками. Смету фиксируем по этапам заранее, а если дом можно спасти — сохраняем дерево и характер вместо того, чтобы сносить и строить с нуля.</p>
-      </div>
-      <div class="photo-slot philosophy-photo">
-        <svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg>
-        <span>Фото 6</span>
-      </div>
+  <section class="sect philosophy" id="podhod">
+    <div class="sect-head serif reveal">
+      <div class="kicker"><i></i>Философия</div>
+      <h2>Каждый объект — как свой</h2>
+    </div>
+    <div class="philosophy-body reveal">
+      <p>Мы не берём в работу десятки объектов одновременно — на каждый дом у бригады есть время, внимание и ответственность. Отделка, электрика, фасад и восстановление — в одних руках, без стыков между подрядчиками. Смету фиксируем по этапам заранее, а если дом можно спасти — сохраняем дерево и характер вместо того, чтобы сносить и строить с нуля.</p>
+      <div class="photo-slot philosophy-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 2</span></div>
     </div>
   </section>
 
   <section class="sect services" id="services">
     <div class="sect-head reveal">
-      <div class="eyebrow">Что мы делаем</div>
-      <h2>Работаем на результат,<br>а не для галочки</h2>
+      <div class="kicker"><i></i>Наши услуги</div>
+      <h2>Работаем на результат, а не для галочки</h2>
+      <p>Отделка, электрика, фасады, восстановление старых домов и малые постройки — берём объект от первого замера до чистовой сдачи.</p>
+      <a href="uslugi/otdelka-elektromontazh.html" class="cta see-all">Все об отделке и электромонтаже</a>
     </div>
-    <div class="cards reveal-stagger">
-      <div class="card card-main">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 7</span></div>
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M16 3 L8 16 H13 L11 25 L21 11 H15 L16 3"/></svg></div>
-        <h3>Отделка и электромонтаж под ключ</h3>
-        <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи. Не нужно отдельно искать электрика, отделочника и прораба.</p>
-        <a href="uslugi/otdelka-elektromontazh.html" class="link-arrow">Подробнее об услуге</a>
-      </div>
-      <div class="card">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 8</span></div>
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M4 15 L14 5 L24 15"/><path d="M7 15 V24 H21 V15"/><path d="M11 24 V17 H17 V24"/></svg></div>
+
+    <div class="service-feature reveal">
+      <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 3</span></div>
+      <h3>Отделка и электромонтаж под ключ</h3>
+      <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
+      <a href="uslugi/otdelka-elektromontazh.html" class="link-arrow">Подробнее об услуге</a>
+    </div>
+
+    <div class="service-grid reveal">
+      <div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 4</span></div>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh.html" class="link-arrow">Подробнее об услуге</a>
       </div>
-      <div class="card">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 9</span></div>
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M5 15 L14 6 L23 15"/><path d="M8 15 V23 H20 V15"/><path d="M21.5 18.5a5 5 0 1 1-1.3-3.3"/><path d="M21.5 12.5v3.2h-3.2"/></svg></div>
+      <div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 5</span></div>
         <h3>Восстановление домов</h3>
-        <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер, меняем то, что действительно отжило.</p>
+        <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
         <a href="uslugi/vosstanovlenie-domov.html" class="link-arrow">Подробнее об услуге</a>
       </div>
-      <div class="card">
-        <div class="photo-slot card-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 10</span></div>
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M5 22 L14 8 L23 22"/><path d="M10 22 V16 H18 V22"/><path d="M14 8 V4"/></svg></div>
+      <div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 6</span></div>
         <h3>Баня, беседка, сарай</h3>
         <p>Небольшие постройки на участке — быстро и аккуратно, без долгих согласований.</p>
         <a href="uslugi/banya-besedka.html" class="link-arrow">Подробнее об услуге</a>
       </div>
-      <div class="card card-other">
-        <div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M5 6 H23 V18 H12 L7 23 V18 H5 Z"/><circle cx="10.5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="17.5" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
+      <div class="service-other">
         <h3>Другая задача?</h3>
         <p>Не увидели свою задачу в списке — опишите, что нужно. Скорее всего, мы это тоже делаем.</p>
         <a href="#" class="cta" data-topic="Другая задача">Написать нам</a>
       </div>
     </div>
-    <div class="cards-nav">
-      <button type="button" class="story-arrow" id="cardsPrev" aria-label="Прокрутить услуги назад">←</button>
-      <button type="button" class="story-arrow" id="cardsNext" aria-label="Прокрутить услуги вперёд">→</button>
-      <span class="story-label">Листайте карточки</span>
-    </div>
   </section>
 
-  <section class="sect restoration" id="restoration">
+  <section class="sect collaborators">
     <div class="sect-head reveal">
-      <div class="eyebrow">Восстановление домов</div>
-      <h2>Не ломаем — оживляем</h2>
-    </div>
-    <div class="story reveal">
-      <div class="story-frame">
-        <canvas id="cv" width="608" height="608"></canvas>
-        <div class="story-loading" id="storyLoading">Загрузка…</div>
-      </div>
-      <div class="story-text">
-        <div class="story-pane on" data-i="0">
-          <div class="eyebrow">Восстановление домов</div>
-          <h3>Купили старый дом в деревне?</h3>
-          <p>Покосился, фасад потемнел, крыша течёт. Снести проще — но жалко.</p>
-          <div class="story-stats"><div class="stat"><div class="n">бесплатно</div><div class="l">выезд на замер</div></div><div class="stat"><div class="n">смета</div><div class="l">цена за каждый этап</div></div></div>
-          <a href="#" class="cta" data-topic="Восстановление домов">Оставить заявку</a>
-        </div>
-        <div class="story-pane" data-i="1">
-          <div class="eyebrow">Восстановление · результат</div>
-          <h3>Снова как новый — но с душой</h3>
-          <p>Восстанавливаем, а не ломаем. Сохраняем дерево, тепло и историю дома.</p>
-          <div class="story-stats"><div class="stat"><div class="n">дерево</div><div class="l">сохраняем, не меняем</div></div><div class="stat"><div class="n">под ключ</div><div class="l">одна бригада на всё</div></div></div>
-          <a href="#" class="cta" data-topic="Восстановление · результат">Рассчитать</a>
-        </div>
-        <div class="story-pane" data-i="2">
-          <div class="eyebrow">Отделка под ключ</div>
-          <h3>Голые стены, а жить хочется</h3>
-          <p>На рынке нет тех, кто берёт весь цикл — от дизайна до чистовой. Мы берём.</p>
-          <div class="story-stats"><div class="stat"><div class="n">полный</div><div class="l">цикл от дизайна</div></div><div class="stat"><div class="n">без</div><div class="l">скрытых платежей</div></div></div>
-          <a href="#" class="cta" data-topic="Отделка под ключ">Обсудить проект</a>
-        </div>
-        <div class="story-pane" data-i="3">
-          <div class="eyebrow">Отделка · дизайн-проект</div>
-          <h3>От проекта до новоселья</h3>
-          <p>Штукатурка, плитка, ламинат, двери, сантехника — и проект интерьера. В одних руках.</p>
-          <div class="story-stats"><div class="stat"><div class="n">проект</div><div class="l">дизайн интерьера</div></div><div class="stat"><div class="n">«под ключ»</div><div class="l">черновая и чистовая</div></div></div>
-          <a href="#" class="cta" data-topic="Отделка · дизайн-проект">Обсудить проект</a>
-        </div>
-        <div class="story-pane" data-i="4">
-          <div class="eyebrow">Кровля и локальный ремонт</div>
-          <h3>Течёт крыша, трещит фасад?</h3>
-          <p>Не всегда нужен капремонт. Часто хватает точечно — починить и покрасить.</p>
-          <div class="story-stats"><div class="stat"><div class="n">локально</div><div class="l">без капремонта</div></div><div class="stat"><div class="n">под бюджет</div><div class="l">технология по карману</div></div></div>
-          <a href="#" class="cta" data-topic="Кровля и локальный ремонт">Вызвать мастера</a>
-        </div>
-        <div class="story-pane" data-i="5">
-          <div class="eyebrow">Ремонт · результат</div>
-          <h3>Продлим жизнь дому на годы</h3>
-          <p>Чистим кровлю от мха, красим в 2 слоя, лечим дерево. Дышит — не гниёт.</p>
-          <div class="story-stats"><div class="stat"><div class="n">+5–7 лет</div><div class="l">жизни кровле</div></div><div class="stat"><div class="n">до / после</div><div class="l">покажем фото работ</div></div></div>
-          <a href="#" class="cta" data-topic="Ремонт · результат">Вызвать мастера</a>
-        </div>
-        <div class="story-nav">
-          <button type="button" class="story-arrow" id="storyPrev" aria-label="Предыдущий этап">←</button>
-          <div class="story-dots" id="storyDots"></div>
-          <button type="button" class="story-arrow" id="storyNext" aria-label="Следующий этап">→</button>
-          <span class="story-label" id="storyLabel"></span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sect collaborators alt">
-    <div class="sect-head reveal">
-      <div class="eyebrow">С кем работаем</div>
+      <div class="kicker"><i></i>С кем работаем</div>
       <h2>Материалы и подрядчики</h2>
     </div>
-    <div class="partners-row reveal-stagger">
-      <div class="partner-slot">Партнёр 1</div>
-      <div class="partner-slot">Партнёр 2</div>
-      <div class="partner-slot">Партнёр 3</div>
-      <div class="partner-slot">Партнёр 4</div>
+    <div class="list-rows reveal">
+      <div class="list-row"><span class="name">Партнёр 1</span><span class="desc">Место под будущего поставщика материалов</span></div>
+      <div class="list-row"><span class="name">Партнёр 2</span><span class="desc">Место под будущего поставщика материалов</span></div>
+      <div class="list-row"><span class="name">Партнёр 3</span><span class="desc">Место под будущего поставщика материалов</span></div>
     </div>
   </section>
 
   <section class="sect testimonial">
     <div class="testimonial-box reveal">
-      <svg viewBox="0 0 32 24"><path d="M2 22 V13 C2 6 6 2 12 2 V7 C8 7 6 9 6 13 H12 V22 H2 Z M20 22 V13 C20 6 24 2 30 2 V7 C26 7 24 9 24 13 H30 V22 H20 Z"/></svg>
-      <p>Здесь появится отзыв клиента о работе — как только заказчики согласятся поделиться впечатлениями.</p>
+      <p>«Здесь появится отзыв клиента о работе — как только заказчики согласятся поделиться впечатлениями.»</p>
       <div class="testimonial-attrib">Отзыв появится после первых завершённых объектов</div>
     </div>
   </section>
 
-  <section class="sect process alt" id="process">
+  <section class="sect stories">
     <div class="sect-head reveal">
-      <div class="eyebrow">Как мы работаем</div>
-      <h2>Прозрачно на каждом шаге</h2>
+      <div class="kicker"><i></i>Истории клиентов</div>
+      <h2>За каждым объектом — люди</h2>
     </div>
-    <ol class="steps reveal-stagger">
-      <li><div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M6 8h11v8H12l-3 3v-3H6z"/><path d="M12 13h10v7h-4l-2 2v-2h-4z"/></svg></div><div><span class="step-no">01</span><h3>Заявка и созвон</h3><p>Обсуждаем задачу, бюджет и сроки.</p></div></li>
-      <li><div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M14 4c-4 0-7 3-7 7 0 5.5 7 14 7 14s7-8.5 7-14c0-4-3-7-7-7Z"/><circle cx="14" cy="11" r="2.3" fill="currentColor" stroke="none"/></svg></div><div><span class="step-no">02</span><h3>Бесплатный выезд и замер</h3><p>Приезжаем на объект и оцениваем объём работ.</p></div></li>
-      <li><div class="icon-badge"><svg viewBox="0 0 28 28"><rect x="7" y="4" width="14" height="20" rx="2"/><path d="M10.5 9.5h7M10.5 13.5h7M10.5 17.5h4"/></svg></div><div><span class="step-no">03</span><h3>Смета по этапам</h3><p>Фиксируем цену за каждый этап — без сюрпризов в процессе.</p></div></li>
-      <li><div class="icon-badge"><svg viewBox="0 0 28 28"><path d="M19 8a4 4 0 0 1-5.3 5.3L8 19l-2-2 5.7-5.7A4 4 0 0 1 17 6l-2.5 2.5 2 2L19 8Z"/></svg></div><div><span class="step-no">04</span><h3>Работы</h3><p>Показываем прогресс на каждом этапе.</p></div></li>
-      <li><div class="icon-badge"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="10"/><path d="M9.5 14.5l3 3 6-6.5"/></svg></div><div><span class="step-no">05</span><h3>Сдача объекта</h3><p>Принимаете результат, а не обещания.</p></div></li>
-    </ol>
-    <div class="badges">
-      <span>Бесплатный выезд</span><span>Смета по этапам</span><span>Кострома и область</span>
+    <div class="stories-grid reveal">
+      <div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 7</span></div>
+        <h3>История 1</h3>
+        <p>Здесь появится история клиента и его объекта — после первых завершённых проектов.</p>
+      </div>
+      <div>
+        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 8</span></div>
+        <h3>История 2</h3>
+        <p>Здесь появится история клиента и его объекта — после первых завершённых проектов.</p>
+      </div>
     </div>
-    <a href="#" class="cta cta-block" data-topic="Заявка с сайта">Оставить заявку</a>
   </section>
 
-  <footer class="site-footer">
+  <section class="sect awards">
+    <div class="sect-head reveal">
+      <div class="kicker"><i></i>Достижения</div>
+      <h2>Награды и признание</h2>
+    </div>
+    <div class="list-rows reveal">
+      <div class="list-row"><span class="name">Награда 1</span><span class="desc">Появится, когда будет что показать</span></div>
+      <div class="list-row"><span class="name">Награда 2</span><span class="desc">Появится, когда будет что показать</span></div>
+    </div>
+  </section>
+
+  <footer class="site-footer" id="footer">
     <div class="footer-inner">
-      <div class="footer-cta reveal">
-        <h2>Обсудим ваш объект?</h2>
-        <a href="#" class="cta cta-block" data-topic="Заявка с сайта">Оставить заявку</a>
-      </div>
-      <div class="footer-grid">
-        <div class="footer-col footer-brand">
-          <div class="f-name">RESTORA</div>
-          <p class="f-loc">Кострома и Костромская область</p>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col__title">Услуги</div>
-          <a href="uslugi/otdelka-elektromontazh.html">Отделка и электромонтаж</a>
-          <a href="uslugi/fasady-montazh.html">Фасады и монтаж</a>
-          <a href="uslugi/vosstanovlenie-domov.html">Восстановление домов</a>
-          <a href="uslugi/banya-besedka.html">Баня, беседка, сарай</a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col__title">Контакты</div>
+      <div class="footer-top">
+        <svg class="footer-mark" viewBox="0 0 120 96" role="img" aria-hidden="true"><path d="M8 46 L60 8 L112 46"/><path d="M20 46 L20 84 L100 84 L100 46"/><path d="M52 84 L52 58 L68 58 L68 84"/></svg>
+        <nav class="footer-nav">
+          <a href="#podhod">О нас</a>
+          <a href="#services">Услуги</a>
+          <a href="#footer">Контакты</a>
+        </nav>
+        <div class="footer-social">
+          <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram ↗</a>
           <a href="tel:+79639303637">+7 963 930-36-37</a>
           <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
-          <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram</a>
         </div>
       </div>
-      <div class="footer-bottom">© 2026 RESTORA</div>
+      <div class="footer-recent">
+        <div class="kicker"><i></i>Скоро на объекте</div>
+        <div class="photo-slot on-dark"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 9</span></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 RESTORA</span>
+        <span>Кострома и Костромская область</span>
+      </div>
     </div>
   </footer>
 </main>
 
-<nav class="quick-cta" id="quickCta" aria-label="Быстрые действия">
-  <a href="#" class="quick-cta__btn quick-cta__btn--accent cta" data-topic="Заявка с сайта">
-    <span>Заявка</span><span class="quick-cta__dot" aria-hidden="true"></span>
-  </a>
-  <a href="#services" class="quick-cta__btn">
-    <span>Услуги</span><span class="quick-cta__dot" aria-hidden="true"></span>
-  </a>
-</nav>
-
-<script>
-  // ===== КАДРЫ =====
-  const N = 755;                                            // кадры истории f0001..f0755
-  const NI = 151;                                           // кадры интро i0001..i0151
-  const STOPS = [9, 143, 310, 445, 612, 744];              // точки 6 (в кадрах истории, 1-based)
-  const LABELS = ["До","После","До","После","До","После"];
-  const PATH  = i => "frames/f" + String(i).padStart(4,"0") + ".webp";
-  const IPATH = i => "frames/i" + String(i).padStart(4,"0") + ".webp";
-
-  const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
-  const storyLoading = document.getElementById('storyLoading');
-  const storyLabel = document.getElementById('storyLabel');
-  const panes = [...document.querySelectorAll('.story-pane')];
-  const dotsEl = document.getElementById('storyDots');
-  const prevBtn = document.getElementById('storyPrev'), nextBtn = document.getElementById('storyNext');
-
-  const imgs  = new Array(N+1);
-  const iimgs = new Array(NI+1);
-  let iLoaded = 0;
-
-  function drawStory(i){ i=Math.max(1,Math.min(N,Math.round(i))); const im=imgs[i]; if(im&&im.complete) ctx.drawImage(im,0,0,cv.width,cv.height); }
-  function drawIntro(i){ i=Math.max(1,Math.min(NI,Math.round(i))); const im=iimgs[i]; if(im&&im.complete) ctx.drawImage(im,0,0,cv.width,cv.height); }
-
-  function preload(){
-    // интро (151 кадр) грузим первым и отдельно от истории (755 кадров) —
-    // модуль становится интерактивным сразу после интро, не дожидаясь всех 906
-    function bumpIntro(){
-      iLoaded++;
-      if(iLoaded===NI){ storyLoading.classList.add('gone'); start(); loadStory(); }
-    }
-    function loadStory(){
-      for(let i=1;i<=N;i++){ const im=new Image(); im.src=PATH(i); imgs[i]=im; }
-    }
-    for(let i=1;i<=NI;i++){ const im=new Image(); im.onload=bumpIntro; im.onerror=bumpIntro; im.src=IPATH(i); iimgs[i]=im; }
-  }
-
-  STOPS.forEach((_,i)=>{const d=document.createElement('i');d.dataset.i=i;dotsEl.appendChild(d);});
-  const dots=[...dotsEl.children];
-
-  // ===== СОСТОЯНИЕ (без глобального перехвата скролла — только локальные кнопки/точки) =====
-  let phase='intro';                // 'intro' | 'story'
-  let introFrame=1;
-  let idx=0, curFrame=STOPS[0], trans=null;
-  const FMIN=STOPS[0], FMAX=STOPS[STOPS.length-1];
-  const MS_PER_FRAME=22, MS_MIN=650, MS_MAX=2600, INTRO_FPS=30;
-
-  function easeInOut(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
-
-  function showStop(i){
-    panes.forEach(p=>p.classList.toggle('on',+p.dataset.i===i));
-    dots.forEach((d,k)=>d.classList.toggle('on',k===i));
-    storyLabel.textContent = LABELS[i];
-    prevBtn.disabled = i===0;
-    nextBtn.disabled = i===STOPS.length-1;
-  }
-
-  function transitionTo(i){
-    i=Math.max(0,Math.min(STOPS.length-1,i));
-    const to=STOPS[i], from=curFrame, dist=Math.abs(to-from);
-    let ms=dist*MS_PER_FRAME; ms=Math.max(MS_MIN,Math.min(MS_MAX,ms));
-    trans={from,to,t0:performance.now(),ms};
-    idx=i; showStop(i);
-  }
-
-  function enterStory(i){
-    phase='story'; idx=i; curFrame=STOPS[i]; trans=null;
-    drawStory(STOPS[i]); showStop(i);
-  }
-
-  nextBtn.addEventListener('click',()=>{
-    if(phase==='intro'){ enterStory(0); return; }
-    if(trans) return;
-    if(idx<STOPS.length-1) transitionTo(idx+1);
-  });
-  prevBtn.addEventListener('click',()=>{
-    if(phase==='intro'||trans) return;
-    if(idx>0) transitionTo(idx-1);
-  });
-  dots.forEach(d=>d.addEventListener('click',()=>{
-    const i=+d.dataset.i;
-    if(phase==='intro'){ enterStory(i); return; }
-    if(!trans) transitionTo(i);
-  }));
-
-  // ===== ГЛАВНЫЙ ЦИКЛ =====
-  let lastT=performance.now(), introAcc=0;
-  function loop(now){
-    const dt=now-lastT; lastT=now;
-    if(phase==='intro'){
-      introAcc+=dt; const step=1000/INTRO_FPS;
-      while(introAcc>=step){ introAcc-=step; introFrame++; if(introFrame>NI) introFrame=1; }
-      drawIntro(introFrame); requestAnimationFrame(loop); return;
-    }
-    if(trans){
-      const k=Math.min(1,(now-trans.t0)/trans.ms), e=easeInOut(k);
-      curFrame=trans.from+(trans.to-trans.from)*e;
-      if(k>=1){ curFrame=trans.to; trans=null; }
-    }
-    drawStory(curFrame);
-    requestAnimationFrame(loop);
-  }
-
-  function start(){ phase='intro'; introFrame=1; drawIntro(1); lastT=performance.now(); requestAnimationFrame(loop); }
-  preload();
-</script>
-
-<!-- ===== форма заявки: полностью отдельный скрипт, не связан с движком анимации ===== -->
+<!-- ===== форма заявки: отдельный скрипт ===== -->
 <div class="modal-backdrop" id="modalBackdrop"></div>
 <div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <button type="button" class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
-  <div class="modal-eyebrow" id="modalEyebrow">Восстановление домов</div>
+  <div class="modal-eyebrow" id="modalEyebrow">Заявка</div>
   <h3 id="modalTitle">Оставить заявку</h3>
   <p class="modal-sub">Перезвоним в течение рабочего дня и обсудим детали.</p>
   <form id="leadForm" novalidate>
@@ -744,7 +433,7 @@
 
 <script>
 (function(){
-  var ctas = [].slice.call(document.querySelectorAll('.cta, .btn-pill'));
+  var ctas = [].slice.call(document.querySelectorAll('.cta, .top-cta'));
   var backdrop = document.getElementById('modalBackdrop');
   var modal = document.getElementById('leadModal');
   var closeBtn = document.getElementById('modalClose');
@@ -815,7 +504,7 @@
 })();
 </script>
 
-<!-- ===== полноэкранное меню: отдельный скрипт, не связан с модалкой заявки ===== -->
+<!-- ===== полноэкранное меню ===== -->
 <script>
 (function(){
   var trigger = document.getElementById('menuTrigger');
@@ -845,46 +534,10 @@
 })();
 </script>
 
-<!-- ===== стрелки горизонтальной ленты услуг ===== -->
+<!-- ===== появление секций при прокрутке ===== -->
 <script>
 (function(){
-  var rail = document.querySelector('.cards');
-  var prev = document.getElementById('cardsPrev'), next = document.getElementById('cardsNext');
-  if(!rail || !prev || !next) return;
-  function step(){
-    var c = rail.querySelector('.card');
-    return (c ? c.getBoundingClientRect().width : 300) + 20;
-  }
-  prev.addEventListener('click', function(){ rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
-  next.addEventListener('click', function(){ rail.scrollBy({ left: step(), behavior: 'smooth' }); });
-})();
-</script>
-
-<!-- ===== плавающая нижняя панель: прячется над футером и пока открыта модалка заявки ===== -->
-<script>
-(function(){
-  var cta = document.getElementById('quickCta');
-  var footer = document.querySelector('.site-footer');
-  var modal = document.getElementById('leadModal');
-  if(!cta) return;
-  var footerVisible = false, modalOpen = false;
-  function sync(){ cta.classList.toggle('is-hidden', footerVisible || modalOpen); }
-  if(footer){
-    new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){ footerVisible = entry.isIntersecting; sync(); });
-    }, { threshold: 0.01 }).observe(footer);
-  }
-  if(modal){
-    new MutationObserver(function(){ modalOpen = modal.classList.contains('on'); sync(); })
-      .observe(modal, { attributes: true, attributeFilter: ['class'] });
-  }
-})();
-</script>
-
-<!-- ===== появление секций/карточек при прокрутке ===== -->
-<script>
-(function(){
-  var els = [].slice.call(document.querySelectorAll('.reveal, .reveal-stagger'));
+  var els = [].slice.call(document.querySelectorAll('.reveal'));
   if(!els.length) return;
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
