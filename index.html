@@ -822,11 +822,25 @@
   var displayF = -1;
   var IDLE_AFTER = 8;
 
+  // лёгкий motion blur, завязанный на скорость скролла: пока скроллишь быстро,
+  // глаз воспринимает смаз как естественный, а не как редкие кадры — трафика
+  // это не стоит вообще, это просто CSS-фильтр на canvas. Гасим до нуля вместе
+  // с "доводкой" до резкого кадра, когда скролл останавливается
+  var blurAmount = 0;
+  var MAX_BLUR = 2.2;
+  var BLUR_PER_PX = 0.1;
+
   function frame(){
     var target = rawTraveled();
-    if(lastTarget >= 0 && Math.abs(target - lastTarget) < 0.4) idleFrames++;
+    var deltaAbs = lastTarget >= 0 ? Math.abs(target - lastTarget) : 0;
+    if(deltaAbs < 0.4) idleFrames++;
     else idleFrames = 0;
     lastTarget = target;
+
+    var blurTarget = idleFrames > IDLE_AFTER ? 0 : Math.min(MAX_BLUR, deltaAbs * BLUR_PER_PX);
+    blurAmount += (blurTarget - blurAmount) * 0.25;
+    if(blurAmount < 0.04) blurAmount = 0;
+    canvas.style.filter = blurAmount > 0 ? 'blur(' + blurAmount.toFixed(2) + 'px)' : '';
 
     smoothTraveled += (target - smoothTraveled) * 0.13;
     if(Math.abs(target - smoothTraveled) < 0.05) smoothTraveled = target;
