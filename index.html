@@ -701,6 +701,11 @@
 
   function targetWidths(){
     var vw = window.innerWidth;
+    // на узких экранах слова уходят выше/ниже фото (колонкой, см. @media(max-width:700px)),
+    // так что по бокам от окна больше не нужно оставлять место — оно может расти намного крупнее
+    if(vw <= 700){
+      return { min: Math.min(230, vw * 0.5), max: Math.min(600, vw * 0.9) };
+    }
     return { min: Math.min(140, vw * 0.16), max: Math.min(600, vw * 0.5) };
   }
 
