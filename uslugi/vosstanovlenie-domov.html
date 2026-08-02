@@ -91,6 +91,16 @@
   .list-row .desc{font-size:14px;color:var(--muted);text-align:right;max-width:440px}
   @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
 
+  /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
+  .faq-list{margin-top:48px;max-width:760px}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item summary{cursor:pointer;list-style:none;padding:22px 0;font-family:var(--sans);font-weight:500;
+    font-size:17px;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary::after{content:'+';font-size:20px;color:var(--muted);flex:none;transition:transform .25s var(--ease)}
+  .faq-item[open] summary::after{transform:rotate(45deg)}
+  .faq-item p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
+
   .closing{text-align:center}
   .closing h2{font-family:var(--sans);font-weight:400;letter-spacing:-.04em;line-height:1.15;
     font-size:clamp(28px,3.6vw,52px);color:var(--ink);max-width:820px;margin:0 auto}
@@ -246,6 +256,35 @@
       <div class="list-row"><span class="name">03 Смета по этапам</span><span class="desc">Фиксируем цену за каждый этап — без сюрпризов в процессе.</span></div>
       <div class="list-row"><span class="name">04 Работы</span><span class="desc">Показываем прогресс на каждом этапе.</span></div>
       <div class="list-row"><span class="name">05 Сдача объекта</span><span class="desc">Принимаете результат, а не обещания.</span></div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="sect-head reveal">
+      <div class="kicker"><i></i>Частые вопросы</div>
+      <h2>Что обычно спрашивают перед началом работ</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>Дом совсем старый — его вообще можно спасти?</summary>
+        <p>Чаще всего да. На выезде честно оцениваем состояние сруба и фундамента и говорим, что реально восстановить, а что придётся менять.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Сколько стоит восстановление дома?</summary>
+        <p>Точную сумму называем после бесплатного выезда и замера — зависит от состояния и объёма работ. Смету фиксируем по этапам.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Можно продолжить восстановление, начатое другими?</summary>
+        <p>Да. Оцениваем то, что уже сделано, и продолжаем — или сначала исправляем то, что осталось от предыдущей бригады.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Сколько времени занимает восстановление дома?</summary>
+        <p>Срок зависит от состояния объекта и объёма работ — называем после замера и фиксируем в договоре.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Берётесь ли за более простые задачи, не только восстановление?</summary>
+        <p>Да. Также занимаемся отделкой, электромонтажом, фасадом и малыми постройками — можно обсудить всё сразу.</p>
+      </details>
     </div>
   </section>
 
