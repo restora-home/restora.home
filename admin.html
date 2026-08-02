@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin — Restora Home</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css">
+<link rel="stylesheet" href="https://unpkg.com/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css">
+<style>
+  html,body{margin:0;height:100%;font-family:system-ui,-apple-system,sans-serif}
+  #gate{position:fixed;inset:0;background:#0c1428;display:flex;align-items:center;justify-content:center;z-index:999}
+  #gate.hidden{display:none}
+  #gate form{background:#fff;padding:32px;border-radius:12px;display:flex;flex-direction:column;gap:12px;min-width:280px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  #gate input{padding:10px 12px;border:1px solid #ccc;border-radius:8px;font-size:15px}
+  #gate button{padding:10px 12px;border:none;border-radius:8px;background:#0d3fa0;color:#fff;font-size:15px;cursor:pointer}
+  #gateError{color:#c0392b;font-size:13px;min-height:16px}
+  #topbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#0c1428;color:#fff;box-sizing:border-box}
+  #topbar select{padding:6px 8px;border-radius:6px;border:none;font-size:14px}
+  #topbar button{padding:8px 16px;border:none;border-radius:6px;background:#1f7a4a;color:#fff;font-weight:600;cursor:pointer;font-size:14px}
+  #topbar button:disabled{opacity:.5;cursor:default}
+  #status{font-size:13px;color:#cfe0ff}
+  #status a{color:#7fd0ff}
+  #app{display:none;height:calc(100% - 52px)}
+  #gjs{height:100%}
+</style>
+</head><body>
+
+<div id="gate">
+  <form id="gateForm">
+    <strong>Вход в редактор</strong>
+    <input type="password" id="gatePassword" placeholder="Пароль" autocomplete="current-password" required>
+    <button type="submit">Войти</button>
+    <div id="gateError"></div>
+  </form>
+</div>
+
+<div id="topbar">
+  <select id="pageSelect">
+    <option value="index.html">Главная</option>
+    <option value="uslugi/banya-besedka.html">Баня и беседка</option>
+    <option value="uslugi/fasady-montazh.html">Фасады и монтаж</option>
+    <option value="uslugi/otdelka-elektromontazh.html">Отделка и электромонтаж</option>
+    <option value="uslugi/vosstanovlenie-domov.html">Восстановление домов</option>
+  </select>
+  <button id="saveBtn" type="button">Сохранить (создать PR)</button>
+  <span id="status"></span>
+</div>
+<div id="app"><div id="gjs"></div></div>
+
+<script src="https://unpkg.com/grapesjs"></script>
+<script src="https://unpkg.com/grapesjs-preset-webpage"></script>
+<script>
+(function(){
+  var gate = document.getElementById('gate');
+  var gateForm = document.getElementById('gateForm');
+  var gateError = document.getElementById('gateError');
+  var app = document.getElementById('app');
+  var pageSelect = document.getElementById('pageSelect');
+  var saveBtn = document.getElementById('saveBtn');
+  var statusEl = document.getElementById('status');
+
+  var password = sessionStorage.getItem('adminPassword') || '';
+  var editor = null;
+
+  function setStatus(text, isError){
+    statusEl.textContent = text;
+    statusEl.style.color = isError ? '#ff8a8a' : '#cfe0ff';
+  }
+
+  async function api(path, options){
+    options = options || {};
+    options.headers = Object.assign({ 'x-admin-password': password }, options.headers || {});
+    var res = await fetch(path, options);
+    var data = await res.json().catch(function(){ return {}; });
+    if(res.status === 401) throw new Error('Неверный пароль');
+    if(!res.ok) throw new Error(data.error || ('Ошибка ' + res.status));
+    return data;
+  }
+
+  function injectSharedCss(css){
+    var doc = editor.Canvas.getDocument();
+    if(!doc) return;
+    var old = doc.getElementById('admin-shared-preview-css');
+    if(old) old.remove();
+    var styleEl = doc.createElement('style');
+    styleEl.id = 'admin-shared-preview-css';
+    styleEl.textContent = css;
+    doc.head.appendChild(styleEl);
+  }
+
+  async function loadPage(path){
+    setStatus('Загрузка...');
+    saveBtn.disabled = true;
+    try {
+      var data = await api('/api/admin-content?path=' + encodeURIComponent(path));
+      editor.setComponents(data.html);
+      editor.setStyle(data.adminCss || '');
+      injectSharedCss(data.sharedCss || '');
+      setStatus('Загружено: ' + path);
+    } catch(err){
+      setStatus(err.message, true);
+    } finally {
+      saveBtn.disabled = false;
+    }
+  }
+
+  function initEditor(onReady){
+    editor = grapesjs.init({
+      container: '#gjs',
+      height: '100%',
+      fromElement: false,
+      storageManager: false,
+      plugins: ['grapesjs-preset-webpage'],
+      pluginsOpts: { 'grapesjs-preset-webpage': {} },
+    });
+    editor.on('load', function(){ if(onReady) onReady(); });
+  }
+
+  function enterApp(){
+    gate.classList.add('hidden');
+    app.style.display = 'block';
+    if(!editor){
+      initEditor(function(){ loadPage(pageSelect.value); });
+    } else {
+      loadPage(pageSelect.value);
+    }
+  }
+
+  gateForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    password = document.getElementById('gatePassword').value;
+    gateError.textContent = '';
+    sessionStorage.setItem('adminPassword', password);
+    enterApp();
+  });
+
+  pageSelect.addEventListener('change', function(){
+    if(!confirm('Несохранённые изменения на текущей странице будут потеряны. Перейти?')) return;
+    loadPage(pageSelect.value);
+  });
+
+  saveBtn.addEventListener('click', async function(){
+    setStatus('Сохраняю...');
+    saveBtn.disabled = true;
+    try {
+      var html = editor.getHtml();
+      var css = editor.getCss();
+      var data = await api('/api/admin-save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: pageSelect.value, html: html, css: css }),
+      });
+      statusEl.textContent = 'Готово: ';
+      var link = document.createElement('a');
+      link.href = data.prUrl; link.target = '_blank'; link.rel = 'noopener';
+      link.textContent = 'открыть Pull Request';
+      statusEl.style.color = '#cfe0ff';
+      statusEl.appendChild(link);
+    } catch(err){
+      setStatus(err.message, true);
+    } finally {
+      saveBtn.disabled = false;
+    }
+  });
+
+  // пароль уже вводили в этой вкладке — не спрашиваем заново, но реальная
+  // проверка всё равно на сервере при каждом запросе к /api/admin-*
+  if(password) enterApp();
+})();
+</script>
+</body></html>
