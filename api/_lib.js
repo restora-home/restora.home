@@ -60,13 +60,21 @@ function escapeHtml(str) {
 // Для api/admin-content.js и api/admin-save.js (визуальный редактор на /admin).
 const crypto = require("crypto");
 
+// Заголовок передаётся в base64 (см. admin.html) — HTTP-заголовки ограничены
+// ISO-8859-1, а пароль может содержать кириллицу и другие не-ASCII символы.
 // Сравнение постоянной длины буфера — чтобы не давать утечку по времени ответа,
 // на каком символе пароль разошёлся с ожидаемым
 function verifyAdminPassword(req) {
   const expected = process.env.ADMIN_PASSWORD;
   if (!expected) return false;
-  const provided = req.headers["x-admin-password"];
-  if (typeof provided !== "string") return false;
+  const header = req.headers["x-admin-password"];
+  if (typeof header !== "string") return false;
+  let provided;
+  try {
+    provided = Buffer.from(header, "base64").toString("utf8");
+  } catch {
+    return false;
+  }
   const a = Buffer.from(provided);
   const b = Buffer.from(expected);
   if (a.length !== b.length) return false;
