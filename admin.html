@@ -67,9 +67,15 @@
     statusEl.style.color = isError ? '#ff8a8a' : '#cfe0ff';
   }
 
+  // HTTP-заголовки ограничены ISO-8859-1, а пароль может быть на кириллице —
+  // кодируем в base64 (сервер раскодирует обратно перед сравнением)
+  function encodePassword(str){
+    return btoa(String.fromCharCode.apply(null, new TextEncoder().encode(str)));
+  }
+
   async function api(path, options){
     options = options || {};
-    options.headers = Object.assign({ 'x-admin-password': password }, options.headers || {});
+    options.headers = Object.assign({ 'x-admin-password': encodePassword(password) }, options.headers || {});
     var res = await fetch(path, options);
     var data = await res.json().catch(function(){ return {}; });
     if(res.status === 401) throw new Error('Неверный пароль');
