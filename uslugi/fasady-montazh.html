@@ -494,34 +494,37 @@
   var items = [].slice.call(document.querySelectorAll('img[data-parallax]'));
   if(!items.length) return;
 
-  var MAX_SHIFT = window.innerWidth <= 700 ? 16 : 28;
+  var EASE = 0.09; // сглаживание движения — чем меньше, тем плавнее и "тяжелее" отклик
+
+  var state = new Map();
+  items.forEach(function(img){ state.set(img, 0); });
 
   var active = new Set();
+  var rafId = null;
+
+  function loop(){
+    var vh = window.innerHeight;
+    var maxShift = window.innerWidth <= 700 ? 26 : 45;
+    active.forEach(function(img){
+      var rect = img.parentElement.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var progress = Math.max(-1, Math.min(1, (vh / 2 - center) / vh));
+      var target = progress * maxShift;
+      var current = state.get(img) + (target - state.get(img)) * EASE;
+      state.set(img, current);
+      img.style.transform = 'translate3d(0,' + current.toFixed(1) + 'px,0)';
+    });
+    rafId = active.size ? requestAnimationFrame(loop) : null;
+  }
+
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if(entry.isIntersecting) active.add(entry.target);
       else active.delete(entry.target);
     });
+    if(active.size && rafId === null) rafId = requestAnimationFrame(loop);
   }, { rootMargin: '200px 0px' });
   items.forEach(function(img){ io.observe(img); });
-
-  var ticking = false;
-  function update(){
-    ticking = false;
-    var vh = window.innerHeight;
-    active.forEach(function(img){
-      var rect = img.parentElement.getBoundingClientRect();
-      var center = rect.top + rect.height / 2;
-      var progress = Math.max(-1, Math.min(1, (vh / 2 - center) / vh));
-      img.style.transform = 'translate3d(0,' + (progress * MAX_SHIFT).toFixed(1) + 'px,0)';
-    });
-  }
-  function onScroll(){
-    if(!ticking){ ticking = true; requestAnimationFrame(update); }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
 })();
 </script>
 </body></html>
