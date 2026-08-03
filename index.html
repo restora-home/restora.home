@@ -158,7 +158,10 @@
   /* ===== секции: узкие боковые поля (~1.5vw, не 5-8vw), как измерено на реальной странице ===== */
   main{position:relative;background:var(--paper)}
   .sect{padding:100px 1.6vw;max-width:1300px;margin:0 auto}
-  .sect-head{border-top:1px solid var(--line);padding-top:22px}
+  .sect-head{}
+  /* ===== заголовок раздела теперь НАД линией, киккер — под ней (перед описанием) ===== */
+  .sect-head h2{margin-bottom:26px}
+  .sect-head .kicker{border-top:1px solid var(--line);padding-top:22px}
   /* заголовки разделов: 400 начертание, НЕ курсив, НЕ жирный — так измерено на "Our guiding values"/
      "Featured Projects" (getComputedStyle: 47.5px/400/letter-spacing -1.9px при 1440px viewport) */
   .sect-head h2{font-family:var(--sans);font-weight:400;font-size:clamp(28px,3.3vw,47px);line-height:1.2;
@@ -401,8 +404,8 @@
 <main>
   <section class="sect philosophy" id="podhod">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Что мы делаем</div>
       <h2>Команда профильных бригад на каждый этап работ</h2>
+      <div class="kicker"><i></i>Что мы делаем</div>
     </div>
     <div class="philosophy-body reveal">
       <p>Демонтаж, черновая и чистовая отделка, электромонтаж, фасадные работы, подшивы, ремонт кровли, восстановление старых домов, бани и хозпостройки — закрываем весь цикл своими бригадами, не только то, что есть в списке услуг. Единственное, чем не занимаемся, — строительство крупных зданий с нуля.<br><br>Один подрядчик ведёт объект от первого замера до сдачи — без субподрядчиков и передачи между разными командами. Смету фиксируем по этапам заранее, до начала работ.</p>
@@ -412,8 +415,8 @@
 
   <section class="sect services" id="services">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Наши услуги</div>
       <h2>Работаем на результат, а не для галочки</h2>
+      <div class="kicker"><i></i>Наши услуги</div>
       <p>Отделка, электрика, фасады, восстановление старых домов и малые постройки — берём объект от первого замера до чистовой сдачи.</p>
       <a href="uslugi/otdelka-elektromontazh.html" class="cta see-all">Все об отделке и электромонтаже</a>
     </div>
@@ -448,8 +451,8 @@
 
   <section class="sect philosophy" id="trust">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Почему можно доверять</div>
       <h2>5 лет на рынке — и ни одного объекта на автомате</h2>
+      <div class="kicker"><i></i>Почему можно доверять</div>
     </div>
     <div class="philosophy-body reveal">
       <p>Мы не раздуваем штат и не берём в работу десятки объектов одновременно — каждый заказ ведём лично, от первого звонка до сдачи ключей. Никаких субподрядчиков-прокладок, на которых можно списать чужие ошибки: смету и сроки фиксируем сами и сами же за них отвечаем.</p>
@@ -459,8 +462,8 @@
 
   <section class="sect faq" id="faq">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Частые вопросы</div>
       <h2>Что обычно спрашивают перед началом работ</h2>
+      <div class="kicker"><i></i>Частые вопросы</div>
     </div>
     <div class="faq-list reveal">
       <details class="faq-item">

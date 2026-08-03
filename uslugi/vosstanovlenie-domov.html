@@ -99,7 +99,10 @@
 
   main{position:relative;background:var(--paper)}
   .sect{padding:88px 1.6vw;max-width:1300px;margin:0 auto}
-  .sect-head{border-top:1px solid var(--line);padding-top:22px}
+  .sect-head{}
+  /* ===== заголовок раздела теперь НАД линией, киккер — под ней (перед описанием) ===== */
+  .sect-head h2{margin-bottom:26px}
+  .sect-head .kicker{border-top:1px solid var(--line);padding-top:22px}
   .sect-head h2{font-family:var(--sans);font-weight:400;font-size:clamp(28px,3.3vw,47px);line-height:1.2;
     color:var(--ink);letter-spacing:-.04em;max-width:760px}
 
@@ -252,8 +255,8 @@
 <main>
   <section class="sect">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Что входит</div>
       <h2>От осмотра до новоселья</h2>
+      <div class="kicker"><i></i>Что входит</div>
     </div>
     <div class="list-rows reveal">
       <div class="list-row"><span class="name">Оценка состояния</span><span class="desc">Осматриваем сруб и фундамент, честно говорим, что стоит восстанавливать, а что менять.</span></div>
@@ -267,8 +270,8 @@
 
   <section class="sect">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Частые вопросы</div>
       <h2>Что обычно спрашивают перед началом работ</h2>
+      <div class="kicker"><i></i>Частые вопросы</div>
     </div>
     <div class="faq-list reveal">
       <details class="faq-item">
