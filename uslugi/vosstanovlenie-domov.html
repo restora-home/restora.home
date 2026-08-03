@@ -27,7 +27,7 @@
     --ease:cubic-bezier(.22,.61,.30,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:auto} /* плавность теперь через Lenis, см. скрипт в конце body — родное scroll-behavior:smooth конфликтует с ним */
   body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;
     -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   img,.photo-slot{max-width:100%}
@@ -528,50 +528,36 @@
 })();
 </script>
 
-<!-- ===== плавный инерционный скролл колесом мыши/трекпада: вместо мгновенного прыжка
-     на каждый "тик" колеса — доводим scrollY до цели со сглаживанием (лерп).
-     Тач-скролл на телефонах не трогаем вообще — событие wheel на чистом тач-скролле
-     браузеры не шлют, там и так нативная инерция ОС. Клавиатурный скролл (стрелки,
-     Page Down, пробел) тоже не перехватываем — остаётся нативным ===== -->
+<!-- ===== плавный инерционный скролл всей страницей — через Lenis (~5кб gzip).
+     Свою реализацию через перехват wheel + scrollTo пробовал раньше — в реальности
+     дёргалась (preventDefault на wheel убивает compositor-скролл браузера + спор с
+     нативной инерцией трекпада), а автоматические тесты этого не ловят, потому что
+     синтетические wheel-события в них идеальные, без реальных таймингов железа.
+     Lenis — специально написанная под эту задачу и проверенная библиотека, а не
+     велосипед на коленке ===== -->
+<script src="../assets/lenis.min.js"></script>
 <script>
 (function(){
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || typeof Lenis === 'undefined') return;
 
-  var current = window.scrollY;
-  var target = window.scrollY;
-  var raf = null;
-  var EASE = 0.14;
-
-  function maxScroll(){
-    return document.documentElement.scrollHeight - window.innerHeight;
+  var lenis = new Lenis({ duration: 1.1 });
+  function raf(time){
+    lenis.raf(time);
+    requestAnimationFrame(raf);
   }
-  function clamp(v){
-    return Math.max(0, Math.min(maxScroll(), v));
-  }
+  requestAnimationFrame(raf);
 
-  function loop(){
-    current += (target - current) * EASE;
-    if(Math.abs(target - current) < 0.4){
-      current = target;
-      window.scrollTo({ top: current, behavior: 'instant' });
-      raf = null;
-      return;
-    }
-    window.scrollTo({ top: current, behavior: 'instant' });
-    raf = requestAnimationFrame(loop);
-  }
-
-  window.addEventListener('wheel', function(e){
-    target = clamp(target + e.deltaY);
-    e.preventDefault();
-    if(raf === null) raf = requestAnimationFrame(loop);
-  }, { passive: false });
-
-  // если скролл случился не через колесо (клавиатура, якорная ссылка, программно) —
-  // синхронизируем цель, чтобы колесо потом не "отскакивало" к старой позиции
-  window.addEventListener('scroll', function(){
-    if(raf === null){ current = window.scrollY; target = window.scrollY; }
-  }, { passive: true });
+  // якорные ссылки (меню, футер) ведём через тот же Lenis, чтобы не было двух
+  // конкурирующих механизмов плавного скролла на странице разом
+  [].slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href').slice(1);
+      var target = id ? document.getElementById(id) : null;
+      if(!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target);
+    });
+  });
 })();
 </script>
 </body></html>
