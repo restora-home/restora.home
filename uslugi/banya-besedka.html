@@ -479,4 +479,51 @@
   io.observe(el);
 })();
 </script>
+
+<!-- ===== плавный инерционный скролл колесом мыши/трекпада: вместо мгновенного прыжка
+     на каждый "тик" колеса — доводим scrollY до цели со сглаживанием (лерп).
+     Тач-скролл на телефонах не трогаем вообще — событие wheel на чистом тач-скролле
+     браузеры не шлют, там и так нативная инерция ОС. Клавиатурный скролл (стрелки,
+     Page Down, пробел) тоже не перехватываем — остаётся нативным ===== -->
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var current = window.scrollY;
+  var target = window.scrollY;
+  var raf = null;
+  var EASE = 0.14;
+
+  function maxScroll(){
+    return document.documentElement.scrollHeight - window.innerHeight;
+  }
+  function clamp(v){
+    return Math.max(0, Math.min(maxScroll(), v));
+  }
+
+  function loop(){
+    current += (target - current) * EASE;
+    if(Math.abs(target - current) < 0.4){
+      current = target;
+      window.scrollTo({ top: current, behavior: 'instant' });
+      raf = null;
+      return;
+    }
+    window.scrollTo({ top: current, behavior: 'instant' });
+    raf = requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('wheel', function(e){
+    target = clamp(target + e.deltaY);
+    e.preventDefault();
+    if(raf === null) raf = requestAnimationFrame(loop);
+  }, { passive: false });
+
+  // если скролл случился не через колесо (клавиатура, якорная ссылка, программно) —
+  // синхронизируем цель, чтобы колесо потом не "отскакивало" к старой позиции
+  window.addEventListener('scroll', function(){
+    if(raf === null){ current = window.scrollY; target = window.scrollY; }
+  }, { passive: true });
+})();
+</script>
 </body></html>
