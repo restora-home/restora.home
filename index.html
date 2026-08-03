@@ -2,6 +2,18 @@
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Restora — отделка, электромонтаж и восстановление домов в Костроме</title>
 <meta name="description" content="Отделка и электромонтаж под ключ, восстановление старых домов, фасадные и монтажные работы в Костроме и области. Бесплатный выезд, смета по этапам. Оставьте заявку.">
+<link rel="canonical" href="https://restora-home.ru/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Restora Home">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://restora-home.ru/">
+<meta property="og:title" content="Restora — отделка, электромонтаж и восстановление домов в Костроме">
+<meta property="og:description" content="Отделка и электромонтаж под ключ, восстановление старых домов, фасадные и монтажные работы в Костроме и области. Бесплатный выезд, смета по этапам. Оставьте заявку.">
+<meta property="og:image" content="https://restora-home.ru/assets/og-image.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"GeneralContractor","name":"Restora Home","telephone":"+79639303637","email":"restorahome.co@gmail.com","url":"https://restora-home.ru/","image":"https://restora-home.ru/assets/og-image.jpg","areaServed":{"@type":"AdministrativeArea","name":"Костромская область"},"address":{"@type":"PostalAddress","addressLocality":"Кострома","addressRegion":"Костромская область","addressCountry":"RU"},"sameAs":["https://t.me/ivan3019"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
@@ -75,6 +87,7 @@
   .photo-slot{position:relative;background:#f2f2f2;overflow:hidden;will-change:transform,opacity;
     display:flex;align-items:center;justify-content:center}
   .photo-slot svg{width:18%;height:18%;stroke:#c9c9c9;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+  .photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;
     font-family:var(--sans)}
   .photo-slot.on-dark span{color:#fff}
@@ -88,6 +101,8 @@
   .hero{position:relative;padding:60px 1.6vw 40px;text-align:center}
   .hero-top{display:flex;justify-content:flex-end;margin-bottom:60px}
   .hero-tag{max-width:340px;text-align:left;font-size:14px;line-height:1.5;color:var(--ink)}
+  .hero-cta{margin-top:26px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+  .hero-cta .trust-line{font-size:12px;color:var(--muted);letter-spacing:.02em;line-height:1.6}
   /* размер измерен по реальному SVG-логотипу референса: их слово из 5 букв — 396px высотой при 1440px
      viewport (27.5vw) и занимает ~93% ширины экрана. У нас 7 букв (RESTORA) — при том же росте
      ширина слова не влезет, поэтому масштаб уменьшен пропорционально числу букв (27.5 × 5/7 ≈ 19.6vw),
@@ -169,27 +184,24 @@
   .service-other p{color:var(--muted);font-size:14px;margin-bottom:14px}
   @media(max-width:820px){ .service-grid{grid-template-columns:1fr} }
 
-  /* ===== с кем работаем / awards: простые списки с тонкими разделителями, без боксов ===== */
-  .list-rows{margin-top:48px;border-top:1px solid var(--line)}
-  .list-row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:22px 0;border-bottom:1px solid var(--line)}
-  .list-row .name{font-family:var(--sans);font-weight:500;font-size:19px;color:var(--ink)}
-  .list-row .desc{font-size:14px;color:var(--muted);text-align:right}
-  @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
-
-  /* ===== отзыв клиента: без курсива, обычное 400 начертание, как измерено на цитате референса ===== */
+  /* ===== финальный CTA: тот же центрированный блок, что был у цитаты клиента —
+     без курсива, обычное 400 начертание ===== */
   .testimonial-box{max-width:820px;margin:0 auto;text-align:center}
-  .testimonial-photo{width:84px;height:84px;border-radius:50%;margin:0 auto 28px}
-  .testimonial-photo svg{width:34%;height:34%}
   .testimonial-box p{font-family:var(--sans);font-weight:400;letter-spacing:-.03em;font-size:clamp(20px,2.4vw,30px);
     line-height:1.4;color:var(--ink);margin-bottom:22px}
-  .testimonial-attrib{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .final-cta-actions{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .final-cta-actions .phone-link{font-size:14px;color:var(--muted);text-decoration:none}
+  .final-cta-actions .phone-link:hover{color:var(--navy)}
 
-  /* ===== истории клиентов ===== */
-  .stories-grid{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px 40px}
-  .stories-grid .photo-slot{aspect-ratio:4/3;margin-bottom:20px}
-  .stories-grid h3{font-family:var(--sans);font-size:19px;font-weight:500;margin-bottom:8px}
-  .stories-grid p{color:var(--muted);font-size:14px;line-height:1.6}
-  @media(max-width:820px){ .stories-grid{grid-template-columns:1fr} }
+  /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
+  .faq-list{margin-top:56px;max-width:760px}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item summary{cursor:pointer;list-style:none;padding:22px 0;font-family:var(--sans);font-weight:500;
+    font-size:17px;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary::after{content:'+';font-size:20px;color:var(--muted);flex:none;transition:transform .25s var(--ease)}
+  .faq-item[open] summary::after{transform:rotate(45deg)}
+  .faq-item p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
 
   /* ===== футер: сплошной синий, как у референса. Сделан крупнее (больше отступов),
      лого+нав сгруппированы в одну левую колонку (как у референса), контакты — справа ===== */
@@ -214,6 +226,7 @@
   .footer-top.in-view .footer-nav a:nth-child(1){opacity:1;transform:none;transition-delay:.1s}
   .footer-top.in-view .footer-nav a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
   .footer-top.in-view .footer-nav a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
+  .footer-top.in-view .footer-nav a:nth-child(4){opacity:1;transform:none;transition-delay:.34s}
   .footer-top.in-view .footer-social a:nth-child(1){opacity:1;transform:none;transition-delay:.1s}
   .footer-top.in-view .footer-social a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
   .footer-top.in-view .footer-social a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
@@ -338,10 +351,11 @@
 <div class="offcanvas" id="offcanvas" aria-hidden="true">
   <div class="offcanvas__inner">
     <nav class="offcanvas__nav">
-      <a href="#services" class="offcanvas__link"><span>01</span>Услуги</a>
-      <a href="#podhod" class="offcanvas__link"><span>02</span>О нас</a>
-      <a href="#footer" class="offcanvas__link"><span>03</span>Контакты</a>
-      <a href="#" class="offcanvas__link offcanvas__link--cta cta" data-topic="Заявка с сайта"><span>04</span>Оставить заявку</a>
+      <a href="#podhod" class="offcanvas__link"><span>01</span>Как работаем</a>
+      <a href="#services" class="offcanvas__link"><span>02</span>Услуги</a>
+      <a href="#faq" class="offcanvas__link"><span>03</span>Вопросы</a>
+      <a href="#footer" class="offcanvas__link"><span>04</span>Контакты</a>
+      <a href="#" class="offcanvas__link offcanvas__link--cta cta" data-topic="Заявка с сайта"><span>05</span>Оставить заявку</a>
     </nav>
     <div class="offcanvas__contact">
       <a href="tel:+79639303637">+7 963 930-36-37</a>
@@ -354,8 +368,12 @@
 <header class="hero">
   <div class="hero-top">
     <div class="hero-tag">
-      <div class="kicker"><i></i>О компании</div>
-      Дом с историей — это не бетон и не смета. Отделываем, восстанавливаем и строим так, будто это наш собственный дом.
+      <div class="kicker"><i></i>Ремонт и восстановление домов</div>
+      Берёмся практически за любую задачу по дому — кроме строительства крупных зданий с нуля. Ремонт, отделка, электрика, фасад, восстановление, бани и хозпостройки — под одной крышей и по фиксированной смете.
+      <div class="hero-cta">
+        <a href="#" class="cta cta-block" data-topic="Заявка с сайта">Оставить заявку</a>
+        <span class="trust-line">Кострома и область · Без субподрядчиков · Смета фиксируется по этапам</span>
+      </div>
     </div>
   </div>
   <div class="hero-word">RESTORA</div>
@@ -376,11 +394,11 @@
 <main>
   <section class="sect philosophy" id="podhod">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Философия</div>
-      <h2>Каждый объект — как свой</h2>
+      <div class="kicker"><i></i>Что мы делаем</div>
+      <h2>Берёмся практически за любую задачу — кроме стройки крупных зданий с нуля</h2>
     </div>
     <div class="philosophy-body reveal">
-      <p>Мы не берём в работу десятки объектов одновременно — на каждый дом у бригады есть время, внимание и ответственность. Отделка, электрика, фасад и восстановление — в одних руках, без стыков между подрядчиками. Смету фиксируем по этапам заранее, а если дом можно спасти — сохраняем дерево и характер вместо того, чтобы сносить и строить с нуля.</p>
+      <p>Ремонт и отделка, электрика, фасад, восстановление старых домов, бани, беседки и хозпостройки — и любая смежная задача по дому, даже если её нет в списке услуг. Единственное, чем не занимаемся, — строительство крупных зданий с нуля.<br><br>Одна бригада ведёт объект от первого замера до сдачи — без субподрядчиков и передачи между разными командами. Смету фиксируем по этапам заранее, до начала работ.</p>
       <div class="photo-slot philosophy-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 2</span></div>
     </div>
   </section>
@@ -394,7 +412,7 @@
     </div>
 
     <div class="service-feature reveal">
-      <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span class="photo-arrow">↗</span><span>Фото 3</span></div>
+      <div class="photo-slot"><img src="assets/otdelka-pokraska.jpg" alt="Отделка стен: до и после" loading="lazy"><span class="photo-arrow">↗</span></div>
       <h3>Отделка и электромонтаж под ключ</h3>
       <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
       <a href="uslugi/otdelka-elektromontazh.html" class="link-arrow">Подробнее об услуге</a>
@@ -402,13 +420,13 @@
 
     <div class="service-grid reveal">
       <div>
-        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span class="photo-arrow">↗</span><span>Фото 4</span></div>
+        <div class="photo-slot"><img src="assets/fasad-realny-do-posle.jpg" alt="Реализованный объект: обшивка фасада, до и после" loading="lazy"><span class="photo-arrow">↗</span></div>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div>
-        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span class="photo-arrow">↗</span><span>Фото 5</span></div>
+        <div class="photo-slot"><img src="assets/vosstanovlenie-montazh.jpg" alt="Реализованные объекты: восстановление домов, до и после" loading="lazy"><span class="photo-arrow">↗</span></div>
         <h3>Восстановление домов</h3>
         <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
         <a href="uslugi/vosstanovlenie-domov.html" class="link-arrow">Подробнее об услуге</a>
@@ -420,48 +438,64 @@
         <a href="uslugi/banya-besedka.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div class="service-other">
-        <h3>Другая задача?</h3>
-        <p>Не увидели свою задачу в списке — опишите, что нужно. Скорее всего, мы это тоже делаем.</p>
-        <a href="#" class="cta" data-topic="Другая задача">Написать нам</a>
+        <h3>Не увидели свою задачу?</h3>
+        <p>Берёмся практически за любые строительные и ремонтные работы, не только за то, что в списке. Исключение — строительство крупных зданий с нуля.</p>
+        <a href="#" class="cta cta-block" data-topic="Другая задача">Описать задачу</a>
       </div>
     </div>
   </section>
 
-  <section class="sect collaborators">
+  <section class="sect philosophy" id="trust">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>С кем работаем</div>
-      <h2>Материалы и подрядчики</h2>
+      <div class="kicker"><i></i>Почему можно доверять</div>
+      <h2>Молодая бригада, которая лично отвечает за результат</h2>
     </div>
-    <div class="list-rows reveal">
-      <div class="list-row"><span class="name">Партнёр 1</span><span class="desc">Место под будущего поставщика материалов</span></div>
-      <div class="list-row"><span class="name">Партнёр 2</span><span class="desc">Место под будущего поставщика материалов</span></div>
-      <div class="list-row"><span class="name">Партнёр 3</span><span class="desc">Место под будущего поставщика материалов</span></div>
+    <div class="philosophy-body reveal">
+      <p>Мы не раздуваем штат и не берём в работу десятки объектов одновременно — каждый заказ ведём лично, от первого звонка до сдачи ключей. Никаких субподрядчиков-прокладок, на которых можно списать чужие ошибки: смету и сроки фиксируем сами и сами же за них отвечаем.</p>
+      <div class="photo-slot philosophy-photo"><img src="assets/otdelka-vannaya.jpg" alt="Реализованный объект: ремонт ванной комнаты, до и после" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="sect faq" id="faq">
+    <div class="sect-head reveal">
+      <div class="kicker"><i></i>Частые вопросы</div>
+      <h2>Что обычно спрашивают перед началом работ</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>Какие работы вы вообще берёте?</summary>
+        <p>Практически любые в строительстве и ремонте — от мелкого ремонта до восстановления дома под ключ, включая бани, беседки и хозпостройки. Не беремся только за строительство крупных зданий с нуля.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Сколько стоит ремонт или восстановление дома?</summary>
+        <p>Точную сумму называем после выезда и замера — под конкретный объект. Смету фиксируем по этапам, чтобы не было сюрпризов по ходу работ.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Можно продолжить ремонт, начатый другими подрядчиками?</summary>
+        <p>Да. Оцениваем то, что уже сделано, и либо продолжаем, либо сначала исправляем то, что осталось от предыдущей бригады.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Дом в аварийном состоянии — его точно сносить?</summary>
+        <p>Не всегда. Смотрим на месте, что из несущих конструкций и дерева можно сохранить — часто это дешевле и быстрее, чем строить с нуля.</p>
+      </details>
+      <details class="faq-item">
+        <summary>В какие сроки укладываетесь?</summary>
+        <p>Срок фиксируем в договоре по этапам — зависит от объёма работ и состояния объекта, называем после замера.</p>
+      </details>
+      <details class="faq-item">
+        <summary>В каких районах вы работаете?</summary>
+        <p>Кострома и Костромская область.</p>
+      </details>
     </div>
   </section>
 
   <section class="sect testimonial">
     <div class="testimonial-box reveal">
-      <div class="photo-slot testimonial-photo"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg></div>
-      <p>«Здесь появится отзыв клиента о работе — как только заказчики согласятся поделиться впечатлениями.»</p>
-      <div class="testimonial-attrib">Отзыв появится после первых завершённых объектов</div>
-    </div>
-  </section>
-
-  <section class="sect stories">
-    <div class="sect-head reveal">
-      <div class="kicker"><i></i>Истории клиентов</div>
-      <h2>За каждым объектом — люди</h2>
-    </div>
-    <div class="stories-grid reveal">
-      <div>
-        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 7</span></div>
-        <h3>История 1</h3>
-        <p>Здесь появится история клиента и его объекта — после первых завершённых проектов.</p>
-      </div>
-      <div>
-        <div class="photo-slot"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="4"/><circle cx="16" cy="16" r="3"/><path d="M4 34 L18 22 L26 30 L34 20 L44 32"/></svg><span>Фото 8</span></div>
-        <h3>История 2</h3>
-        <p>Здесь появится история клиента и его объекта — после первых завершённых проектов.</p>
+      <div class="kicker" style="justify-content:center"><i></i>Готовы начать</div>
+      <p>Оставьте заявку — обсудим объект и посчитаем бюджет</p>
+      <div class="final-cta-actions">
+        <a href="#" class="cta cta-block" data-topic="Заявка с сайта">Оставить заявку</a>
+        <a href="tel:+79639303637" class="phone-link">Или позвоните: +7 963 930-36-37</a>
       </div>
     </div>
   </section>
@@ -482,8 +516,9 @@
 0 8 0 8 -92 135 -93 135 -293 427 -293 427 -4 0 -3 0 -254 -260z"/><path class="piece" d="M790 833 l-54 -58 -76 -80 -76 -80 -264 -278 -265 -279 -3 -9 -4 -9
 401 0 401 0 0 425 0 425 -4 0 -3 0 -53 -57z"/></g></svg>
         <nav class="footer-nav">
-          <a href="#podhod">О нас</a>
+          <a href="#podhod">Как работаем</a>
           <a href="#services">Услуги</a>
+          <a href="#faq">Вопросы</a>
           <a href="#footer">Контакты</a>
         </nav>
         </div>

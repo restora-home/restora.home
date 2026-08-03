@@ -2,6 +2,18 @@
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Баня, беседка, сарай под ключ в Костроме — Restora Home</title>
 <meta name="description" content="Строим баню, беседку и хозблок под ключ в Костроме и области. Небольшие постройки — быстро и аккуратно, без долгих согласований.">
+<link rel="canonical" href="https://restora-home.ru/uslugi/banya-besedka.html">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Restora Home">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://restora-home.ru/uslugi/banya-besedka.html">
+<meta property="og:title" content="Баня, беседка, сарай под ключ в Костроме — Restora Home">
+<meta property="og:description" content="Строим баню, беседку и хозблок под ключ в Костроме и области. Небольшие постройки — быстро и аккуратно, без долгих согласований.">
+<meta property="og:image" content="https://restora-home.ru/assets/og-image.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"GeneralContractor","name":"Restora Home","telephone":"+79639303637","email":"restorahome.co@gmail.com","url":"https://restora-home.ru/","image":"https://restora-home.ru/assets/og-image.jpg","areaServed":{"@type":"AdministrativeArea","name":"Костромская область"},"address":{"@type":"PostalAddress","addressLocality":"Кострома","addressRegion":"Костромская область","addressCountry":"RU"},"sameAs":["https://t.me/ivan3019"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
@@ -90,6 +102,16 @@
   .list-row .name{font-family:var(--sans);font-weight:500;font-size:19px;color:var(--ink)}
   .list-row .desc{font-size:14px;color:var(--muted);text-align:right;max-width:440px}
   @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
+
+  /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
+  .faq-list{margin-top:48px;max-width:760px}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item summary{cursor:pointer;list-style:none;padding:22px 0;font-family:var(--sans);font-weight:500;
+    font-size:17px;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary::after{content:'+';font-size:20px;color:var(--muted);flex:none;transition:transform .25s var(--ease)}
+  .faq-item[open] summary::after{transform:rotate(45deg)}
+  .faq-item p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
 
   .closing{text-align:center}
   .closing h2{font-family:var(--sans);font-weight:400;letter-spacing:-.04em;line-height:1.15;
@@ -237,15 +259,30 @@
 
   <section class="sect">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Как считаем смету</div>
-      <h2>Прозрачно на каждом шаге</h2>
+      <div class="kicker"><i></i>Частые вопросы</div>
+      <h2>Что обычно спрашивают перед началом работ</h2>
     </div>
-    <div class="list-rows reveal">
-      <div class="list-row"><span class="name">01 Заявка и созвон</span><span class="desc">Обсуждаем задачу, бюджет и сроки.</span></div>
-      <div class="list-row"><span class="name">02 Бесплатный выезд и замер</span><span class="desc">Приезжаем на участок и оцениваем объём работ.</span></div>
-      <div class="list-row"><span class="name">03 Смета по этапам</span><span class="desc">Фиксируем цену за каждый этап — без сюрпризов в процессе.</span></div>
-      <div class="list-row"><span class="name">04 Работы</span><span class="desc">Показываем прогресс на каждом этапе.</span></div>
-      <div class="list-row"><span class="name">05 Сдача объекта</span><span class="desc">Принимаете результат, а не обещания.</span></div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>Сколько стоит баня, беседка или хозблок под ключ?</summary>
+        <p>Точную сумму называем после бесплатного выезда и замера — зависит от размера, материала и типа фундамента. Смету фиксируем по этапам, без сюрпризов в процессе.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Нужно ли разрешение на постройку?</summary>
+        <p>Зависит от типа постройки и участка — разберём на месте при выезде и подскажем, что нужно оформить, если нужно.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Из чего лучше строить — брус или каркас?</summary>
+        <p>Зависит от бюджета и задач. Подскажем на консультации, что подойдёт именно вам, и посчитаем оба варианта.</p>
+      </details>
+      <details class="faq-item">
+        <summary>В какие сроки строите баню или беседку?</summary>
+        <p>Срок зависит от размера и материала — называем после замера и фиксируем в договоре.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Берётесь ли за более крупные задачи по дому?</summary>
+        <p>Да. Помимо малых построек занимаемся ремонтом, отделкой, фасадом и восстановлением домов — можно обсудить всё в одной заявке.</p>
+      </details>
     </div>
   </section>
 
