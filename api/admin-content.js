@@ -5,7 +5,6 @@ const { verifyAdminPassword, githubEnv, githubApi } = require("./_lib");
 
 const ALLOWED_PATHS = [
   "index.html",
-  "uslugi/banya-besedka.html",
   "uslugi/fasady-montazh.html",
   "uslugi/otdelka-elektromontazh.html",
   "uslugi/vosstanovlenie-domov.html",
