@@ -27,7 +27,7 @@
     --ease:cubic-bezier(.22,.61,.30,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:auto} /* плавность теперь через Lenis, см. скрипт в конце body — родное scroll-behavior:smooth конфликтует с ним */
   body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;
     -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   img,.photo-slot{max-width:100%}
@@ -40,26 +40,37 @@
   .topbar-brand{justify-self:start;display:flex;align-items:center;gap:8px;text-decoration:none}
   .topbar-brand .mark{width:20px;aspect-ratio:283/332.02;flex:none}
   .topbar-brand .mark .piece{fill:var(--navy)}
-  .menu-trigger{justify-self:center;display:inline-flex;align-items:center;gap:16px;background:#f5f5f5;border:none;border-radius:4px;
-    color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:400;cursor:pointer;padding:11px 20px;
-    transition:border-radius .25s var(--ease),padding .25s var(--ease)}
-  .menu-trigger:hover{border-radius:8px;padding-left:24px;padding-right:24px}
-  .menu-trigger__lines{width:26px;height:11px;position:relative;flex:none}
-  .menu-trigger__lines i{position:absolute;left:0;width:100%;height:1.4px;background:var(--ink);
-    transition:transform .35s var(--ease)}
-  .menu-trigger__lines i:nth-child(1){top:0}
-  .menu-trigger__lines i:nth-child(2){bottom:0}
-  .menu-trigger.is-open .menu-trigger__lines i:nth-child(1){transform:translateY(5px) rotate(20deg)}
-  .menu-trigger.is-open .menu-trigger__lines i:nth-child(2){transform:translateY(-5px) rotate(-20deg)}
+  /* invisible placeholder держит исходную высоту/раскладку topbar — сама кнопка теперь
+     живёт в .menu-shell (position:fixed), т.к. ей нужно расти поверх остального контента */
+  .menu-slot{justify-self:center;width:124px;height:38px;visibility:hidden}
   .navpills{justify-self:end}
   .top-cta{color:var(--ink);text-decoration:underline;text-underline-offset:4px;font-size:14px;font-weight:400}
 
-  .offcanvas{position:fixed;top:64px;left:50%;z-index:150;width:min(300px,90vw);
-    background:var(--navy);opacity:0;visibility:hidden;pointer-events:none;
-    transform:translateX(-50%) translateY(-6px);
-    transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s var(--ease)}
-  .offcanvas.on{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
-  .offcanvas__inner{padding:22px 26px 26px}
+  /* ===== выпадающее меню: кнопка "Меню" сама плавно морфится в развёрнутую панель —
+     один и тот же элемент растёт по ширине/высоте и меняет цвет ===== */
+  .menu-shell{position:fixed;top:22px;left:50%;z-index:150;width:124px;max-width:92vw;
+    border-radius:4px;background:#f5f5f5;overflow:hidden;transform:translateX(-50%);
+    transition:width .45s var(--ease),border-radius .45s var(--ease),background .45s var(--ease),box-shadow .45s var(--ease)}
+  .menu-shell:not(.is-open):hover{border-radius:8px;background:#ececec}
+  .menu-shell.is-open{width:min(320px,92vw);border-radius:8px;background:var(--navy);
+    box-shadow:0 30px 70px rgba(8,20,52,.28)}
+  .menu-shell__head{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;
+    background:none;border:none;padding:11px 20px;cursor:pointer;
+    font-family:var(--sans);font-size:14px;font-weight:400;color:var(--ink);transition:color .35s var(--ease)}
+  .menu-shell.is-open .menu-shell__head{color:#fff}
+  .menu-trigger__lines{width:26px;height:11px;position:relative;flex:none}
+  .menu-trigger__lines i{position:absolute;left:0;width:100%;height:1.4px;background:currentColor;
+    transition:transform .35s var(--ease)}
+  .menu-trigger__lines i:nth-child(1){top:0}
+  .menu-trigger__lines i:nth-child(2){bottom:0}
+  .menu-shell.is-open .menu-trigger__lines i:nth-child(1){transform:translateY(5px) rotate(45deg)}
+  .menu-shell.is-open .menu-trigger__lines i:nth-child(2){transform:translateY(-5px) rotate(-45deg)}
+  .menu-shell__body{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .45s var(--ease),opacity .3s var(--ease)}
+  .menu-shell.is-open .menu-shell__body{grid-template-rows:1fr;opacity:1;
+    transition:grid-template-rows .45s var(--ease),opacity .4s var(--ease) .1s}
+  .menu-shell__body>div{min-height:0;overflow:hidden}
+  .offcanvas__inner{padding:0 26px 26px}
   .offcanvas__nav{display:flex;flex-direction:column}
   .offcanvas__nav .offcanvas__link{display:flex;align-items:baseline;gap:14px;font-family:var(--sans);font-style:normal;
     font-size:15px;font-weight:500;color:#fff;
@@ -101,7 +112,10 @@
 
   main{position:relative;background:var(--paper)}
   .sect{padding:88px 1.6vw;max-width:1300px;margin:0 auto}
-  .sect-head{border-top:1px solid var(--line);padding-top:22px}
+  .sect-head{}
+  /* ===== заголовок раздела теперь НАД линией, киккер — под ней (перед описанием) ===== */
+  .sect-head h2{margin-bottom:26px}
+  .sect-head .kicker{border-top:1px solid var(--line);padding-top:22px}
   .sect-head h2{font-family:var(--sans);font-weight:400;font-size:clamp(28px,3.3vw,47px);line-height:1.2;
     color:var(--ink);letter-spacing:-.04em;max-width:760px}
 
@@ -218,13 +232,16 @@
 -433 -433z"/><path class="piece" d="M1838 920 l-253 -260 -2 -12 -2 -13 197 -295 198 -295 447 -3 447 -2
 0 8 0 8 -92 135 -93 135 -293 427 -293 427 -4 0 -3 0 -254 -260z"/><path class="piece" d="M790 833 l-54 -58 -76 -80 -76 -80 -264 -278 -265 -279 -3 -9 -4 -9
 401 0 401 0 0 425 0 425 -4 0 -3 0 -53 -57z"/></g></svg></a>
-  <button type="button" class="menu-trigger" id="menuTrigger" aria-expanded="false" aria-controls="offcanvas">
-    <span>Меню</span><span class="menu-trigger__lines"><i></i><i></i></span>
-  </button>
+  <span class="menu-slot" aria-hidden="true"></span>
   <nav class="navpills"><a href="#" class="top-cta cta" data-topic="Отделка и электромонтаж под ключ">Заявка</a></nav>
 </div>
 
-<div class="offcanvas" id="offcanvas" aria-hidden="true">
+<div class="menu-shell" id="menuShell">
+  <button type="button" class="menu-shell__head" id="menuTrigger" aria-expanded="false" aria-controls="menuBody">
+    <span>Меню</span><span class="menu-trigger__lines"><i></i><i></i></span>
+  </button>
+  <div class="menu-shell__body" id="menuBody" aria-hidden="true">
+  <div class="menu-shell__body-clip">
   <div class="offcanvas__inner">
     <nav class="offcanvas__nav">
       <a href="../index.html#services" class="offcanvas__link"><span>01</span>Услуги</a>
@@ -237,6 +254,8 @@
       <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
       <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram</a>
     </div>
+  </div>
+  </div>
   </div>
 </div>
 
@@ -254,8 +273,8 @@
 <main>
   <section class="sect">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Что входит</div>
       <h2>От черновой до чистовой сдачи</h2>
+      <div class="kicker"><i></i>Что входит</div>
     </div>
     <div class="list-rows reveal">
       <div class="list-row"><span class="name">Демонтаж и черновая подготовка</span><span class="desc">Снос старой отделки, выравнивание стен и полов под чистовой этап.</span></div>
@@ -269,8 +288,8 @@
 
   <section class="sect">
     <div class="sect-head reveal">
-      <div class="kicker"><i></i>Частые вопросы</div>
       <h2>Что обычно спрашивают перед началом работ</h2>
+      <div class="kicker"><i></i>Частые вопросы</div>
     </div>
     <div class="faq-list reveal">
       <details class="faq-item">
@@ -432,29 +451,30 @@
 
 <script>
 (function(){
+  var shell = document.getElementById('menuShell');
   var trigger = document.getElementById('menuTrigger');
-  var offcanvas = document.getElementById('offcanvas');
-  if(!trigger || !offcanvas) return;
-  var links = [].slice.call(offcanvas.querySelectorAll('.offcanvas__link'));
+  var body = document.getElementById('menuBody');
+  if(!shell || !trigger || !body) return;
+  var links = [].slice.call(body.querySelectorAll('.offcanvas__link'));
 
   function openMenu(){
-    offcanvas.classList.add('on'); offcanvas.setAttribute('aria-hidden','false');
-    trigger.setAttribute('aria-expanded','true'); trigger.classList.add('is-open');
+    shell.classList.add('is-open'); body.setAttribute('aria-hidden','false');
+    trigger.setAttribute('aria-expanded','true');
   }
   function closeMenu(){
-    offcanvas.classList.remove('on'); offcanvas.setAttribute('aria-hidden','true');
-    trigger.setAttribute('aria-expanded','false'); trigger.classList.remove('is-open');
+    shell.classList.remove('is-open'); body.setAttribute('aria-hidden','true');
+    trigger.setAttribute('aria-expanded','false');
   }
   trigger.addEventListener('click', function(e){
     e.stopPropagation();
-    offcanvas.classList.contains('on') ? closeMenu() : openMenu();
+    shell.classList.contains('is-open') ? closeMenu() : openMenu();
   });
   links.forEach(function(a){ a.addEventListener('click', closeMenu); });
   document.addEventListener('click', function(e){
-    if(offcanvas.classList.contains('on') && !offcanvas.contains(e.target) && e.target !== trigger){ closeMenu(); }
+    if(shell.classList.contains('is-open') && !shell.contains(e.target)){ closeMenu(); }
   });
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && offcanvas.classList.contains('on')) closeMenu();
+    if(e.key === 'Escape' && shell.classList.contains('is-open')) closeMenu();
   });
 })();
 </script>
@@ -496,34 +516,70 @@
   var items = [].slice.call(document.querySelectorAll('img[data-parallax]'));
   if(!items.length) return;
 
-  var MAX_SHIFT = window.innerWidth <= 700 ? 16 : 28;
+  var EASE = 0.09; // сглаживание движения — чем меньше, тем плавнее и "тяжелее" отклик
+
+  var state = new Map();
+  items.forEach(function(img){ state.set(img, 0); });
 
   var active = new Set();
+  var rafId = null;
+
+  function loop(){
+    var vh = window.innerHeight;
+    var maxShift = window.innerWidth <= 700 ? 26 : 45;
+    active.forEach(function(img){
+      var rect = img.parentElement.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var progress = Math.max(-1, Math.min(1, (vh / 2 - center) / vh));
+      var target = progress * maxShift;
+      var current = state.get(img) + (target - state.get(img)) * EASE;
+      state.set(img, current);
+      img.style.transform = 'translate3d(0,' + current.toFixed(1) + 'px,0)';
+    });
+    rafId = active.size ? requestAnimationFrame(loop) : null;
+  }
+
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if(entry.isIntersecting) active.add(entry.target);
       else active.delete(entry.target);
     });
+    if(active.size && rafId === null) rafId = requestAnimationFrame(loop);
   }, { rootMargin: '200px 0px' });
   items.forEach(function(img){ io.observe(img); });
+})();
+</script>
 
-  var ticking = false;
-  function update(){
-    ticking = false;
-    var vh = window.innerHeight;
-    active.forEach(function(img){
-      var rect = img.parentElement.getBoundingClientRect();
-      var center = rect.top + rect.height / 2;
-      var progress = Math.max(-1, Math.min(1, (vh / 2 - center) / vh));
-      img.style.transform = 'translate3d(0,' + (progress * MAX_SHIFT).toFixed(1) + 'px,0)';
+<!-- ===== плавный инерционный скролл всей страницей — через Lenis (~5кб gzip).
+     Свою реализацию через перехват wheel + scrollTo пробовал раньше — в реальности
+     дёргалась (preventDefault на wheel убивает compositor-скролл браузера + спор с
+     нативной инерцией трекпада), а автоматические тесты этого не ловят, потому что
+     синтетические wheel-события в них идеальные, без реальных таймингов железа.
+     Lenis — специально написанная под эту задачу и проверенная библиотека, а не
+     велосипед на коленке ===== -->
+<script src="../assets/lenis.min.js"></script>
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || typeof Lenis === 'undefined') return;
+
+  var lenis = new Lenis({ duration: 1.1 });
+  function raf(time){
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // якорные ссылки (меню, футер) ведём через тот же Lenis, чтобы не было двух
+  // конкурирующих механизмов плавного скролла на странице разом
+  [].slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href').slice(1);
+      var target = id ? document.getElementById(id) : null;
+      if(!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target);
     });
-  }
-  function onScroll(){
-    if(!ticking){ ticking = true; requestAnimationFrame(update); }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
+  });
 })();
 </script>
 </body></html>
