@@ -40,8 +40,10 @@
   .topbar-brand{justify-self:start;display:flex;align-items:center;gap:8px;text-decoration:none}
   .topbar-brand .mark{width:20px;aspect-ratio:283/332.02;flex:none}
   .topbar-brand .mark .piece{fill:var(--navy)}
-  .menu-trigger{justify-self:center;display:inline-flex;align-items:center;gap:16px;background:#f5f5f5;border:none;
-    color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:400;cursor:pointer;padding:11px 20px}
+  .menu-trigger{justify-self:center;display:inline-flex;align-items:center;gap:16px;background:#f5f5f5;border:none;border-radius:4px;
+    color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:400;cursor:pointer;padding:11px 20px;
+    transition:border-radius .25s var(--ease),padding .25s var(--ease)}
+  .menu-trigger:hover{border-radius:8px;padding-left:24px;padding-right:24px}
   .menu-trigger__lines{width:26px;height:11px;position:relative;flex:none}
   .menu-trigger__lines i{position:absolute;left:0;width:100%;height:1.4px;background:var(--ink);
     transition:transform .35s var(--ease)}
@@ -74,6 +76,9 @@
     display:flex;align-items:center;justify-content:center}
   .photo-slot svg{width:18%;height:18%;stroke:#c9c9c9;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
   .photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
+  /* ===== вертикальный параллакс: картинка на 20% выше контейнера, чтобы при сдвиге
+     не открывались пустые поля по краям — см. скрипт параллакса в конце страницы ===== */
+  .photo-slot img[data-parallax]{position:absolute;top:-10%;left:0;height:120%;will-change:transform}
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;font-family:var(--sans)}
   @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} }
 
@@ -87,10 +92,10 @@
   .cta,.link-arrow{display:inline-block;color:var(--ink);text-decoration:underline;text-underline-offset:4px;
     font-family:var(--sans);font-weight:400;font-size:15px;transition:color .25s var(--ease)}
   .cta:hover,.link-arrow:hover{color:var(--navy)}
-  .cta-block{display:inline-block;border:none;background:var(--navy);color:#fff;text-decoration:none;
+  .cta-block{display:inline-block;border:none;border-radius:4px;background:var(--navy);color:#fff;text-decoration:none;
     font-weight:600;letter-spacing:.02em;padding:16px 30px;font-size:14px;
-    transition:background .25s var(--ease)}
-  .cta-block:hover{background:#082860}
+    transition:background .25s var(--ease),border-radius .25s var(--ease),padding .25s var(--ease)}
+  .cta-block:hover{background:#082860;border-radius:8px;padding-left:34px;padding-right:34px;color:#fff}
 
   main{position:relative;background:var(--paper)}
   .sect{padding:88px 1.6vw;max-width:1300px;margin:0 auto}
@@ -178,10 +183,10 @@
     text-transform:none;letter-spacing:normal;user-select:text;resize:none;transition:border-color .3s var(--ease)}
   #leadForm input::placeholder,#leadForm textarea::placeholder{color:#a7adb8}
   #leadForm input:focus,#leadForm textarea:focus{outline:none;border-color:var(--navy)}
-  .modal-submit{margin-top:10px;height:46px;border:none;background:var(--navy);color:#fff;
+  .modal-submit{margin-top:10px;height:46px;border:none;border-radius:4px;background:var(--navy);color:#fff;
     font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.02em;cursor:pointer;
-    transition:background .3s var(--ease),opacity .3s var(--ease)}
-  .modal-submit:hover{background:#082860}
+    transition:background .3s var(--ease),opacity .3s var(--ease),border-radius .25s var(--ease)}
+  .modal-submit:hover{background:#082860;border-radius:8px}
   .modal-submit:disabled{opacity:.55;cursor:default}
   .modal-status{min-height:16px;font-size:12px;text-align:center;margin-top:2px;color:var(--muted)}
   .modal-status.err{color:#c0392b}
@@ -241,7 +246,7 @@
     <a href="#" class="cta-block cta" data-topic="Фасадные и монтажные работы">Оставить заявку</a>
     <a href="../index.html#services" class="link-arrow">Все услуги</a>
   </div>
-  <div class="photo-slot"><img src="../assets/fasad-realny-do-posle.jpg" alt="Реализованный объект: обшивка фасада, до и после" loading="eager"></div>
+  <div class="photo-slot"><img src="../assets/fasad-realny-do-posle.jpg" alt="Реализованный объект: обшивка фасада, до и после" loading="eager" data-parallax></div>
 </header>
 
 <main>
@@ -476,6 +481,47 @@
     });
   }, { threshold: 0.15 });
   io.observe(el);
+})();
+</script>
+
+<!-- ===== вертикальный параллакс для фото: картинка внутри photo-slot чуть смещается
+     по вертикали при скролле. Считаем сдвиг только для элементов в вьюпорте
+     (IntersectionObserver), не чаще одного раза за кадр (requestAnimationFrame),
+     трогаем только transform — без reflow. На узких экранах амплитуда меньше ===== -->
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var items = [].slice.call(document.querySelectorAll('img[data-parallax]'));
+  if(!items.length) return;
+
+  var MAX_SHIFT = window.innerWidth <= 700 ? 16 : 28;
+
+  var active = new Set();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting) active.add(entry.target);
+      else active.delete(entry.target);
+    });
+  }, { rootMargin: '200px 0px' });
+  items.forEach(function(img){ io.observe(img); });
+
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var vh = window.innerHeight;
+    active.forEach(function(img){
+      var rect = img.parentElement.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var progress = Math.max(-1, Math.min(1, (vh / 2 - center) / vh));
+      img.style.transform = 'translate3d(0,' + (progress * MAX_SHIFT).toFixed(1) + 'px,0)';
+    });
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
 </body></html>
