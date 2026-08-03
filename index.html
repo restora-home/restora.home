@@ -90,6 +90,9 @@
     display:flex;align-items:center;justify-content:center}
   .photo-slot svg{width:18%;height:18%;stroke:#c9c9c9;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
   .photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
+  /* ===== вертикальный параллакс: картинка на 20% выше контейнера, чтобы при сдвиге
+     не открывались пустые поля по краям — см. скрипт параллакса в конце страницы ===== */
+  .photo-slot img[data-parallax]{position:absolute;top:-10%;left:0;height:120%;will-change:transform}
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;
     font-family:var(--sans)}
   .photo-slot.on-dark span{color:#fff}
@@ -403,7 +406,7 @@
     </div>
     <div class="philosophy-body reveal">
       <p>Демонтаж, черновая и чистовая отделка, электромонтаж, фасадные работы, подшивы, ремонт кровли, восстановление старых домов, бани и хозпостройки — закрываем весь цикл своими бригадами, не только то, что есть в списке услуг. Единственное, чем не занимаемся, — строительство крупных зданий с нуля.<br><br>Один подрядчик ведёт объект от первого замера до сдачи — без субподрядчиков и передачи между разными командами. Смету фиксируем по этапам заранее, до начала работ.</p>
-      <div class="photo-slot philosophy-photo"><img src="assets/master-portret.jpg" alt="Мастер на объекте" loading="lazy"></div>
+      <div class="photo-slot philosophy-photo"><img src="assets/master-portret.jpg" alt="Мастер на объекте" loading="lazy" data-parallax></div>
     </div>
   </section>
 
@@ -416,7 +419,7 @@
     </div>
 
     <div class="service-feature reveal">
-      <div class="photo-slot"><img src="assets/otdelka-pokraska.jpg" alt="Отделка стен: до и после" loading="lazy"><span class="photo-arrow">↗</span></div>
+      <div class="photo-slot"><img src="assets/otdelka-pokraska.jpg" alt="Отделка стен: до и после" loading="lazy" data-parallax><span class="photo-arrow">↗</span></div>
       <h3>Отделка и электромонтаж под ключ</h3>
       <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
       <a href="uslugi/otdelka-elektromontazh.html" class="link-arrow">Подробнее об услуге</a>
@@ -424,13 +427,13 @@
 
     <div class="service-grid reveal">
       <div>
-        <div class="photo-slot"><img src="assets/fasad-realny-do-posle.jpg" alt="Реализованный объект: обшивка фасада, до и после" loading="lazy"><span class="photo-arrow">↗</span></div>
+        <div class="photo-slot"><img src="assets/fasad-realny-do-posle.jpg" alt="Реализованный объект: обшивка фасада, до и после" loading="lazy" data-parallax><span class="photo-arrow">↗</span></div>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh.html" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div>
-        <div class="photo-slot"><img src="assets/vosstanovlenie-montazh.jpg" alt="Реализованные объекты: восстановление домов, до и после" loading="lazy"><span class="photo-arrow">↗</span></div>
+        <div class="photo-slot"><img src="assets/vosstanovlenie-montazh.jpg" alt="Реализованные объекты: восстановление домов, до и после" loading="lazy" data-parallax><span class="photo-arrow">↗</span></div>
         <h3>Восстановление домов</h3>
         <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
         <a href="uslugi/vosstanovlenie-domov.html" class="link-arrow">Подробнее об услуге</a>
@@ -456,7 +459,7 @@
     </div>
     <div class="philosophy-body reveal">
       <p>Мы не раздуваем штат и не берём в работу десятки объектов одновременно — каждый заказ ведём лично, от первого звонка до сдачи ключей. Никаких субподрядчиков-прокладок, на которых можно списать чужие ошибки: смету и сроки фиксируем сами и сами же за них отвечаем.</p>
-      <div class="photo-slot philosophy-photo"><img src="assets/komanda-rukopozhatie.jpg" alt="Команда за работой над проектом" loading="lazy"></div>
+      <div class="photo-slot philosophy-photo"><img src="assets/komanda-rukopozhatie.jpg" alt="Команда за работой над проектом" loading="lazy" data-parallax></div>
     </div>
   </section>
 
@@ -988,6 +991,47 @@
     });
   }, { threshold: 0.15 });
   io.observe(el);
+})();
+</script>
+
+<!-- ===== вертикальный параллакс для фото: картинка внутри photo-slot чуть смещается
+     по вертикали при скролле. Считаем сдвиг только для элементов в вьюпорте
+     (IntersectionObserver), не чаще одного раза за кадр (requestAnimationFrame),
+     трогаем только transform — без reflow. На узких экранах амплитуда меньше ===== -->
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var items = [].slice.call(document.querySelectorAll('img[data-parallax]'));
+  if(!items.length) return;
+
+  var MAX_SHIFT = window.innerWidth <= 700 ? 16 : 28;
+
+  var active = new Set();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting) active.add(entry.target);
+      else active.delete(entry.target);
+    });
+  }, { rootMargin: '200px 0px' });
+  items.forEach(function(img){ io.observe(img); });
+
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var vh = window.innerHeight;
+    active.forEach(function(img){
+      var rect = img.parentElement.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var progress = Math.max(-1, Math.min(1, (vh / 2 - center) / vh));
+      img.style.transform = 'translate3d(0,' + (progress * MAX_SHIFT).toFixed(1) + 'px,0)';
+    });
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
 </body></html>

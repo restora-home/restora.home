@@ -76,6 +76,9 @@
     display:flex;align-items:center;justify-content:center}
   .photo-slot svg{width:18%;height:18%;stroke:#c9c9c9;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
   .photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
+  /* ===== вертикальный параллакс: картинка на 20% выше контейнера, чтобы при сдвиге
+     не открывались пустые поля по краям — см. скрипт параллакса в конце страницы ===== */
+  .photo-slot img[data-parallax]{position:absolute;top:-10%;left:0;height:120%;will-change:transform}
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;font-family:var(--sans)}
   @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} }
 
@@ -245,7 +248,7 @@
     <a href="#" class="cta-block cta" data-topic="Отделка и электромонтаж под ключ">Оставить заявку</a>
     <a href="../index.html#services" class="link-arrow">Все услуги</a>
   </div>
-  <div class="photo-slot"><img src="../assets/otdelka-gostinaya.jpg" alt="Отделка гостиной: до и после" loading="eager"></div>
+  <div class="photo-slot"><img src="../assets/otdelka-gostinaya.jpg" alt="Отделка гостиной: до и после" loading="eager" data-parallax></div>
 </header>
 
 <main>
@@ -480,6 +483,47 @@
     });
   }, { threshold: 0.15 });
   io.observe(el);
+})();
+</script>
+
+<!-- ===== вертикальный параллакс для фото: картинка внутри photo-slot чуть смещается
+     по вертикали при скролле. Считаем сдвиг только для элементов в вьюпорте
+     (IntersectionObserver), не чаще одного раза за кадр (requestAnimationFrame),
+     трогаем только transform — без reflow. На узких экранах амплитуда меньше ===== -->
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var items = [].slice.call(document.querySelectorAll('img[data-parallax]'));
+  if(!items.length) return;
+
+  var MAX_SHIFT = window.innerWidth <= 700 ? 16 : 28;
+
+  var active = new Set();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting) active.add(entry.target);
+      else active.delete(entry.target);
+    });
+  }, { rootMargin: '200px 0px' });
+  items.forEach(function(img){ io.observe(img); });
+
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var vh = window.innerHeight;
+    active.forEach(function(img){
+      var rect = img.parentElement.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var progress = Math.max(-1, Math.min(1, (vh / 2 - center) / vh));
+      img.style.transform = 'translate3d(0,' + (progress * MAX_SHIFT).toFixed(1) + 'px,0)';
+    });
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
 </body></html>
