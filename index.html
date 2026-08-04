@@ -111,11 +111,7 @@
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;
     font-family:var(--sans)}
   .photo-slot.on-dark span{color:#fff}
-  /* ===== значок-стрелка "открыть" — проявляется на фото-проектах, когда рост почти завершён ===== */
-  .photo-arrow{position:absolute;top:14px;left:14px;width:32px;height:32px;border-radius:50%;
-    background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink);
-    opacity:0;transition:opacity .3s var(--ease)}
-  @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} .photo-arrow{display:none} }
+  @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} }
 
   /* ===== HERO: огромный логотип-надпись, минимум chrome — как у референса ===== */
   .hero{position:relative;padding:60px 1.6vw 40px;text-align:center}
@@ -441,7 +437,7 @@
     </div>
 
     <div class="service-feature reveal">
-      <div class="photo-slot"><img src="assets/otdelka-pokraska-valik.jpg" alt="Покраска стены валиком: подготовка и чистовая отделка" loading="lazy" data-parallax><span class="photo-arrow">↗</span></div>
+      <div class="photo-slot"><img src="assets/otdelka-pokraska-valik.jpg" alt="Покраска стены валиком: подготовка и чистовая отделка" loading="lazy" data-parallax></div>
       <h3>Отделка и электромонтаж под ключ</h3>
       <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
       <a href="uslugi/otdelka-elektromontazh" class="link-arrow">Подробнее об услуге</a>
@@ -449,13 +445,13 @@
 
     <div class="service-grid reveal">
       <div>
-        <div class="photo-slot"><img src="assets/fasad-montazh-saiding.jpg" alt="Монтаж фасада: обшивка сайдингом" loading="lazy" data-parallax><span class="photo-arrow">↗</span></div>
+        <div class="photo-slot"><img src="assets/fasad-montazh-saiding.jpg" alt="Монтаж фасада: обшивка сайдингом" loading="lazy" data-parallax></div>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div>
-        <div class="photo-slot"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax><span class="photo-arrow">↗</span></div>
+        <div class="photo-slot"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax></div>
         <h3>Восстановление домов</h3>
         <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
         <a href="uslugi/vosstanovlenie-domov" class="link-arrow">Подробнее об услуге</a>
@@ -964,12 +960,6 @@
   if(!slots.length) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var arrows = new WeakMap();
-  slots.forEach(function(el){
-    var a = el.querySelector('.photo-arrow');
-    if(a) arrows.set(el, a);
-  });
-
   var ticking = false;
   function update(){
     var vh = window.innerHeight;
@@ -981,8 +971,6 @@
       var p = raw < 0 ? 0 : raw > 1 ? 1 : raw;
       el.style.transform = 'scale(' + (0.86 + 0.14 * p).toFixed(3) + ')';
       el.style.opacity = (0.3 + 0.7 * p).toFixed(3);
-      var arrow = arrows.get(el);
-      if(arrow) arrow.style.opacity = p > 0.85 ? 1 : 0;
     });
     ticking = false;
   }
