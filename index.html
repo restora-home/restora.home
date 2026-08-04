@@ -47,7 +47,7 @@
 
   /* ===== TOPBAR: логотип слева, "Menu" по центру, заявка справа — без карточек и теней ===== */
   .topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-    padding:22px 1.6vw;background:var(--paper)}
+    padding:22px 1.3vw;background:var(--paper)}
   .topbar-brand{justify-self:start;display:flex;align-items:center;gap:8px;text-decoration:none}
   .topbar-brand .mark{width:20px;aspect-ratio:283/332.02;flex:none}
   .topbar-brand .mark .piece{fill:var(--navy)}
@@ -114,7 +114,7 @@
   @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} }
 
   /* ===== HERO: огромный логотип-надпись, минимум chrome — как у референса ===== */
-  .hero{position:relative;padding:60px 1.6vw 40px;text-align:center}
+  .hero{position:relative;padding:60px 1.3vw 40px;text-align:center}
   .hero-top{display:flex;justify-content:flex-end;margin-bottom:60px}
   .hero-tag{max-width:340px;text-align:left;font-size:14px;line-height:1.5;color:var(--ink)}
   .hero-cta{margin-top:26px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
@@ -138,8 +138,8 @@
   .split{position:relative;height:300vh}
   .split.static{height:auto}
   .split-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:space-between;
-    gap:24px;padding:0 1.6vw;max-width:1300px;margin:0 auto}
-  .split.static .split-sticky{position:static;height:auto;padding:60px 1.6vw}
+    gap:24px;padding:0 1.3vw;max-width:1400px;margin:0 auto}
+  .split.static .split-sticky{position:static;height:auto;padding:60px 1.3vw}
   .split .word{font-family:var(--sans);font-weight:400;letter-spacing:-.04em;font-size:clamp(28px,3.3vw,47px);color:var(--ink);flex:none}
   /* ширину задаёт JS (растёт по скроллу от маленького окна до почти нативного разрешения
      кадров — 608px, крупнее нельзя, иначе апскейл покажет мыло); тут только запасное значение */
@@ -167,7 +167,7 @@
 
   /* ===== секции: узкие боковые поля (~1.5vw, не 5-8vw), как измерено на реальной странице ===== */
   main{position:relative;background:var(--paper)}
-  .sect{padding:100px 1.6vw;max-width:1300px;margin:0 auto}
+  .sect{padding:100px 1.3vw;max-width:1400px;margin:0 auto}
   .sect-head{}
   /* ===== заголовок раздела теперь НАД линией, киккер — под ней (перед описанием) ===== */
   .sect-head h2{margin-bottom:26px}
@@ -224,7 +224,7 @@
   /* ===== футер: сплошной синий, как у референса. Сделан крупнее (больше отступов),
      лого+нав сгруппированы в одну левую колонку (как у референса), контакты — справа ===== */
   .site-footer{background:var(--navy);color:#fff}
-  .footer-inner{max-width:1300px;margin:0 auto;padding:96px 1.6vw 48px}
+  .footer-inner{max-width:1400px;margin:0 auto;padding:96px 1.3vw 48px}
   .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:72px}
   .footer-left{display:flex;flex-direction:column;gap:32px}
   .footer-mark{width:34px;aspect-ratio:283/332.02}
