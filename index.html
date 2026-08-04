@@ -218,8 +218,15 @@
     font-size:17px;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:16px}
   .faq-item summary::-webkit-details-marker{display:none}
   .faq-item summary::after{content:'+';font-size:20px;color:var(--muted);flex:none;transition:transform .25s var(--ease)}
-  .faq-item[open] summary::after{transform:rotate(45deg)}
-  .faq-item p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
+  .faq-item.is-open summary::after{transform:rotate(45deg)}
+  /* ===== плавное раскрытие: нативный <details> не умеет анимировать высоту сам —
+     JS переключает класс is-open несинхронно с атрибутом [open] (см. скрипт в конце
+     страницы), а тут просто grid-rows 0fr/1fr едет по transition ===== */
+  .faq-item__body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s var(--ease)}
+  .faq-item.is-open .faq-item__body{grid-template-rows:1fr}
+  .faq-item__body>div{overflow:hidden;min-height:0}
+  .faq-item__body p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
+  @media(prefers-reduced-motion:reduce){ .faq-item__body{transition:none} }
 
   /* ===== футер: сплошной синий, как у референса. Сделан крупнее (больше отступов),
      лого+нав сгруппированы в одну левую колонку (как у референса), контакты — справа ===== */
@@ -483,27 +490,27 @@
     <div class="faq-list reveal">
       <details class="faq-item">
         <summary>Какие работы вы вообще берёте?</summary>
-        <p>Практически любые в строительстве и ремонте — от мелкого ремонта до восстановления дома под ключ, включая бани, беседки и хозпостройки. Не беремся только за строительство крупных зданий с нуля.</p>
+        <div class="faq-item__body"><div><p>Практически любые в строительстве и ремонте — от мелкого ремонта до восстановления дома под ключ, включая бани, беседки и хозпостройки. Не беремся только за строительство крупных зданий с нуля.</p></div></div>
       </details>
       <details class="faq-item">
         <summary>Сколько стоит ремонт или восстановление дома?</summary>
-        <p>Точную сумму называем после выезда и замера — под конкретный объект. Смету фиксируем по этапам, чтобы не было сюрпризов по ходу работ.</p>
+        <div class="faq-item__body"><div><p>Точную сумму называем после выезда и замера — под конкретный объект. Смету фиксируем по этапам, чтобы не было сюрпризов по ходу работ.</p></div></div>
       </details>
       <details class="faq-item">
         <summary>Можно продолжить ремонт, начатый другими подрядчиками?</summary>
-        <p>Да. Оцениваем то, что уже сделано, и либо продолжаем, либо сначала исправляем то, что осталось от предыдущей бригады.</p>
+        <div class="faq-item__body"><div><p>Да. Оцениваем то, что уже сделано, и либо продолжаем, либо сначала исправляем то, что осталось от предыдущей бригады.</p></div></div>
       </details>
       <details class="faq-item">
         <summary>Дом в аварийном состоянии — его точно сносить?</summary>
-        <p>Не всегда. Смотрим на месте, что из несущих конструкций и дерева можно сохранить — часто это дешевле и быстрее, чем строить с нуля.</p>
+        <div class="faq-item__body"><div><p>Не всегда. Смотрим на месте, что из несущих конструкций и дерева можно сохранить — часто это дешевле и быстрее, чем строить с нуля.</p></div></div>
       </details>
       <details class="faq-item">
         <summary>В какие сроки укладываетесь?</summary>
-        <p>Срок фиксируем в договоре по этапам — зависит от объёма работ и состояния объекта, называем после замера.</p>
+        <div class="faq-item__body"><div><p>Срок фиксируем в договоре по этапам — зависит от объёма работ и состояния объекта, называем после замера.</p></div></div>
       </details>
       <details class="faq-item">
         <summary>В каких районах вы работаете?</summary>
-        <p>Кострома и Костромская область.</p>
+        <div class="faq-item__body"><div><p>Кострома и Костромская область.</p></div></div>
       </details>
     </div>
   </section>
@@ -1071,6 +1078,35 @@
       if(!target) return;
       e.preventDefault();
       lenis.scrollTo(target);
+    });
+  });
+})();
+</script>
+<!-- ===== плавное раскрытие FAQ: перехватываем клик по summary, сами управляем
+     таймингом [open] относительно класса is-open (см. CSS выше) ===== -->
+<script>
+(function(){
+  var items = [].slice.call(document.querySelectorAll('.faq-item'));
+  if(!items.length) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // нативный instant-toggle остаётся как есть
+  items.forEach(function(item){
+    var summary = item.querySelector('summary');
+    var body = item.querySelector('.faq-item__body');
+    summary.addEventListener('click', function(e){
+      e.preventDefault();
+      if(item.classList.contains('is-open')){
+        item.classList.remove('is-open');
+        body.addEventListener('transitionend', function onEnd(ev){
+          if(ev.propertyName !== 'grid-template-rows') return;
+          body.removeEventListener('transitionend', onEnd);
+          item.removeAttribute('open');
+        });
+      } else {
+        item.setAttribute('open', '');
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ item.classList.add('is-open'); });
+        });
+      }
     });
   });
 })();
