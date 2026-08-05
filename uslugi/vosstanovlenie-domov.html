@@ -138,6 +138,8 @@
   .list-row .desc{font-size:14px;color:var(--muted);text-align:right;max-width:440px}
   .list-row .price{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--navy);white-space:nowrap;flex:none}
   .price-note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
+  .price-accordion{margin-top:48px;max-width:760px}
+  .price-rows{padding-bottom:8px}
   @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
 
   /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
@@ -313,10 +315,46 @@
       <h2>Ориентировочная стоимость по видам работ</h2>
       <div class="kicker"><i></i>Сколько это стоит</div>
     </div>
-    <div class="list-rows reveal">
-      <div class="list-row"><span class="name">Замена нижних венцов сруба</span><span class="price">от 3 000 ₽/пог. м</span></div>
-      <div class="list-row"><span class="name">Ремонт кровли</span><span class="price">от 700 ₽/м²</span></div>
-      <div class="list-row"><span class="name">Ремонт и замена фундамента</span><span class="price">от 15 000 ₽/пог. м</span></div>
+    <div class="price-accordion reveal">
+      <details class="faq-item">
+        <summary>Фундамент</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Установка винтовых свай</span><span class="price">от 1 200 ₽/свая</span></div>
+            <div class="list-row"><span class="name">Ремонт ленточного фундамента</span><span class="price">от 8 000 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Гидроизоляция фундамента</span><span class="price">от 400 ₽/м²</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Сруб и дерево</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Замена нижних венцов сруба</span><span class="price">от 3 000 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Конопатка сруба</span><span class="price">от 200 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Обработка антисептиком, антипиреном</span><span class="price">от 150 ₽/м²</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Кровля</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Монтаж стропильной системы</span><span class="price">от 500 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Замена кровельного покрытия</span><span class="price">от 700 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Утепление кровли</span><span class="price">от 550 ₽/м²</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Фасад и отделка</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Восстановление наружной отделки</span><span class="price">от 700 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Ремонт и покраска фасада</span><span class="price">от 350 ₽/м²</span></div>
+          </div>
+        </div></div>
+      </details>
     </div>
     <p class="price-note">Цены ориентировочные, по рынку Костромы и области. Точную смету считаем после бесплатного выезда и замера — фиксируем по этапам в договоре.</p>
   </section>

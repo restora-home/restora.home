@@ -140,6 +140,8 @@
   .list-row .desc{font-size:14px;color:var(--muted);text-align:right;max-width:440px}
   .list-row .price{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--navy);white-space:nowrap;flex:none}
   .price-note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
+  .price-accordion{margin-top:48px;max-width:760px}
+  .price-rows{padding-bottom:8px}
   @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
 
   /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
@@ -315,10 +317,54 @@
       <h2>Ориентировочная стоимость по видам работ</h2>
       <div class="kicker"><i></i>Сколько это стоит</div>
     </div>
-    <div class="list-rows reveal">
-      <div class="list-row"><span class="name">Черновая отделка</span><span class="price">от 1 800 ₽/м²</span></div>
-      <div class="list-row"><span class="name">Чистовая отделка под ключ</span><span class="price">от 5 000 ₽/м²</span></div>
-      <div class="list-row"><span class="name">Электромонтаж, одна точка</span><span class="price">от 300 ₽/точка</span></div>
+    <div class="price-accordion reveal">
+      <details class="faq-item">
+        <summary>Демонтаж и черновые работы</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Демонтаж старой отделки</span><span class="price">от 250 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Стяжка пола</span><span class="price">от 450 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Штукатурка стен</span><span class="price">от 500 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Шпаклёвка стен и потолков</span><span class="price">от 350 ₽/м²</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Электромонтаж</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Штробление под кабель</span><span class="price">от 150 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Прокладка кабеля</span><span class="price">от 120 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Монтаж электрощитка</span><span class="price">от 3 500 ₽</span></div>
+            <div class="list-row"><span class="name">Установка розетки, выключателя</span><span class="price">от 250 ₽/шт</span></div>
+            <div class="list-row"><span class="name">Монтаж и подключение светильника</span><span class="price">от 500 ₽/шт</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Сантехника</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Разводка водопровода и канализации</span><span class="price">от 900 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Установка унитаза</span><span class="price">от 1 500 ₽/шт</span></div>
+            <div class="list-row"><span class="name">Установка раковины</span><span class="price">от 1 200 ₽/шт</span></div>
+            <div class="list-row"><span class="name">Установка ванны, душевой кабины</span><span class="price">от 3 000 ₽/шт</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Чистовая отделка</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Поклейка обоев</span><span class="price">от 250 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Покраска стен</span><span class="price">от 200 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Укладка плитки</span><span class="price">от 700 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Укладка ламината</span><span class="price">от 350 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Монтаж натяжного потолка</span><span class="price">от 450 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Установка межкомнатной двери</span><span class="price">от 2 500 ₽/шт</span></div>
+          </div>
+        </div></div>
+      </details>
     </div>
     <p class="price-note">Цены ориентировочные, по рынку Костромы и области. Точную смету считаем после бесплатного выезда и замера — фиксируем по этапам в договоре.</p>
   </section>
