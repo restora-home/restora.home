@@ -117,6 +117,7 @@
   .hero-ctas{display:flex;align-items:center;gap:28px;margin-top:32px;flex-wrap:wrap}
   .page-hero .photo-slot{aspect-ratio:21/9;margin-top:56px}
 
+  .back-link{display:inline-block;margin-bottom:20px;font-size:14px}
   .cta,.link-arrow{display:inline-block;color:var(--ink);text-decoration:underline;text-underline-offset:4px;
     font-family:var(--sans);font-weight:400;font-size:15px;transition:color .25s var(--ease)}
   .cta:hover,.link-arrow:hover{color:var(--navy)}
@@ -138,6 +139,10 @@
   .list-row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:22px 0;border-bottom:1px solid var(--line)}
   .list-row .name{font-family:var(--sans);font-weight:500;font-size:19px;color:var(--ink)}
   .list-row .desc{font-size:14px;color:var(--muted);text-align:right;max-width:440px}
+  .list-row .price{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--navy);white-space:nowrap;flex:none}
+  .price-note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
+  .price-accordion{margin-top:48px;max-width:760px}
+  .price-rows{padding-bottom:8px}
   @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
 
   /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
@@ -266,10 +271,11 @@
   <div class="menu-shell__body-clip">
   <div class="offcanvas__inner">
     <nav class="offcanvas__nav">
-      <a href="../#services" class="offcanvas__link"><span>01</span>Услуги</a>
-      <a href="../#podhod" class="offcanvas__link"><span>02</span>О нас</a>
-      <a href="../#footer" class="offcanvas__link"><span>03</span>Контакты</a>
-      <a href="#" class="offcanvas__link offcanvas__link--cta cta" data-topic="Отделка и электромонтаж под ключ"><span>04</span>Оставить заявку</a>
+      <a href="../" class="offcanvas__link">Главная</a>
+      <a href="../#services" class="offcanvas__link">Услуги</a>
+      <a href="../#podhod" class="offcanvas__link">О нас</a>
+      <a href="../#footer" class="offcanvas__link">Контакты</a>
+      <a href="#" class="offcanvas__link offcanvas__link--cta cta" data-topic="Отделка и электромонтаж под ключ">Оставить заявку</a>
     </nav>
     <div class="offcanvas__contact">
       <a href="tel:+79639303637">+7 963 930-36-37</a>
@@ -282,6 +288,7 @@
 </div>
 
 <header class="page-hero reveal">
+  <a href="../" class="back-link link-arrow">← На главную</a>
   <div class="kicker"><i></i>Услуга · Кострома и область</div>
   <h1>Отделка и электромонтаж под ключ</h1>
   <p>Внутренняя и внешняя отделка вместе с электромонтажом — в одних руках, без стыков между подрядчиками. Одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
@@ -306,6 +313,63 @@
       <div class="list-row"><span class="name">Сантехника</span><span class="desc">Подключение сантехники и бытовых приборов.</span></div>
       <div class="list-row"><span class="name">Дизайн-проект интерьера</span><span class="desc">По запросу — если нужно продумать пространство перед началом работ.</span></div>
     </div>
+  </section>
+
+  <section class="sect">
+    <div class="sect-head reveal">
+      <h2>Ориентировочная стоимость по видам работ</h2>
+      <div class="kicker"><i></i>Сколько это стоит</div>
+    </div>
+    <div class="price-accordion reveal">
+      <details class="faq-item">
+        <summary>Демонтаж и черновые работы</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Демонтаж старой отделки</span><span class="price">от 250 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Стяжка пола</span><span class="price">от 450 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Штукатурка стен</span><span class="price">от 500 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Шпаклёвка стен и потолков</span><span class="price">от 350 ₽/м²</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Электромонтаж</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Штробление под кабель</span><span class="price">от 150 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Прокладка кабеля</span><span class="price">от 120 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Монтаж электрощитка</span><span class="price">от 3 500 ₽</span></div>
+            <div class="list-row"><span class="name">Установка розетки, выключателя</span><span class="price">от 250 ₽/шт</span></div>
+            <div class="list-row"><span class="name">Монтаж и подключение светильника</span><span class="price">от 500 ₽/шт</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Сантехника</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Разводка водопровода и канализации</span><span class="price">от 900 ₽/пог. м</span></div>
+            <div class="list-row"><span class="name">Установка унитаза</span><span class="price">от 1 500 ₽/шт</span></div>
+            <div class="list-row"><span class="name">Установка раковины</span><span class="price">от 1 200 ₽/шт</span></div>
+            <div class="list-row"><span class="name">Установка ванны, душевой кабины</span><span class="price">от 3 000 ₽/шт</span></div>
+          </div>
+        </div></div>
+      </details>
+      <details class="faq-item">
+        <summary>Чистовая отделка</summary>
+        <div class="faq-item__body"><div>
+          <div class="price-rows">
+            <div class="list-row"><span class="name">Поклейка обоев</span><span class="price">от 250 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Покраска стен</span><span class="price">от 200 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Укладка плитки</span><span class="price">от 700 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Укладка ламината</span><span class="price">от 350 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Монтаж натяжного потолка</span><span class="price">от 450 ₽/м²</span></div>
+            <div class="list-row"><span class="name">Установка межкомнатной двери</span><span class="price">от 2 500 ₽/шт</span></div>
+          </div>
+        </div></div>
+      </details>
+    </div>
+    <p class="price-note">Цены ориентировочные, по рынку Костромы и области. Точную смету считаем после бесплатного выезда и замера — фиксируем по этапам в договоре.</p>
   </section>
 
   <section class="sect">
