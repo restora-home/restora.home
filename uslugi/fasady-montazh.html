@@ -136,6 +136,8 @@
   .list-row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:22px 0;border-bottom:1px solid var(--line)}
   .list-row .name{font-family:var(--sans);font-weight:500;font-size:19px;color:var(--ink)}
   .list-row .desc{font-size:14px;color:var(--muted);text-align:right;max-width:440px}
+  .list-row .price{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--navy);white-space:nowrap;flex:none}
+  .price-note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
   @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
 
   /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
@@ -304,6 +306,19 @@
       <div class="list-row"><span class="name">Козырьки, навесы, ограждения</span><span class="desc">Монтаж конструкций снаружи дома и по периметру участка.</span></div>
       <div class="list-row"><span class="name">Локальный ремонт</span><span class="desc">Течёт крыша или трещит фасад — не всегда нужен капремонт, часто хватает локального.</span></div>
     </div>
+  </section>
+
+  <section class="sect">
+    <div class="sect-head reveal">
+      <h2>Ориентировочная стоимость по видам работ</h2>
+      <div class="kicker"><i></i>Сколько это стоит</div>
+    </div>
+    <div class="list-rows reveal">
+      <div class="list-row"><span class="name">Демонтаж старой обшивки</span><span class="price">от 150 ₽/м²</span></div>
+      <div class="list-row"><span class="name">Утепление фасада минватой</span><span class="price">от 600 ₽/м²</span></div>
+      <div class="list-row"><span class="name">Обшивка сайдингом с обрешёткой</span><span class="price">от 700 ₽/м²</span></div>
+    </div>
+    <p class="price-note">Цены ориентировочные, по рынку Костромы и области. Точную смету считаем после бесплатного выезда и замера — фиксируем по этапам в договоре.</p>
   </section>
 
   <section class="sect">

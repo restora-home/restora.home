@@ -136,6 +136,8 @@
   .list-row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:22px 0;border-bottom:1px solid var(--line)}
   .list-row .name{font-family:var(--sans);font-weight:500;font-size:19px;color:var(--ink)}
   .list-row .desc{font-size:14px;color:var(--muted);text-align:right;max-width:440px}
+  .list-row .price{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--navy);white-space:nowrap;flex:none}
+  .price-note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
   @media(max-width:600px){ .list-row{flex-direction:column;gap:4px} .list-row .desc{text-align:left} }
 
   /* ===== частые вопросы: нативный <details> — аккордеон без JS ===== */
@@ -304,6 +306,19 @@
       <div class="list-row"><span class="name">Фасад</span><span class="desc">Восстанавливаем внешний вид, сохраняя характер дома, а не превращая его в новодел.</span></div>
       <div class="list-row"><span class="name">Инженерные системы</span><span class="desc">Обновление электрики и коммуникаций внутри — по необходимости.</span></div>
     </div>
+  </section>
+
+  <section class="sect">
+    <div class="sect-head reveal">
+      <h2>Ориентировочная стоимость по видам работ</h2>
+      <div class="kicker"><i></i>Сколько это стоит</div>
+    </div>
+    <div class="list-rows reveal">
+      <div class="list-row"><span class="name">Замена нижних венцов сруба</span><span class="price">от 3 000 ₽/пог. м</span></div>
+      <div class="list-row"><span class="name">Ремонт кровли</span><span class="price">от 700 ₽/м²</span></div>
+      <div class="list-row"><span class="name">Ремонт и замена фундамента</span><span class="price">от 15 000 ₽/пог. м</span></div>
+    </div>
+    <p class="price-note">Цены ориентировочные, по рынку Костромы и области. Точную смету считаем после бесплатного выезда и замера — фиксируем по этапам в договоре.</p>
   </section>
 
   <section class="sect">
