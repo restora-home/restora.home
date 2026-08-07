@@ -123,6 +123,10 @@
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;
     font-family:var(--sans)}
   .photo-slot.on-dark span{color:#fff}
+  /* ===== кликабельные фото услуг: transform/opacity уже управляются JS инлайн-стилями
+     (скролл-рост + параллакс), поэтому hover-эффект сделан через filter, а не transform ===== */
+  a.photo-slot{transition:filter .35s var(--ease)}
+  a.photo-slot:hover{filter:brightness(1.06)}
   @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} }
 
   /* ===== HERO: огромный логотип-надпись, минимум chrome — как у референса ===== */
@@ -459,7 +463,7 @@
     </div>
 
     <div class="service-feature reveal">
-      <div class="photo-slot"><img src="assets/otdelka-pokraska-valik.jpg" alt="Покраска стены валиком: подготовка и чистовая отделка" loading="lazy" data-parallax></div>
+      <a href="uslugi/otdelka-elektromontazh" class="photo-slot" aria-label="Отделка и электромонтаж под ключ"><img src="assets/otdelka-pokraska-valik.jpg" alt="Покраска стены валиком: подготовка и чистовая отделка" loading="lazy" data-parallax></a>
       <h3>Отделка и электромонтаж под ключ</h3>
       <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
       <a href="uslugi/otdelka-elektromontazh" class="link-arrow">Подробнее об услуге</a>
@@ -467,13 +471,13 @@
 
     <div class="service-grid reveal">
       <div>
-        <div class="photo-slot"><img src="assets/fasad-montazh-saiding.jpg" alt="Монтаж фасада: обшивка сайдингом" loading="lazy" data-parallax></div>
+        <a href="uslugi/fasady-montazh" class="photo-slot" aria-label="Фасадные и монтажные работы"><img src="assets/fasad-montazh-saiding.jpg" alt="Монтаж фасада: обшивка сайдингом" loading="lazy" data-parallax></a>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div>
-        <div class="photo-slot"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax></div>
+        <a href="uslugi/vosstanovlenie-domov" class="photo-slot" aria-label="Восстановление домов"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax></a>
         <h3>Восстановление домов</h3>
         <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
         <a href="uslugi/vosstanovlenie-domov" class="link-arrow">Подробнее об услуге</a>
