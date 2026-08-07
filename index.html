@@ -172,6 +172,27 @@
     .split .word{font-size:32px}
   }
 
+  /* ===== кастомный курсор: маленький синий треугольник (в стиле маркера-киккера),
+     на кликабельных фото услуг превращается в пилюлю "Открыть". Включается только
+     на устройствах с точным указателем (мышь) — см. скрипт в конце страницы, там же
+     проверка prefers-reduced-motion; на тач-экранах остаётся нативный курсор ===== */
+  html.has-custom-cursor, html.has-custom-cursor *{cursor:none !important}
+  html.has-custom-cursor input, html.has-custom-cursor textarea{cursor:text !important}
+  .custom-cursor{position:fixed;top:0;left:0;z-index:300;pointer-events:none;opacity:0;
+    transition:opacity .25s var(--ease)}
+  .custom-cursor.is-visible{opacity:1}
+  .custom-cursor__shape{position:absolute;top:50%;left:50%;width:0;height:0;
+    transform:translate(-50%,-50%);border-style:solid;border-width:8px 0 8px 14px;
+    border-color:transparent transparent transparent var(--navy);
+    transition:opacity .25s var(--ease),transform .25s var(--ease)}
+  .custom-cursor__label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.7);
+    display:flex;align-items:center;justify-content:center;white-space:nowrap;
+    background:var(--navy);color:#fff;font-family:var(--sans);font-weight:600;font-size:12px;
+    letter-spacing:.02em;padding:12px 22px;border-radius:999px;opacity:0;
+    transition:opacity .25s var(--ease),transform .25s var(--ease)}
+  .custom-cursor.is-open .custom-cursor__shape{opacity:0;transform:translate(-50%,-50%) scale(.4)}
+  .custom-cursor.is-open .custom-cursor__label{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
   /* ===== кнопки/ссылки: простой подчёркнутый текст, как "See all projects" у референса ===== */
   .cta,.link-arrow{display:inline-block;color:var(--ink);text-decoration:underline;text-underline-offset:4px;
     font-family:var(--sans);font-weight:400;font-size:15px;transition:color .25s var(--ease)}
@@ -1124,6 +1145,40 @@
         });
       }
     });
+  });
+})();
+</script>
+<!-- ===== кастомный курсор: синий треугольник, на кликабельных фото услуг —
+     пилюля "Открыть". Только для мыши (pointer:fine) и без reduced-motion —
+     на тач-устройствах курсор вообще не создаётся, нативное поведение ===== -->
+<script>
+(function(){
+  if(!window.matchMedia('(pointer: fine)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.documentElement.classList.add('has-custom-cursor');
+  var cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  cursor.innerHTML = '<span class="custom-cursor__shape"></span><span class="custom-cursor__label">Открыть</span>';
+  document.body.appendChild(cursor);
+
+  var targetX = 0, targetY = 0, curX = 0, curY = 0, raf = null;
+  function loop(){
+    curX += (targetX - curX) * 0.35;
+    curY += (targetY - curY) * 0.35;
+    cursor.style.transform = 'translate(' + curX + 'px,' + curY + 'px)';
+    raf = requestAnimationFrame(loop);
+  }
+  document.addEventListener('mousemove', function(e){
+    targetX = e.clientX; targetY = e.clientY;
+    cursor.classList.add('is-visible');
+    if(raf === null) raf = requestAnimationFrame(loop);
+  });
+  document.addEventListener('mouseleave', function(){ cursor.classList.remove('is-visible'); });
+
+  [].slice.call(document.querySelectorAll('a.photo-slot')).forEach(function(a){
+    a.addEventListener('mouseenter', function(){ cursor.classList.add('is-open'); });
+    a.addEventListener('mouseleave', function(){ cursor.classList.remove('is-open'); });
   });
 })();
 </script>
