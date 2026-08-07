@@ -36,6 +36,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
 <style>
+  /* ===== переход между страницами: нативный View Transitions API для MPA —
+     без JS, прогрессивное улучшение (Chrome/Edge 126+, в остальных браузерах
+     просто обычная навигация без анимации). Новая страница выезжает снизу
+     поверх старой, как штора; на prefers-reduced-motion — мгновенная смена ===== */
+  @view-transition{navigation:auto}
+  @media(prefers-reduced-motion:no-preference){
+    ::view-transition-old(root){animation:none}
+    ::view-transition-new(root){animation:page-slide-up .55s cubic-bezier(.22,.61,.3,1) both}
+    @keyframes page-slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  }
   :root{
     /* цвета и типографика измерены на реальной странице референса (getComputedStyle),
        а не подобраны на глаз: цвет текста rgb(37,35,32), заголовки — 400 начертание,
