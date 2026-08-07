@@ -173,25 +173,29 @@
   }
 
   /* ===== кастомный курсор: синий треугольник, развёрнутый остриём вверх-влево —
-     как у обычного стрелочного курсора. На кликабельных фото услуг превращается
-     в пилюлю "Открыть". Включается только на устройствах с точным указателем
-     (мышь) — см. скрипт в конце страницы, там же проверка prefers-reduced-motion;
-     на тач-экранах остаётся нативный курсор ===== */
+     как у обычного стрелочного курсора (проверено маркером вершины через Playwright,
+     а не на глаз — форма почти равносторонняя, направление легко спутать). Вокруг —
+     белый фаус-контур (drop-shadow), чтобы курсор не сливался, когда попадает на
+     синий текст того же цвета. На кликабельных фото услуг треугольник растворяется,
+     вместо него появляется текст "Открыть" без капсулы-подложки. Включается только
+     на устройствах с точным указателем (мышь) — см. скрипт в конце страницы, там же
+     проверка prefers-reduced-motion; на тач-экранах остаётся нативный курсор ===== */
   html.has-custom-cursor, html.has-custom-cursor *{cursor:none !important}
   html.has-custom-cursor input, html.has-custom-cursor textarea{cursor:text !important}
   .custom-cursor{position:fixed;top:0;left:0;z-index:300;pointer-events:none;opacity:0;
     transition:opacity .25s var(--ease)}
   .custom-cursor.is-visible{opacity:1}
   .custom-cursor__shape{position:absolute;top:50%;left:50%;width:0;height:0;
-    transform:translate(-50%,-50%) rotate(135deg);border-style:solid;border-width:8px 0 8px 14px;
+    transform:translate(-50%,-50%) rotate(-135deg);border-style:solid;border-width:8px 0 8px 14px;
     border-color:transparent transparent transparent var(--navy);
+    filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff);
     transition:opacity .25s var(--ease),transform .25s var(--ease)}
-  .custom-cursor__label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.6);
+  .custom-cursor__label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.85);
     display:flex;align-items:center;justify-content:center;white-space:nowrap;
-    background:var(--navy);color:#fff;font-family:var(--sans);font-weight:600;font-size:12px;
-    letter-spacing:.02em;padding:13px 24px;border-radius:999px;opacity:0;
-    transition:opacity .25s var(--ease),transform .35s cubic-bezier(.34,1.56,.64,1)}
-  .custom-cursor.is-open .custom-cursor__shape{opacity:0;transform:translate(-50%,-50%) rotate(135deg) scale(.4)}
+    color:var(--navy);font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:.02em;
+    text-shadow:0 1px 2px rgba(255,255,255,.9),0 0 10px rgba(255,255,255,.9),0 0 2px rgba(255,255,255,.9);
+    opacity:0;transition:opacity .25s var(--ease),transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .custom-cursor.is-open .custom-cursor__shape{opacity:0;transform:translate(-50%,-50%) rotate(-135deg) scale(.4)}
   .custom-cursor.is-open .custom-cursor__label{opacity:1;transform:translate(-50%,-50%) scale(1)}
 
   /* ===== кнопки/ссылки: простой подчёркнутый текст, как "See all projects" у референса ===== */
