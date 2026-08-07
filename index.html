@@ -42,8 +42,9 @@
      поверх старой, как штора; на prefers-reduced-motion — мгновенная смена ===== */
   @view-transition{navigation:auto}
   @media(prefers-reduced-motion:no-preference){
-    ::view-transition-old(root){animation:none}
-    ::view-transition-new(root){animation:page-slide-up .55s cubic-bezier(.22,.61,.3,1) both}
+    ::view-transition-old(root){animation:page-recede .6s cubic-bezier(.22,.61,.3,1) both}
+    ::view-transition-new(root){animation:page-slide-up .75s cubic-bezier(.16,1,.3,1) both}
+    @keyframes page-recede{from{transform:scale(1);opacity:1}to{transform:scale(.96);opacity:.7}}
     @keyframes page-slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
   }
   :root{
