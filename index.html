@@ -54,7 +54,8 @@
 
   /* ===== kicker: маленький квадрат + подпись — так помечены разделы у референса ===== */
   .kicker{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);font-weight:400;margin-bottom:18px}
-  .kicker i{width:6px;height:6px;background:var(--ink);flex:none}
+  .kicker i{width:0;height:0;flex:none;border-style:solid;border-width:4px 0 4px 7px;
+    border-color:transparent transparent transparent var(--navy)}
 
   /* ===== TOPBAR: логотип слева, "Menu" по центру, заявка справа — без карточек и теней ===== */
   .topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
