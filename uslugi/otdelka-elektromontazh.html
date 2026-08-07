@@ -174,24 +174,26 @@
     .sect{padding:64px 6vw}
     .page-hero{padding:40px 6vw 0}
     .topbar{padding:16px 6vw}
+    .footer-top{grid-template-columns:1fr;gap:32px}
+    .footer-about p{max-width:none}
   }
 
   .site-footer{background:var(--navy);color:#fff}
   .footer-inner{max-width:1400px;margin:0 auto;padding:96px 1.3vw 48px}
-  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:72px}
-  .footer-left{display:flex;flex-direction:column;gap:32px}
-  .footer-mark{width:34px;aspect-ratio:283/332.02}
-  .footer-mark .piece{fill:#fff}
+  .footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;margin-bottom:56px}
+  .footer-heading{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7f97cf;margin-bottom:18px;font-weight:600}
+  .footer-about p{font-size:14px;line-height:1.7;color:#cfe0ff;max-width:300px}
   .footer-nav{display:flex;flex-direction:column;gap:12px}
   .footer-nav a{color:#fff;text-decoration:none;font-size:15px;opacity:.92;transition:opacity .3s var(--ease)}
   .footer-nav a:hover{opacity:1;text-decoration:underline}
-  .footer-social{display:flex;flex-direction:column;gap:10px;align-items:flex-end;text-align:right}
+  .footer-social{display:flex;flex-direction:column;gap:10px}
   .footer-social a{color:#cfe0ff;text-decoration:none;font-size:14px}
   .footer-social a:hover{color:#fff}
-  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#9fb3dd;margin-top:32px}
-  .footer-top .footer-mark,.footer-nav a,.footer-social a{
+  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#9fb3dd;
+    padding-top:28px;border-top:1px solid rgba(255,255,255,.14)}
+  .footer-about p,.footer-nav a,.footer-social a{
     opacity:0;transform:translateY(26px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
-  .footer-top.in-view .footer-mark{opacity:1;transform:none;transition-delay:0s}
+  .footer-top.in-view .footer-about p{opacity:1;transform:none;transition-delay:0s}
   .footer-top.in-view .footer-nav a:nth-child(1){opacity:1;transform:none;transition-delay:.1s}
   .footer-top.in-view .footer-nav a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
   .footer-top.in-view .footer-nav a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
@@ -199,7 +201,7 @@
   .footer-top.in-view .footer-social a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
   .footer-top.in-view .footer-social a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
   @media(prefers-reduced-motion:reduce){
-    .footer-top .footer-mark,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
+    .footer-about p,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
   }
   .footer-wordmark{font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
     font-size:clamp(64px,21vw,340px);color:#fff;margin-top:56px;overflow:hidden;white-space:nowrap;
@@ -415,28 +417,25 @@
 <footer class="site-footer" id="footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-left">
-        <svg class="footer-mark" viewBox="0 0 283.000000 332.020590" role="img" aria-hidden="true"><g transform="translate(-4.000000,336.000000) scale(0.100000,-0.100000)"><path class="piece" d="M40 2628 l0 -733 101 100 101 100 611 610 612 610 19 23 19 22 -731
-0 -732 0 0 -732z"/><path class="piece" d="M817 2582 l-777 -777 0 -370 0 -370 405 405 405 405 0 367 0 368 377
-0 376 0 294 292 294 293 -3 10 -3 11 -76 72 -76 72 -219 0 -219 0 -778 -778z"/><path class="piece" d="M1960 2880 l-275 -269 98 -98 97 -98 0 -168 0 -168 13 8 12 8 180
-190 180 190 158 166 157 167 0 9 0 9 -164 162 -164 162 -8 0 -9 0 -275 -270z"/><path class="piece" d="M2589 2731 l-34 -39 -240 -253 -240 -253 -265 -281 -264 -280 -121
--125 -120 -125 -95 -100 -96 -100 -81 -85 -82 -85 194 -5 194 -5 87 -130 87
--130 14 -15 15 -15 573 580 574 580 1 426 0 425 -28 27 -28 27 -5 0 -6 0 -34
--39z"/><path class="piece" d="M472 1407 l-432 -432 0 -418 0 -417 8 1 7 2 105 111 105 111 250 265
-250 265 95 99 95 99 16 16 15 16 260 274 259 273 78 84 79 84 -379 0 -378 0
--433 -433z"/><path class="piece" d="M1838 920 l-253 -260 -2 -12 -2 -13 197 -295 198 -295 447 -3 447 -2
-0 8 0 8 -92 135 -93 135 -293 427 -293 427 -4 0 -3 0 -254 -260z"/><path class="piece" d="M790 833 l-54 -58 -76 -80 -76 -80 -264 -278 -265 -279 -3 -9 -4 -9
-401 0 401 0 0 425 0 425 -4 0 -3 0 -53 -57z"/></g></svg>
+      <div class="footer-about">
+        <div class="footer-heading">Restora</div>
+        <p>Отделка, электромонтаж и восстановление домов в Костроме и области — один подрядчик от замера до сдачи.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Навигация</div>
         <nav class="footer-nav">
           <a href="../#podhod">О нас</a>
           <a href="../#services">Услуги</a>
           <a href="../#footer">Контакты</a>
         </nav>
       </div>
-      <div class="footer-social">
-        <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram ↗</a>
-        <a href="tel:+79639303637">+7 963 930-36-37</a>
-        <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
+      <div>
+        <div class="footer-heading">Контакты</div>
+        <div class="footer-social">
+          <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram ↗</a>
+          <a href="tel:+79639303637">+7 963 930-36-37</a>
+          <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
