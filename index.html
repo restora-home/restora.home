@@ -8,6 +8,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/favicon-32x32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="assets/favicon-16x16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="assets/favicon-120x120.png" type="image/png" sizes="120x120">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#0c388d">
@@ -35,6 +36,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
 <style>
+  /* ===== переход между страницами: нативный View Transitions API для MPA —
+     без JS, прогрессивное улучшение (Chrome/Edge 126+, в остальных браузерах
+     просто обычная навигация без анимации). Новая страница выезжает снизу
+     поверх старой, как штора; на prefers-reduced-motion — мгновенная смена ===== */
+  @view-transition{navigation:auto}
+  @media(prefers-reduced-motion:no-preference){
+    ::view-transition-old(root){animation:page-recede .6s cubic-bezier(.22,.61,.3,1) both}
+    ::view-transition-new(root){animation:page-slide-up .75s cubic-bezier(.16,1,.3,1) both}
+    @keyframes page-recede{from{transform:scale(1);opacity:1}to{transform:scale(.96);opacity:.7}}
+    @keyframes page-slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  }
   :root{
     /* цвета и типографика измерены на реальной странице референса (getComputedStyle),
        а не подобраны на глаз: цвет текста rgb(37,35,32), заголовки — 400 начертание,
@@ -53,7 +65,8 @@
 
   /* ===== kicker: маленький квадрат + подпись — так помечены разделы у референса ===== */
   .kicker{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);font-weight:400;margin-bottom:18px}
-  .kicker i{width:6px;height:6px;background:var(--ink);flex:none}
+  .kicker i{width:0;height:0;flex:none;border-style:solid;border-width:4px 0 4px 7px;
+    border-color:transparent transparent transparent var(--navy)}
 
   /* ===== TOPBAR: логотип слева, "Menu" по центру, заявка справа — без карточек и теней ===== */
   .topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
@@ -121,6 +134,10 @@
   .photo-slot span{position:absolute;left:16px;bottom:16px;font-size:11px;color:#9a9a9a;
     font-family:var(--sans)}
   .photo-slot.on-dark span{color:#fff}
+  /* ===== кликабельные фото услуг: transform/opacity уже управляются JS инлайн-стилями
+     (скролл-рост + параллакс), поэтому hover-эффект сделан через filter, а не transform ===== */
+  a.photo-slot{transition:filter .35s var(--ease)}
+  a.photo-slot:hover{filter:brightness(1.06)}
   @media(prefers-reduced-motion:reduce){ .photo-slot{transform:none !important;opacity:1 !important} }
 
   /* ===== HERO: огромный логотип-надпись, минимум chrome — как у референса ===== */
@@ -165,6 +182,33 @@
     .split.static .split-sticky{padding:40px 6vw}
     .split .word{font-size:32px}
   }
+
+  /* ===== кастомный курсор: синий треугольник, развёрнутый остриём вверх-влево —
+     как у обычного стрелочного курсора (проверено маркером вершины через Playwright,
+     а не на глаз — форма почти равносторонняя, направление легко спутать). Вокруг —
+     белый фаус-контур (drop-shadow), чтобы курсор не сливался, когда попадает на
+     синий текст того же цвета. На кликабельных фото услуг треугольник растворяется,
+     вместо него появляется текст "Открыть" без капсулы-подложки. Включается только
+     на устройствах с точным указателем (мышь) — см. скрипт в конце страницы, там же
+     проверка prefers-reduced-motion; на тач-экранах остаётся нативный курсор ===== */
+  html.has-custom-cursor, html.has-custom-cursor *{cursor:none !important}
+  html.has-custom-cursor input, html.has-custom-cursor textarea{cursor:text !important}
+  .custom-cursor{position:fixed;top:0;left:0;z-index:300;pointer-events:none;opacity:0;
+    transition:opacity .25s var(--ease)}
+  .custom-cursor.is-visible{opacity:1}
+  .custom-cursor__shape{position:absolute;top:50%;left:50%;width:0;height:0;
+    transform:translate(-50%,-50%) rotate(-135deg);border-style:solid;border-width:7px 0 7px 16px;
+    border-color:transparent transparent transparent var(--navy);
+    filter:drop-shadow(0 3px 5px rgba(0,0,0,.45));
+    transition:opacity .25s var(--ease),transform .25s var(--ease)}
+  .custom-cursor__label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.85);
+    display:flex;align-items:center;justify-content:center;white-space:nowrap;
+    color:rgba(255,255,255,.8);font-family:var(--sans);font-weight:400;font-size:13px;
+    text-transform:uppercase;letter-spacing:.1em;
+    text-shadow:0 1px 3px rgba(0,0,0,.5),0 0 12px rgba(0,0,0,.35);
+    opacity:0;transition:opacity .25s var(--ease),transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .custom-cursor.is-open .custom-cursor__shape{opacity:0;transform:translate(-50%,-50%) rotate(-135deg) scale(.4)}
+  .custom-cursor.is-open .custom-cursor__label{opacity:1;transform:translate(-50%,-50%) scale(1)}
 
   /* ===== кнопки/ссылки: простой подчёркнутый текст, как "See all projects" у референса ===== */
   .cta,.link-arrow{display:inline-block;color:var(--ink);text-decoration:underline;text-underline-offset:4px;
@@ -238,26 +282,26 @@
   .faq-item__body p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
   @media(prefers-reduced-motion:reduce){ .faq-item__body{transition:none} }
 
-  /* ===== футер: сплошной синий, как у референса. Сделан крупнее (больше отступов),
-     лого+нав сгруппированы в одну левую колонку (как у референса), контакты — справа ===== */
+  /* ===== футер: сплошной синий. 3 колонки — о компании / навигация / контакты —
+     вместо лого+нав слева и контактов справа. Маленький лого убран: он уже есть
+     в topbar, а гигантский wordmark ниже держит бренд-присутствие в футере ===== */
   .site-footer{background:var(--navy);color:#fff}
   .footer-inner{max-width:1400px;margin:0 auto;padding:96px 1.3vw 48px}
-  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:72px}
-  .footer-left{display:flex;flex-direction:column;gap:32px}
-  .footer-mark{width:34px;aspect-ratio:283/332.02}
-  .footer-mark .piece{fill:#fff}
+  .footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;margin-bottom:56px}
+  .footer-heading{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7f97cf;margin-bottom:18px;font-weight:600}
+  .footer-about p{font-size:14px;line-height:1.7;color:#cfe0ff;max-width:440px}
   .footer-nav{display:flex;flex-direction:column;gap:12px}
   .footer-nav a{color:#fff;text-decoration:none;font-size:15px;opacity:.92;transition:opacity .3s var(--ease)}
   .footer-nav a:hover{opacity:1;text-decoration:underline}
-  .footer-social{display:flex;flex-direction:column;gap:10px;align-items:flex-end;text-align:right}
+  .footer-social{display:flex;flex-direction:column;gap:10px}
   .footer-social a{color:#cfe0ff;text-decoration:none;font-size:14px}
   .footer-social a:hover{color:#fff}
-  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#9fb3dd;margin-top:32px}
-  /* ===== элементы верхнего блока футера появляются по одному снизу-вверх при скролле —
-     своя (не как у референса дословно) анимация, но раскладка блоков — как у референса ===== */
-  .footer-top .footer-mark,.footer-nav a,.footer-social a{
+  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#9fb3dd;
+    padding-top:28px;border-top:1px solid rgba(255,255,255,.14)}
+  /* ===== элементы верхнего блока футера появляются по одному снизу-вверх при скролле ===== */
+  .footer-about p,.footer-nav a,.footer-social a{
     opacity:0;transform:translateY(26px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
-  .footer-top.in-view .footer-mark{opacity:1;transform:none;transition-delay:0s}
+  .footer-top.in-view .footer-about p{opacity:1;transform:none;transition-delay:0s}
   .footer-top.in-view .footer-nav a:nth-child(1){opacity:1;transform:none;transition-delay:.1s}
   .footer-top.in-view .footer-nav a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
   .footer-top.in-view .footer-nav a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
@@ -266,7 +310,7 @@
   .footer-top.in-view .footer-social a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
   .footer-top.in-view .footer-social a:nth-child(3){opacity:1;transform:none;transition-delay:.26s}
   @media(prefers-reduced-motion:reduce){
-    .footer-top .footer-mark,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
+    .footer-about p,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
   }
   /* ===== гигантская надпись повторяется в футере белым по синему — тот же приём, что в hero,
      увеличена (было 300px кап) для более крупного, весомого футера ===== */
@@ -277,6 +321,8 @@
   @media(max-width:820px){
     .sect{padding:64px 6vw}
     .topbar{padding:16px 6vw}
+    .footer-top{grid-template-columns:1fr;gap:32px}
+    .footer-about p{max-width:none}
   }
 
   /* ===== модальное окно заявки ===== */
@@ -284,7 +330,8 @@
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
   .modal-backdrop.on{opacity:1;pointer-events:auto}
   .lead-modal{position:fixed;z-index:201;top:50%;left:50%;transform:translate(-50%,-46%);width:min(420px,88vw);
-    background:#fff;border:1px solid var(--line);padding:36px 32px 28px;
+    max-height:90vh;overflow-y:auto;
+    background:#fff;border:1px solid var(--line);border-radius:4px;padding:36px 32px 28px;
     box-shadow:0 50px 100px -30px rgba(12,20,40,.35);
     opacity:0;pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
   .lead-modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
@@ -311,6 +358,12 @@
   .modal-status{min-height:16px;font-size:12px;text-align:center;margin-top:2px;color:var(--muted)}
   .modal-status.err{color:#c0392b}
   .modal-status.ok{color:#1f7a4a}
+  .modal-alt{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+  .modal-alt__label{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin-bottom:10px}
+  .modal-alt__links{display:flex;flex-wrap:wrap;gap:6px 16px}
+  .modal-alt__links a{font-size:13.5px;color:var(--ink);text-decoration:none;transition:color .25s var(--ease)}
+  .modal-alt__links a:hover{color:var(--navy);text-decoration:underline}
   @media(max-width:480px){
     .lead-modal{padding:30px 22px 24px}
     .lead-modal h3{font-size:21px}
@@ -455,7 +508,7 @@
     </div>
 
     <div class="service-feature reveal">
-      <div class="photo-slot"><img src="assets/otdelka-pokraska-valik.jpg" alt="Покраска стены валиком: подготовка и чистовая отделка" loading="lazy" data-parallax></div>
+      <a href="uslugi/otdelka-elektromontazh" class="photo-slot" aria-label="Отделка и электромонтаж под ключ"><img src="assets/otdelka-pokraska-valik.jpg" alt="Покраска стены валиком: подготовка и чистовая отделка" loading="lazy" data-parallax></a>
       <h3>Отделка и электромонтаж под ключ</h3>
       <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
       <a href="uslugi/otdelka-elektromontazh" class="link-arrow">Подробнее об услуге</a>
@@ -463,13 +516,13 @@
 
     <div class="service-grid reveal">
       <div>
-        <div class="photo-slot"><img src="assets/fasad-montazh-saiding.jpg" alt="Монтаж фасада: обшивка сайдингом" loading="lazy" data-parallax></div>
+        <a href="uslugi/fasady-montazh" class="photo-slot" aria-label="Фасадные и монтажные работы"><img src="assets/fasad-montazh-saiding.jpg" alt="Монтаж фасада: обшивка сайдингом" loading="lazy" data-parallax></a>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
         <a href="uslugi/fasady-montazh" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div>
-        <div class="photo-slot"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax></div>
+        <a href="uslugi/vosstanovlenie-domov" class="photo-slot" aria-label="Восстановление домов"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax></a>
         <h3>Восстановление домов</h3>
         <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
         <a href="uslugi/vosstanovlenie-domov" class="link-arrow">Подробнее об услуге</a>
@@ -540,29 +593,26 @@
   <footer class="site-footer" id="footer">
     <div class="footer-inner">
       <div class="footer-top">
-        <div class="footer-left">
-        <svg class="footer-mark" viewBox="0 0 283.000000 332.020590" role="img" aria-hidden="true"><g transform="translate(-4.000000,336.000000) scale(0.100000,-0.100000)"><path class="piece" d="M40 2628 l0 -733 101 100 101 100 611 610 612 610 19 23 19 22 -731
-0 -732 0 0 -732z"/><path class="piece" d="M817 2582 l-777 -777 0 -370 0 -370 405 405 405 405 0 367 0 368 377
-0 376 0 294 292 294 293 -3 10 -3 11 -76 72 -76 72 -219 0 -219 0 -778 -778z"/><path class="piece" d="M1960 2880 l-275 -269 98 -98 97 -98 0 -168 0 -168 13 8 12 8 180
-190 180 190 158 166 157 167 0 9 0 9 -164 162 -164 162 -8 0 -9 0 -275 -270z"/><path class="piece" d="M2589 2731 l-34 -39 -240 -253 -240 -253 -265 -281 -264 -280 -121
--125 -120 -125 -95 -100 -96 -100 -81 -85 -82 -85 194 -5 194 -5 87 -130 87
--130 14 -15 15 -15 573 580 574 580 1 426 0 425 -28 27 -28 27 -5 0 -6 0 -34
--39z"/><path class="piece" d="M472 1407 l-432 -432 0 -418 0 -417 8 1 7 2 105 111 105 111 250 265
-250 265 95 99 95 99 16 16 15 16 260 274 259 273 78 84 79 84 -379 0 -378 0
--433 -433z"/><path class="piece" d="M1838 920 l-253 -260 -2 -12 -2 -13 197 -295 198 -295 447 -3 447 -2
-0 8 0 8 -92 135 -93 135 -293 427 -293 427 -4 0 -3 0 -254 -260z"/><path class="piece" d="M790 833 l-54 -58 -76 -80 -76 -80 -264 -278 -265 -279 -3 -9 -4 -9
-401 0 401 0 0 425 0 425 -4 0 -3 0 -53 -57z"/></g></svg>
-        <nav class="footer-nav">
-          <a href="#podhod">Как работаем</a>
-          <a href="#services">Услуги</a>
-          <a href="#faq">Вопросы</a>
-          <a href="#footer">Контакты</a>
-        </nav>
+        <div class="footer-about">
+          <div class="footer-heading">Restora</div>
+          <p>«Restora» (Рестора) — это 5 лет надёжной работы на строительном рынке. Мы — команда профильных бригад, которая закрывает весь цикл: от демонтажа и черновой отделки до электромонтажа, фасадных работ, подшивов и ремонта кровли.</p>
         </div>
-        <div class="footer-social">
-          <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram ↗</a>
-          <a href="tel:+79639303637">+7 963 930-36-37</a>
-          <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
+        <div>
+          <div class="footer-heading">Навигация</div>
+          <nav class="footer-nav">
+            <a href="#podhod">Как работаем</a>
+            <a href="#services">Услуги</a>
+            <a href="#faq">Вопросы</a>
+            <a href="#footer">Контакты</a>
+          </nav>
+        </div>
+        <div>
+          <div class="footer-heading">Контакты</div>
+          <div class="footer-social">
+            <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram ↗</a>
+            <a href="tel:+79639303637">+7 963 930-36-37</a>
+            <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
@@ -589,6 +639,14 @@
     <button type="submit" class="modal-submit" id="modalSubmit">Отправить заявку</button>
     <p class="modal-status" id="modalStatus" role="status"></p>
   </form>
+  <div class="modal-alt">
+    <span class="modal-alt__label">Или свяжитесь напрямую</span>
+    <div class="modal-alt__links">
+      <a href="tel:+79639303637">+7 963 930-36-37</a>
+      <a href="mailto:restorahome.co@gmail.com">restorahome.co@gmail.com</a>
+      <a href="https://t.me/ivan3019" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
 </div>
 <!-- ADMIN:EDITABLE:END -->
 
@@ -1119,6 +1177,40 @@
         });
       }
     });
+  });
+})();
+</script>
+<!-- ===== кастомный курсор: синий треугольник, на кликабельных фото услуг —
+     пилюля "Открыть". Только для мыши (pointer:fine) и без reduced-motion —
+     на тач-устройствах курсор вообще не создаётся, нативное поведение ===== -->
+<script>
+(function(){
+  if(!window.matchMedia('(pointer: fine)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.documentElement.classList.add('has-custom-cursor');
+  var cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  cursor.innerHTML = '<span class="custom-cursor__shape"></span><span class="custom-cursor__label">Открыть</span>';
+  document.body.appendChild(cursor);
+
+  var targetX = 0, targetY = 0, curX = 0, curY = 0, raf = null;
+  function loop(){
+    curX += (targetX - curX) * 0.35;
+    curY += (targetY - curY) * 0.35;
+    cursor.style.transform = 'translate(' + curX + 'px,' + curY + 'px)';
+    raf = requestAnimationFrame(loop);
+  }
+  document.addEventListener('mousemove', function(e){
+    targetX = e.clientX; targetY = e.clientY;
+    cursor.classList.add('is-visible');
+    if(raf === null) raf = requestAnimationFrame(loop);
+  });
+  document.addEventListener('mouseleave', function(){ cursor.classList.remove('is-visible'); });
+
+  [].slice.call(document.querySelectorAll('a.photo-slot')).forEach(function(a){
+    a.addEventListener('mouseenter', function(){ cursor.classList.add('is-open'); });
+    a.addEventListener('mouseleave', function(){ cursor.classList.remove('is-open'); });
   });
 })();
 </script>
