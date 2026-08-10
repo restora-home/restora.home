@@ -282,6 +282,20 @@
   .faq-item__body p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
   @media(prefers-reduced-motion:reduce){ .faq-item__body{transition:none} }
 
+  /* ===== отзывы: реальные отзывы с Авито, сокращены с сохранением сути и оценки —
+     компактные карточки в общей сетке (как .service-grid), без лишних декораций ===== */
+  .reviews-grid{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);
+    gap:1px;background:var(--line);border:1px solid var(--line)}
+  .review-card{background:var(--paper);padding:28px 26px;display:flex;flex-direction:column;gap:14px}
+  .review-card__stars{color:var(--navy);font-size:13px;letter-spacing:2px}
+  .review-card__text{color:var(--ink);font-size:14.5px;line-height:1.65;flex:1}
+  .review-card__meta{display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid var(--line)}
+  .review-card__name{font-weight:600;font-size:13.5px;color:var(--ink)}
+  .review-card__service{font-size:12px;color:var(--muted)}
+  .reviews-source{margin-top:20px;font-size:12.5px;color:var(--muted)}
+  @media(max-width:1100px){ .reviews-grid{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:820px){ .reviews-grid{grid-template-columns:1fr} }
+
   /* ===== футер: сплошной синий. 3 колонки — о компании / навигация / контакты —
      вместо лого+нав слева и контактов справа. Маленький лого убран: он уже есть
      в topbar, а гигантский wordmark ниже держит бренд-присутствие в футере ===== */
@@ -577,6 +591,47 @@
         <div class="faq-item__body"><div><p>Кострома и Костромская область.</p></div></div>
       </details>
     </div>
+  </section>
+
+  <section class="sect reviews" id="reviews">
+    <div class="sect-head reveal">
+      <h2>Что говорят клиенты</h2>
+      <div class="kicker"><i></i>Отзывы</div>
+      <p>Реальные отзывы с Авито — каждая сделка подтверждена платформой.</p>
+    </div>
+    <div class="reviews-grid reveal">
+      <div class="review-card">
+        <span class="review-card__stars">★★★★★</span>
+        <p class="review-card__text">Благодарю Ивана за качественное оказание услуги. Смету согласовали, ни на копейку не ушло в сторону. Работы выполнили срок в срок — малярные работы на высочайшем уровне. Интересная и пунктуальная организация, всем советую.</p>
+        <div class="review-card__meta"><span class="review-card__name">Ignat</span><span class="review-card__service">Отделочные работы</span></div>
+      </div>
+      <div class="review-card">
+        <span class="review-card__stars">★★★★★</span>
+        <p class="review-card__text">Бригада работала по подшиву крыши. Сделали всё хорошо, парни адекватные. Бригадир отзывчивый — всегда поможет, подскажет. Цены умеренные, рекомендую.</p>
+        <div class="review-card__meta"><span class="review-card__name">Яна Шумилова</span><span class="review-card__service">Кровля, отделка</span></div>
+      </div>
+      <div class="review-card">
+        <span class="review-card__stars">★★★★★</span>
+        <p class="review-card__text">Спасибо огромное. Оперативная быстрая работа — без остановки выполнили тяжёлую работу по демонтажу.</p>
+        <div class="review-card__meta"><span class="review-card__name">Захарова Елена</span><span class="review-card__service">Демонтаж</span></div>
+      </div>
+      <div class="review-card">
+        <span class="review-card__stars">★★★★★</span>
+        <p class="review-card__text">Парни молодые, ответственные. Отработали отлично, оператор был всегда на связи.</p>
+        <div class="review-card__meta"><span class="review-card__name">Владимир</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
+      </div>
+      <div class="review-card">
+        <span class="review-card__stars">★★★★★</span>
+        <p class="review-card__text">Заказ приняли быстро, работу выполнили как договаривались. Буду обращаться ещё, спасибо за помощь.</p>
+        <div class="review-card__meta"><span class="review-card__name">Валентина</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
+      </div>
+      <div class="review-card">
+        <span class="review-card__stars">★★★★★</span>
+        <p class="review-card__text">Спасибо за качественно оказанную услугу. Всё сделано быстро, качественно. Рекомендую.</p>
+        <div class="review-card__meta"><span class="review-card__name">Лидия</span><span class="review-card__service">Разнорабочие, подсобники</span></div>
+      </div>
+    </div>
+    <p class="reviews-source">Отзывы приведены с Авито в сокращении — с сохранением сути и оценки.</p>
   </section>
 
   <section class="sect testimonial">
