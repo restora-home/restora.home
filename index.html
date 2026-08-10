@@ -200,7 +200,13 @@
     transform:translate(-50%,-50%) rotate(-135deg);border-style:solid;border-width:7px 0 7px 16px;
     border-color:transparent transparent transparent var(--navy);
     filter:drop-shadow(0 3px 5px rgba(0,0,0,.45));
-    transition:opacity .25s var(--ease),transform .25s var(--ease)}
+    transition:opacity .25s var(--ease),transform .25s var(--ease),border-color .25s var(--ease),filter .25s var(--ease)}
+  /* ===== на синих (навy) блоках сайта — кнопках, открытом меню, футере —
+     треугольник курсора становится белым, как будто накладывается на фон
+     (см. скрипт в конце страницы: слушатели на .cta-block/.modal-submit/
+     .site-footer/.menu-shell переключают класс on-dark) ===== */
+  .custom-cursor.on-dark .custom-cursor__shape{
+    border-color:transparent transparent transparent #fff;filter:none}
   .custom-cursor__label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.85);
     display:flex;align-items:center;justify-content:center;white-space:nowrap;
     color:rgba(255,255,255,.8);font-family:var(--sans);font-weight:400;font-size:13px;
@@ -1324,6 +1330,34 @@
     a.addEventListener('mouseenter', function(){ cursor.classList.add('is-open'); });
     a.addEventListener('mouseleave', function(){ cursor.classList.remove('is-open'); });
   });
+
+  // на синих (навy) блоках — кнопках, футере, открытом меню — курсор становится
+  // белым вместо синего, иначе сливался бы с фоном. Для .menu-shell фон синий
+  // только когда меню открыто, поэтому дополнительно перепроверяем состояние
+  // прямо в обработчике клика по кнопке "Меню" (тот же клик, что открывает
+  // панель — слушатель здесь навешан позже, чем в скрипте меню выше, поэтому
+  // класс is-open там уже успевает выставиться до того, как сработает этот)
+  [].slice.call(document.querySelectorAll('.cta-block, .modal-submit, .site-footer')).forEach(function(el){
+    el.addEventListener('mouseenter', function(){ cursor.classList.add('on-dark'); });
+    el.addEventListener('mouseleave', function(){ cursor.classList.remove('on-dark'); });
+  });
+
+  var menuShell = document.getElementById('menuShell');
+  var menuTrigger = document.getElementById('menuTrigger');
+  if(menuShell && menuTrigger){
+    var shellHovered = false;
+    menuShell.addEventListener('mouseenter', function(){
+      shellHovered = true;
+      if(menuShell.classList.contains('is-open')) cursor.classList.add('on-dark');
+    });
+    menuShell.addEventListener('mouseleave', function(){
+      shellHovered = false;
+      cursor.classList.remove('on-dark');
+    });
+    menuTrigger.addEventListener('click', function(){
+      cursor.classList.toggle('on-dark', shellHovered && menuShell.classList.contains('is-open'));
+    });
+  }
 })();
 </script>
 <!-- ===== карусель отзывов: медленная автопрокрутка вправо, набор карточек
