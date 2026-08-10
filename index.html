@@ -282,19 +282,25 @@
   .faq-item__body p{color:var(--muted);font-size:14px;line-height:1.7;padding-bottom:22px;max-width:640px}
   @media(prefers-reduced-motion:reduce){ .faq-item__body{transition:none} }
 
-  /* ===== отзывы: реальные отзывы с Авито, сокращены с сохранением сути и оценки —
-     компактные карточки в общей сетке (как .service-grid), без лишних декораций ===== */
-  .reviews-grid{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);
-    gap:1px;background:var(--line);border:1px solid var(--line)}
-  .review-card{background:var(--paper);padding:28px 26px;display:flex;flex-direction:column;gap:14px}
+  /* ===== отзывы: реальные отзывы с Авито, сокращены с сохранением сути и оценки.
+     Карусель — реальный горизонтальный scroll-контейнер (не CSS-анимация), скролл
+     полосы скрыты. Список карточек продублирован один раз подряд для бесшовной
+     закольцовки: как только доезжаем до конца первого набора — скачком (без
+     transition) возвращаемся на эквивалентную позицию в начале. Автопрокрутка —
+     медленный rAF-инкремент scrollLeft, на hover ставится на паузу и колесо мыши
+     начинает крутить карусель по горизонтали вместо скролла страницы
+     (см. скрипт в конце страницы) ===== */
+  .reviews-viewport{margin-top:48px;overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:none;-ms-overflow-style:none}
+  .reviews-viewport::-webkit-scrollbar{display:none}
+  .reviews-track{display:flex;gap:16px;width:max-content;padding-bottom:2px}
+  .review-card{background:var(--paper);border:1px solid var(--line);border-radius:4px;
+    padding:28px 26px;display:flex;flex-direction:column;gap:14px;width:320px;flex:none}
   .review-card__stars{color:var(--navy);font-size:13px;letter-spacing:2px}
   .review-card__text{color:var(--ink);font-size:14.5px;line-height:1.65;flex:1}
   .review-card__meta{display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid var(--line)}
   .review-card__name{font-weight:600;font-size:13.5px;color:var(--ink)}
   .review-card__service{font-size:12px;color:var(--muted)}
-  .reviews-source{margin-top:20px;font-size:12.5px;color:var(--muted)}
-  @media(max-width:1100px){ .reviews-grid{grid-template-columns:repeat(2,1fr)} }
-  @media(max-width:820px){ .reviews-grid{grid-template-columns:1fr} }
 
   /* ===== футер: сплошной синий. 3 колонки — о компании / навигация / контакты —
      вместо лого+нав слева и контактов справа. Маленький лого убран: он уже есть
@@ -599,39 +605,70 @@
       <div class="kicker"><i></i>Отзывы</div>
       <p>Реальные отзывы с Авито — каждая сделка подтверждена платформой.</p>
     </div>
-    <div class="reviews-grid reveal">
-      <div class="review-card">
-        <span class="review-card__stars">★★★★★</span>
-        <p class="review-card__text">Благодарю Ивана за качественное оказание услуги. Смету согласовали, ни на копейку не ушло в сторону. Работы выполнили срок в срок — малярные работы на высочайшем уровне. Интересная и пунктуальная организация, всем советую.</p>
-        <div class="review-card__meta"><span class="review-card__name">Ignat</span><span class="review-card__service">Отделочные работы</span></div>
-      </div>
-      <div class="review-card">
-        <span class="review-card__stars">★★★★★</span>
-        <p class="review-card__text">Бригада работала по подшиву крыши. Сделали всё хорошо, парни адекватные. Бригадир отзывчивый — всегда поможет, подскажет. Цены умеренные, рекомендую.</p>
-        <div class="review-card__meta"><span class="review-card__name">Яна Шумилова</span><span class="review-card__service">Кровля, отделка</span></div>
-      </div>
-      <div class="review-card">
-        <span class="review-card__stars">★★★★★</span>
-        <p class="review-card__text">Спасибо огромное. Оперативная быстрая работа — без остановки выполнили тяжёлую работу по демонтажу.</p>
-        <div class="review-card__meta"><span class="review-card__name">Захарова Елена</span><span class="review-card__service">Демонтаж</span></div>
-      </div>
-      <div class="review-card">
-        <span class="review-card__stars">★★★★★</span>
-        <p class="review-card__text">Парни молодые, ответственные. Отработали отлично, оператор был всегда на связи.</p>
-        <div class="review-card__meta"><span class="review-card__name">Владимир</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
-      </div>
-      <div class="review-card">
-        <span class="review-card__stars">★★★★★</span>
-        <p class="review-card__text">Заказ приняли быстро, работу выполнили как договаривались. Буду обращаться ещё, спасибо за помощь.</p>
-        <div class="review-card__meta"><span class="review-card__name">Валентина</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
-      </div>
-      <div class="review-card">
-        <span class="review-card__stars">★★★★★</span>
-        <p class="review-card__text">Спасибо за качественно оказанную услугу. Всё сделано быстро, качественно. Рекомендую.</p>
-        <div class="review-card__meta"><span class="review-card__name">Лидия</span><span class="review-card__service">Разнорабочие, подсобники</span></div>
+    <div class="reviews-viewport reveal" id="reviewsViewport">
+      <div class="reviews-track" id="reviewsTrack">
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Благодарю Ивана за качественное оказание услуги. Смету согласовали, ни на копейку не ушло в сторону. Работы выполнили срок в срок — малярные работы на высочайшем уровне. Интересная и пунктуальная организация, всем советую.</p>
+          <div class="review-card__meta"><span class="review-card__name">Ignat</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Бригада работала по подшиву крыши. Сделали всё хорошо, парни адекватные. Бригадир отзывчивый — всегда поможет, подскажет. Цены умеренные, рекомендую.</p>
+          <div class="review-card__meta"><span class="review-card__name">Яна Шумилова</span><span class="review-card__service">Кровля, отделка</span></div>
+        </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Спасибо огромное. Оперативная быстрая работа — без остановки выполнили тяжёлую работу по демонтажу.</p>
+          <div class="review-card__meta"><span class="review-card__name">Захарова Елена</span><span class="review-card__service">Демонтаж</span></div>
+        </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Парни молодые, ответственные. Отработали отлично, оператор был всегда на связи.</p>
+          <div class="review-card__meta"><span class="review-card__name">Владимир</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
+        </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Заказ приняли быстро, работу выполнили как договаривались. Буду обращаться ещё, спасибо за помощь.</p>
+          <div class="review-card__meta"><span class="review-card__name">Валентина</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
+        </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Спасибо за качественно оказанную услугу. Всё сделано быстро, качественно. Рекомендую.</p>
+          <div class="review-card__meta"><span class="review-card__name">Лидия</span><span class="review-card__service">Разнорабочие, подсобники</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Благодарю Ивана за качественное оказание услуги. Смету согласовали, ни на копейку не ушло в сторону. Работы выполнили срок в срок — малярные работы на высочайшем уровне. Интересная и пунктуальная организация, всем советую.</p>
+          <div class="review-card__meta"><span class="review-card__name">Ignat</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Бригада работала по подшиву крыши. Сделали всё хорошо, парни адекватные. Бригадир отзывчивый — всегда поможет, подскажет. Цены умеренные, рекомендую.</p>
+          <div class="review-card__meta"><span class="review-card__name">Яна Шумилова</span><span class="review-card__service">Кровля, отделка</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Спасибо огромное. Оперативная быстрая работа — без остановки выполнили тяжёлую работу по демонтажу.</p>
+          <div class="review-card__meta"><span class="review-card__name">Захарова Елена</span><span class="review-card__service">Демонтаж</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Парни молодые, ответственные. Отработали отлично, оператор был всегда на связи.</p>
+          <div class="review-card__meta"><span class="review-card__name">Владимир</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Заказ приняли быстро, работу выполнили как договаривались. Буду обращаться ещё, спасибо за помощь.</p>
+          <div class="review-card__meta"><span class="review-card__name">Валентина</span><span class="review-card__service">Разнорабочие, монтаж</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Спасибо за качественно оказанную услугу. Всё сделано быстро, качественно. Рекомендую.</p>
+          <div class="review-card__meta"><span class="review-card__name">Лидия</span><span class="review-card__service">Разнорабочие, подсобники</span></div>
+        </div>
       </div>
     </div>
-    <p class="reviews-source">Отзывы приведены с Авито в сокращении — с сохранением сути и оценки.</p>
   </section>
 
   <section class="sect testimonial">
@@ -1267,6 +1304,74 @@
     a.addEventListener('mouseenter', function(){ cursor.classList.add('is-open'); });
     a.addEventListener('mouseleave', function(){ cursor.classList.remove('is-open'); });
   });
+})();
+</script>
+<!-- ===== карусель отзывов: медленная автопрокрутка вправо, набор карточек
+     продублирован один раз в разметке — доехав до конца первого набора,
+     скачком (без transition, незаметно) возвращаемся в эквивалентную точку
+     начала, создавая бесконечную закольцовку. На hover автопрокрутка встаёт
+     на паузу, а колесо мыши вместо скролла страницы крутит карусель ===== -->
+<script>
+(function(){
+  var viewport = document.getElementById('reviewsViewport');
+  var track = document.getElementById('reviewsTrack');
+  if(!viewport || !track) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var half = 0;
+  function measure(){ half = track.scrollWidth / 2; }
+  measure();
+  window.addEventListener('resize', measure);
+
+  function wrap(v){
+    v = v % half;
+    if(v < 0) v += half;
+    return v;
+  }
+
+  // pos — реально выставленная позиция (едет плавно, с отставанием), target — куда
+  // она стремится (двигает автопрокрутка и колесо мыши). Каждый кадр pos подъезжает
+  // к target с сглаживанием (EASE) — так же, как трекинг у кастомного курсора,
+  // поэтому и щелчки колеса, и автопрокрутка ощущаются плавным разгоном/торможением,
+  // а не мгновенным скачком позиции
+  var pos = viewport.scrollLeft;
+  var target = pos;
+  var lastSet = pos;
+  var paused = false;
+  var SPEED = 0.22;
+  var EASE = 0.09;
+  function loop(){
+    if(Math.abs(viewport.scrollLeft - lastSet) > 1){ pos = viewport.scrollLeft; target = pos; }
+    if(!paused && half > 0) target += SPEED;
+    if(half > 0){
+      // держим target и pos рядом по числу и через шов закольцовки — иначе после
+      // wrap() лерп попытается проехать почти всю ширину трека в обратную сторону
+      var diff = target - pos;
+      if(diff > half / 2) target -= half;
+      else if(diff < -half / 2) target += half;
+      pos += (target - pos) * EASE;
+      pos = wrap(pos);
+      target = wrap(target);
+      viewport.scrollLeft = pos;
+      lastSet = pos;
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  viewport.addEventListener('mouseenter', function(){ paused = true; });
+  viewport.addEventListener('mouseleave', function(){ paused = false; });
+
+  viewport.addEventListener('wheel', function(e){
+    if(half <= 0) return;
+    e.preventDefault();
+    // stopPropagation обязателен: иначе событие всплывает до window, где Lenis
+    // слушает wheel для своего плавного скролла страницы — preventDefault тут
+    // не помогает, Lenis анимирует скролл сам, независимо от нативного действия,
+    // и получается рывок от двух конкурирующих анимаций сразу
+    e.stopPropagation();
+    target = wrap(target + e.deltaY);
+  }, { passive: false });
 })();
 </script>
 </body></html>
