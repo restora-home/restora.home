@@ -1323,21 +1323,35 @@
   measure();
   window.addEventListener('resize', measure);
 
-  // scrollLeft хранится браузером как целое число, поэтому дробный SPEED
-  // (меньше 1px/кадр — иначе прокрутка слишком быстрая) нельзя копить прямо
-  // в viewport.scrollLeft: он же и читается на следующем кадре, дробная часть
-  // каждый раз теряется на округлении. Копим позицию в своей float-переменной,
-  // а scrollLeft только выставляем. lastSet нужен, чтобы отличить наш же
-  // прошлый кадр от ручного скролла (тач/трекпад) и в этом случае пересинхронизироваться
+  function wrap(v){
+    v = v % half;
+    if(v < 0) v += half;
+    return v;
+  }
+
+  // pos — реально выставленная позиция (едет плавно, с отставанием), target — куда
+  // она стремится (двигает автопрокрутка и колесо мыши). Каждый кадр pos подъезжает
+  // к target с сглаживанием (EASE) — так же, как трекинг у кастомного курсора,
+  // поэтому и щелчки колеса, и автопрокрутка ощущаются плавным разгоном/торможением,
+  // а не мгновенным скачком позиции
   var pos = viewport.scrollLeft;
+  var target = pos;
   var lastSet = pos;
   var paused = false;
   var SPEED = 0.22;
+  var EASE = 0.09;
   function loop(){
-    if(Math.abs(viewport.scrollLeft - lastSet) > 1) pos = viewport.scrollLeft;
-    if(!paused && half > 0){
-      pos += SPEED;
-      if(pos >= half) pos -= half;
+    if(Math.abs(viewport.scrollLeft - lastSet) > 1){ pos = viewport.scrollLeft; target = pos; }
+    if(!paused && half > 0) target += SPEED;
+    if(half > 0){
+      // держим target и pos рядом по числу и через шов закольцовки — иначе после
+      // wrap() лерп попытается проехать почти всю ширину трека в обратную сторону
+      var diff = target - pos;
+      if(diff > half / 2) target -= half;
+      else if(diff < -half / 2) target += half;
+      pos += (target - pos) * EASE;
+      pos = wrap(pos);
+      target = wrap(target);
       viewport.scrollLeft = pos;
       lastSet = pos;
     }
@@ -1356,11 +1370,7 @@
     // не помогает, Lenis анимирует скролл сам, независимо от нативного действия,
     // и получается рывок от двух конкурирующих анимаций сразу
     e.stopPropagation();
-    pos += e.deltaY;
-    if(pos >= half) pos -= half;
-    if(pos < 0) pos += half;
-    viewport.scrollLeft = pos;
-    lastSet = pos;
+    target = wrap(target + e.deltaY);
   }, { passive: false });
 })();
 </script>
