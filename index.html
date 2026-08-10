@@ -293,9 +293,9 @@
   .reviews-viewport{margin-top:48px;overflow-x:auto;overflow-y:hidden;
     scrollbar-width:none;-ms-overflow-style:none}
   .reviews-viewport::-webkit-scrollbar{display:none}
-  .reviews-track{display:flex;gap:1px;background:var(--line);border:1px solid var(--line);width:max-content}
-  .review-card{background:var(--paper);padding:28px 26px;display:flex;flex-direction:column;gap:14px;
-    width:320px;flex:none}
+  .reviews-track{display:flex;gap:16px;width:max-content;padding-bottom:2px}
+  .review-card{background:var(--paper);border:1px solid var(--line);border-radius:4px;
+    padding:28px 26px;display:flex;flex-direction:column;gap:14px;width:320px;flex:none}
   .review-card__stars{color:var(--navy);font-size:13px;letter-spacing:2px}
   .review-card__text{color:var(--ink);font-size:14.5px;line-height:1.65;flex:1}
   .review-card__meta{display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid var(--line)}
@@ -1323,12 +1323,23 @@
   measure();
   window.addEventListener('resize', measure);
 
+  // scrollLeft хранится браузером как целое число, поэтому дробный SPEED
+  // (меньше 1px/кадр — иначе прокрутка слишком быстрая) нельзя копить прямо
+  // в viewport.scrollLeft: он же и читается на следующем кадре, дробная часть
+  // каждый раз теряется на округлении. Копим позицию в своей float-переменной,
+  // а scrollLeft только выставляем. lastSet нужен, чтобы отличить наш же
+  // прошлый кадр от ручного скролла (тач/трекпад) и в этом случае пересинхронизироваться
+  var pos = viewport.scrollLeft;
+  var lastSet = pos;
   var paused = false;
-  var SPEED = 0.5;
+  var SPEED = 0.22;
   function loop(){
+    if(Math.abs(viewport.scrollLeft - lastSet) > 1) pos = viewport.scrollLeft;
     if(!paused && half > 0){
-      viewport.scrollLeft += SPEED;
-      if(viewport.scrollLeft >= half) viewport.scrollLeft -= half;
+      pos += SPEED;
+      if(pos >= half) pos -= half;
+      viewport.scrollLeft = pos;
+      lastSet = pos;
     }
     requestAnimationFrame(loop);
   }
@@ -1340,9 +1351,11 @@
   viewport.addEventListener('wheel', function(e){
     if(half <= 0) return;
     e.preventDefault();
-    viewport.scrollLeft += e.deltaY;
-    if(viewport.scrollLeft >= half) viewport.scrollLeft -= half;
-    if(viewport.scrollLeft < 0) viewport.scrollLeft += half;
+    pos += e.deltaY;
+    if(pos >= half) pos -= half;
+    if(pos < 0) pos += half;
+    viewport.scrollLeft = pos;
+    lastSet = pos;
   }, { passive: false });
 })();
 </script>
