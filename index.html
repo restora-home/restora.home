@@ -1351,6 +1351,11 @@
   viewport.addEventListener('wheel', function(e){
     if(half <= 0) return;
     e.preventDefault();
+    // stopPropagation обязателен: иначе событие всплывает до window, где Lenis
+    // слушает wheel для своего плавного скролла страницы — preventDefault тут
+    // не помогает, Lenis анимирует скролл сам, независимо от нативного действия,
+    // и получается рывок от двух конкурирующих анимаций сразу
+    e.stopPropagation();
     pos += e.deltaY;
     if(pos >= half) pos -= half;
     if(pos < 0) pos += half;
