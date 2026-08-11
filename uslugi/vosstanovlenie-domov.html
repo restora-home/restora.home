@@ -214,16 +214,14 @@
   @media(prefers-reduced-motion:reduce){
     .footer-about p,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
   }
-  .footer-wordmark{position:relative;margin-top:56px}
-  .footer-wordmark__text{display:block;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
-    font-size:clamp(64px,21vw,340px);color:#fff;overflow:hidden;white-space:nowrap;
+  .footer-wordmark{display:flex;align-items:baseline;margin-top:56px;overflow:hidden;white-space:nowrap;
     width:100vw;margin-left:calc(50% - 50vw)}
-  .brand-suffix{position:absolute;right:1.3vw;bottom:100%;margin-bottom:10px;
-    display:flex;flex-direction:column;align-items:flex-end;line-height:1.2;white-space:nowrap}
-  .brand-suffix b{font-family:var(--sans);font-weight:800;letter-spacing:-.02em;
-    font-size:clamp(16px,2.4vw,32px);color:#fff}
-  .brand-suffix i{font-style:normal;font-family:var(--sans);font-weight:600;font-size:11px;
-    letter-spacing:.1em;text-transform:uppercase;color:#9fb3dd;margin-top:3px}
+  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
+    font-size:clamp(56px,18vw,290px);color:#fff}
+  /* ===== "HOME" — тонкая приставка к бренду рядом с RESTORA, контраст веса шрифта вместо
+     отдельной иконки ===== */
+  .brand-suffix{font-family:var(--sans);font-weight:300;letter-spacing:0;line-height:.86;
+    color:#fff;font-size:clamp(11px,2.7vw,86px);margin-left:clamp(4px,.9vw,18px)}
 
   .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(12,20,40,.45);
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
@@ -564,7 +562,7 @@
     </div>
     <div class="footer-wordmark">
       <span class="footer-wordmark__text">RESTORA</span>
-      <span class="brand-suffix"><b>HOME</b><i>Строительные бригады</i></span>
+      <span class="brand-suffix">HOME</span>
     </div>
   </div>
 </footer>

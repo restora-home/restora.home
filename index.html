@@ -148,21 +148,18 @@
   .hero-tag{max-width:340px;text-align:left;font-size:14px;line-height:1.5;color:var(--ink)}
   .hero-cta{margin-top:26px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
   .hero-cta .trust-line{font-size:12px;color:var(--muted);letter-spacing:.02em;line-height:1.6}
-  /* размер подобран так, чтобы слово из 7 букв (RESTORA) занимало почти всю ширину блока на
-     любом viewport, без переноса и без выхода за край. letter-spacing держим НЕ отрицательным —
-     при жирном начертании (800) и плотном трекинге буквы вроде "T-O"/"O-R" визуально слипаются */
-  .hero-word{position:relative;font-family:var(--sans);font-weight:800;letter-spacing:.01em;line-height:.86;
-    font-size:clamp(64px,17.65vw,600px);color:var(--navy);text-align:left}
-  /* ===== "HOME · Строительные бригады" — маленькая приставка к бренду, висит над
-     правым краем гигантской надписи RESTORA, не трогая её выверенный размер ===== */
-  .brand-suffix{position:absolute;right:1.3vw;bottom:100%;margin-bottom:10px;
-    display:flex;flex-direction:column;align-items:flex-end;line-height:1.2;white-space:nowrap}
-  .brand-suffix b{font-family:var(--sans);font-weight:800;letter-spacing:-.02em;
-    font-size:clamp(16px,2.4vw,32px);color:var(--navy)}
-  .brand-suffix i{font-style:normal;font-family:var(--sans);font-weight:600;font-size:11px;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-  .footer-wordmark .brand-suffix b{color:#fff}
-  .footer-wordmark .brand-suffix i{color:#9fb3dd}
+  /* размер подобран так, чтобы слово RESTORA + тонкая приставка HOME вместе занимали почти
+     всю ширину блока на любом viewport, без переноса и без выхода за край. letter-spacing
+     держим НЕ отрицательным — при жирном начертании (800) и плотном трекинге буквы вроде
+     "T-O"/"O-R" визуально слипаются */
+  .hero-wordrow{display:flex;align-items:baseline;white-space:nowrap}
+  .hero-word{font-family:var(--sans);font-weight:800;letter-spacing:.01em;line-height:.86;
+    font-size:clamp(54px,15vw,510px);color:var(--navy);text-align:left}
+  /* ===== "HOME" — тонкая приставка к бренду рядом с RESTORA, контраст веса шрифта вместо
+     отдельной иконки ===== */
+  .brand-suffix{font-family:var(--sans);font-weight:300;letter-spacing:0;line-height:.86;
+    font-size:clamp(13px,3.4vw,108px);color:var(--navy);margin-left:clamp(6px,1.1vw,22px)}
+  .footer-wordmark .brand-suffix{color:#fff;font-size:clamp(11px,2.7vw,86px);margin-left:clamp(4px,.9vw,18px)}
   .hero-bottom{display:flex;justify-content:space-between;margin-top:36px;font-size:12px;letter-spacing:.08em;
     text-transform:uppercase;color:var(--ink)}
   @media(max-width:700px){
@@ -352,10 +349,10 @@
   }
   /* ===== гигантская надпись повторяется в футере белым по синему — тот же приём, что в hero,
      увеличена (было 300px кап) для более крупного, весомого футера ===== */
-  .footer-wordmark{position:relative;margin-top:56px}
-  .footer-wordmark__text{display:block;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
-    font-size:clamp(64px,21vw,340px);color:#fff;overflow:hidden;white-space:nowrap;
+  .footer-wordmark{display:flex;align-items:baseline;margin-top:56px;overflow:hidden;white-space:nowrap;
     width:100vw;margin-left:calc(50% - 50vw)}
+  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
+    font-size:clamp(56px,18vw,290px);color:#fff}
 
   @media(max-width:820px){
     .sect{padding:64px 6vw}
@@ -511,7 +508,10 @@
       </div>
     </div>
   </div>
-  <h1 class="hero-word">RESTORA<span class="brand-suffix"><b>HOME</b><i>Строительные бригады</i></span></h1>
+  <div class="hero-wordrow">
+    <h1 class="hero-word">RESTORA</h1>
+    <span class="brand-suffix">HOME</span>
+  </div>
   <div class="hero-bottom">
     <span>Кострома</span>
     <span>Область</span>
@@ -772,7 +772,7 @@
       </div>
       <div class="footer-wordmark">
         <span class="footer-wordmark__text">RESTORA</span>
-        <span class="brand-suffix"><b>HOME</b><i>Строительные бригады</i></span>
+        <span class="brand-suffix">HOME</span>
       </div>
     </div>
   </footer>
