@@ -153,16 +153,16 @@
      заново, без переноса и без выхода за край. Значения ниже — стартовый фолбэк до расчёта ===== */
   .hero-wordrow{display:flex;align-items:baseline;white-space:nowrap;width:100%;
     margin-top:clamp(40px,10vw,320px)}
-  .hero-word{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:.01em;line-height:.86;
+  .hero-word{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
     font-size:clamp(54px,17vw,600px);color:var(--navy);text-align:left}
   /* ===== "HOME" — приставка к бренду рядом с RESTORA, тем же начертанием и размером,
      с крышей-иконкой над буквами (svg абсолютно спозиционирован, не участвует в
      baseline-выравнивании ряда — выравнивается только сам текст HOME) ===== */
-  .brand-suffix{position:relative;flex:none;font-family:var(--sans);font-weight:800;letter-spacing:.01em;
+  .brand-suffix{position:relative;flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;
     line-height:.86;font-size:clamp(54px,17vw,600px);color:var(--navy);margin-left:.15em}
   .brand-suffix svg{position:absolute;left:0;bottom:100%;width:100%;height:auto;
     margin-bottom:.06em;display:block}
-  .footer-wordmark .brand-suffix{color:#fff;letter-spacing:-.04em}
+  .footer-wordmark .brand-suffix{color:#fff}
   .hero-bottom{display:flex;justify-content:space-between;margin-top:36px;font-size:12px;letter-spacing:.08em;
     text-transform:uppercase;color:var(--ink)}
   @media(max-width:700px){
@@ -354,7 +354,7 @@
      увеличена (было 300px кап) для более крупного, весомого футера ===== */
   .footer-wordmark{display:flex;align-items:baseline;margin-top:clamp(60px,13vw,220px);
     white-space:nowrap;width:100vw;margin-left:calc(50% - 50vw)}
-  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
+  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
     font-size:clamp(56px,21vw,340px);color:#fff}
 
   @media(max-width:820px){
