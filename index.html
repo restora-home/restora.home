@@ -79,8 +79,10 @@
      живёт в .menu-shell (position:fixed), т.к. ей нужно расти поверх остального контента */
   .menu-slot{justify-self:center;width:124px;height:38px;visibility:hidden}
 
-  .navpills{justify-self:end}
+  .navpills{justify-self:end;display:flex;align-items:center;gap:18px}
   .top-cta{color:var(--ink);text-decoration:underline;text-underline-offset:4px;font-size:14px;font-weight:400}
+  .navpills .cta-block{padding:10px 22px;font-size:13px;border-radius:4px}
+  .navpills .cta-block:hover{padding-left:26px;padding-right:26px}
 
   /* ===== выпадающее меню: кнопка "Меню" сама плавно морфится в развёрнутую панель —
      один и тот же элемент растёт по ширине/высоте и меняет цвет, а не two отдельных
@@ -459,7 +461,7 @@
 0 8 0 8 -92 135 -93 135 -293 427 -293 427 -4 0 -3 0 -254 -260z"/><path class="piece" d="M790 833 l-54 -58 -76 -80 -76 -80 -264 -278 -265 -279 -3 -9 -4 -9
 401 0 401 0 0 425 0 425 -4 0 -3 0 -53 -57z"/></g></svg></a>
   <span class="menu-slot" aria-hidden="true"></span>
-  <nav class="navpills"><a href="#" class="top-cta cta" data-topic="Заявка с сайта">Заявка</a></nav>
+  <nav class="navpills"><a href="smeta" class="top-cta cta">Смета</a><a href="#" class="cta cta-block" data-topic="Заявка с сайта">Заявка</a></nav>
 </div>
 
 <div class="menu-shell" id="menuShell">
@@ -653,6 +655,16 @@
           <p class="review-card__text">Обращались, чтобы привести в порядок старый сруб — дерево от времени совсем посерело и потеряло вид. Ребята поработали и внутри, и снаружи, всё сделали качественно. Результатом полностью доволен, дом теперь выглядит отлично.</p>
           <div class="review-card__meta"><span class="review-card__name">Сергей Т.</span><span class="review-card__service">Восстановление сруба</span></div>
         </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Огромное спасибо команде Restora Home! Сделали отделку просто на ура — быстро, четко и без лишней головной боли для меня. Пространство теперь вообще не узнать, результат просто супер. Ребята — настоящие профи, очень рад, что доверил работу именно вам!</p>
+          <div class="review-card__meta"><span class="review-card__name">Александр С.</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Искал нормальных мастеров, а нашел лучшую бригаду. Команде Restora Home — огромный респект за шикарную работу! Никаких затягиваний сроков, нервотрепки и кривых углов, всё сделали по красоте и на совесть. Максимально доволен, теперь точно знаю, кого советовать знакомым.</p>
+          <div class="review-card__meta"><span class="review-card__name">Дмитрий Т.</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
         <div class="review-card" aria-hidden="true">
           <span class="review-card__stars">★★★★★</span>
           <p class="review-card__text">Благодарю Ивана за качественное оказание услуги. Смету согласовали, ни на копейку не ушло в сторону. Работы выполнили срок в срок — малярные работы на высочайшем уровне. Интересная и пунктуальная организация, всем советую.</p>
@@ -692,6 +704,16 @@
           <span class="review-card__stars">★★★★★</span>
           <p class="review-card__text">Обращались, чтобы привести в порядок старый сруб — дерево от времени совсем посерело и потеряло вид. Ребята поработали и внутри, и снаружи, всё сделали качественно. Результатом полностью доволен, дом теперь выглядит отлично.</p>
           <div class="review-card__meta"><span class="review-card__name">Сергей Т.</span><span class="review-card__service">Восстановление сруба</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Огромное спасибо команде Restora Home! Сделали отделку просто на ура — быстро, четко и без лишней головной боли для меня. Пространство теперь вообще не узнать, результат просто супер. Ребята — настоящие профи, очень рад, что доверил работу именно вам!</p>
+          <div class="review-card__meta"><span class="review-card__name">Александр С.</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Искал нормальных мастеров, а нашел лучшую бригаду. Команде Restora Home — огромный респект за шикарную работу! Никаких затягиваний сроков, нервотрепки и кривых углов, всё сделали по красоте и на совесть. Максимально доволен, теперь точно знаю, кого советовать знакомым.</p>
+          <div class="review-card__meta"><span class="review-card__name">Дмитрий Т.</span><span class="review-card__service">Отделочные работы</span></div>
         </div>
       </div>
     </div>
