@@ -217,14 +217,17 @@
   /* ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю ширину блока —
      точный размер шрифта подбирает JS (см. скрипт в конце страницы), под каждый viewport
      заново, без переноса и без выхода за край. Значения ниже — стартовый фолбэк до расчёта ===== */
-  .footer-wordmark{display:flex;align-items:baseline;margin-top:56px;overflow:hidden;white-space:nowrap;
-    width:100vw;margin-left:calc(50% - 50vw)}
-  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
+  .footer-wordmark{display:flex;align-items:baseline;margin-top:clamp(60px,13vw,220px);
+    white-space:nowrap;width:100vw;margin-left:calc(50% - 50vw)}
+  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
     font-size:clamp(56px,21vw,340px);color:#fff}
-  /* ===== "HOME" — тонкая приставка к бренду рядом с RESTORA, контраст веса шрифта вместо
-     отдельной иконки ===== */
-  .brand-suffix{flex:none;font-family:var(--sans);font-weight:300;letter-spacing:0;line-height:.86;
-    color:#fff;font-size:clamp(13px,4vw,140px);margin-left:.18em}
+  /* ===== "HOME" — приставка к бренду рядом с RESTORA, тем же начертанием и размером,
+     с крышей-иконкой над буквами (svg абсолютно спозиционирован, не участвует в
+     baseline-выравнивании ряда — выравнивается только сам текст HOME) ===== */
+  .brand-suffix{position:relative;flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;
+    line-height:.86;color:#fff;font-size:clamp(56px,21vw,340px);margin-left:.15em}
+  .brand-suffix svg{position:absolute;left:0;bottom:100%;width:100%;height:auto;
+    margin-bottom:.06em;display:block}
 
   .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(12,20,40,.45);
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
@@ -565,7 +568,7 @@
     </div>
     <div class="footer-wordmark">
       <span class="footer-wordmark__text">RESTORA</span>
-      <span class="brand-suffix">HOME</span>
+      <span class="brand-suffix"><svg viewBox="-3 -2 237 62" aria-hidden="true"><path d="M0,53.3 L115.5,5.5 L231,53.3" stroke="currentColor" stroke-width="10.16" stroke-linecap="butt" stroke-linejoin="miter" fill="none"/><path d="M161.5,5 L182.5,5 L182.5,38.7 L161.5,30.04 Z" fill="currentColor"/></svg>HOME</span>
     </div>
   </div>
 </footer>
@@ -712,7 +715,7 @@
   var rows = [].slice.call(document.querySelectorAll('.hero-wordrow, .footer-wordmark'));
   if(!rows.length) return;
   var PROBE = 200;
-  var RATIO = .26;
+  var RATIO = 1;
 
   function fit(row){
     var word = row.querySelector('.hero-word, .footer-wordmark__text');
