@@ -214,14 +214,17 @@
   @media(prefers-reduced-motion:reduce){
     .footer-about p,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
   }
+  /* ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю ширину блока —
+     точный размер шрифта подбирает JS (см. скрипт в конце страницы), под каждый viewport
+     заново, без переноса и без выхода за край. Значения ниже — стартовый фолбэк до расчёта ===== */
   .footer-wordmark{display:flex;align-items:baseline;margin-top:56px;overflow:hidden;white-space:nowrap;
     width:100vw;margin-left:calc(50% - 50vw)}
   .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
-    font-size:clamp(56px,18vw,290px);color:#fff}
+    font-size:clamp(56px,21vw,340px);color:#fff}
   /* ===== "HOME" — тонкая приставка к бренду рядом с RESTORA, контраст веса шрифта вместо
      отдельной иконки ===== */
-  .brand-suffix{font-family:var(--sans);font-weight:300;letter-spacing:0;line-height:.86;
-    color:#fff;font-size:clamp(11px,2.7vw,86px);margin-left:clamp(4px,.9vw,18px)}
+  .brand-suffix{flex:none;font-family:var(--sans);font-weight:300;letter-spacing:0;line-height:.86;
+    color:#fff;font-size:clamp(13px,4vw,140px);margin-left:.18em}
 
   .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(12,20,40,.45);
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
@@ -697,6 +700,47 @@
     });
   }, { threshold: 0.1 });
   els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<!-- ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю доступную ширину
+     (от левого до правого отступа) на любом экране: измеряем естественную ширину строки на
+     опорном размере шрифта и масштабируем оба слова так, чтобы итоговая ширина точно совпала
+     с шириной контейнера ===== -->
+<script>
+(function(){
+  var rows = [].slice.call(document.querySelectorAll('.hero-wordrow, .footer-wordmark'));
+  if(!rows.length) return;
+  var PROBE = 200;
+  var RATIO = .26;
+
+  function fit(row){
+    var word = row.querySelector('.hero-word, .footer-wordmark__text');
+    var suffix = row.querySelector('.brand-suffix');
+    if(!word || !suffix) return;
+    word.style.fontSize = PROBE + 'px';
+    suffix.style.fontSize = (PROBE * RATIO) + 'px';
+    // scrollWidth не годится: на опорном размере строка обычно МЕНЬШЕ контейнера
+    // (не переполняет его), тогда scrollWidth просто равен clientWidth. Меряем
+    // истинную ширину напрямую по прямоугольникам первого и последнего слова
+    var natural = suffix.getBoundingClientRect().right - word.getBoundingClientRect().left;
+    var available = row.clientWidth;
+    if(!natural || !available) return;
+    var scale = available / natural;
+    word.style.fontSize = (PROBE * scale) + 'px';
+    suffix.style.fontSize = (PROBE * RATIO * scale) + 'px';
+  }
+
+  function fitAll(){ rows.forEach(fit); }
+
+  fitAll();
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitAll); }
+
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(fitAll, 120);
+  });
 })();
 </script>
 
