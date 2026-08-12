@@ -81,6 +81,10 @@
 
   .navpills{justify-self:end;display:flex;align-items:center;gap:18px}
   .top-cta{color:var(--ink);text-decoration:underline;text-underline-offset:4px;font-size:14px;font-weight:400}
+  /* ===== на очень узких экранах ссылка "Смета" в шапке визуально попадает под кнопку
+     "Меню" (та зафиксирована по центру, position:fixed, и лежит выше по z-index) —
+     прячем её здесь, страница «Смета» остаётся доступна через выпадающее меню ===== */
+  @media(max-width:520px){ .top-cta{display:none} }
   .navpills .cta-block{padding:10px 22px;font-size:13px;border-radius:4px}
   .navpills .cta-block:hover{padding-left:26px;padding-right:26px}
 
@@ -480,6 +484,7 @@
       <a href="#" class="offcanvas__link">Главная</a>
       <a href="#podhod" class="offcanvas__link">Как работаем</a>
       <a href="#services" class="offcanvas__link">Услуги</a>
+      <a href="smeta" class="offcanvas__link">Смета</a>
       <a href="#faq" class="offcanvas__link">Вопросы</a>
       <a href="#footer" class="offcanvas__link">Контакты</a>
       <a href="#" class="offcanvas__link offcanvas__link--cta cta" data-topic="Заявка с сайта">Оставить заявку</a>
