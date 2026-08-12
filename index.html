@@ -79,8 +79,10 @@
      живёт в .menu-shell (position:fixed), т.к. ей нужно расти поверх остального контента */
   .menu-slot{justify-self:center;width:124px;height:38px;visibility:hidden}
 
-  .navpills{justify-self:end}
+  .navpills{justify-self:end;display:flex;align-items:center;gap:18px}
   .top-cta{color:var(--ink);text-decoration:underline;text-underline-offset:4px;font-size:14px;font-weight:400}
+  .navpills .cta-block{padding:10px 22px;font-size:13px;border-radius:4px}
+  .navpills .cta-block:hover{padding-left:26px;padding-right:26px}
 
   /* ===== выпадающее меню: кнопка "Меню" сама плавно морфится в развёрнутую панель —
      один и тот же элемент растёт по ширине/высоте и меняет цвет, а не two отдельных
@@ -146,11 +148,22 @@
   .hero-tag{max-width:340px;text-align:left;font-size:14px;line-height:1.5;color:var(--ink)}
   .hero-cta{margin-top:26px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
   .hero-cta .trust-line{font-size:12px;color:var(--muted);letter-spacing:.02em;line-height:1.6}
-  /* размер подобран так, чтобы слово из 7 букв (RESTORA) занимало почти всю ширину блока на
-     любом viewport, без переноса и без выхода за край. letter-spacing держим НЕ отрицательным —
-     при жирном начертании (800) и плотном трекинге буквы вроде "T-O"/"O-R" визуально слипаются */
-  .hero-word{font-family:var(--sans);font-weight:800;letter-spacing:.01em;line-height:.86;
-    font-size:clamp(64px,17.65vw,600px);color:var(--navy);text-align:left}
+  /* ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю ширину блока —
+     точный размер шрифта подбирает JS (см. скрипт в конце страницы), под каждый viewport
+     заново, без переноса и без выхода за край. Значения ниже — стартовый фолбэк до расчёта ===== */
+  .hero-wordrow{display:flex;align-items:baseline;white-space:nowrap;width:100%;
+    margin-top:clamp(40px,10vw,320px)}
+  .hero-word{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
+    font-size:clamp(54px,17vw,600px);color:var(--navy);text-align:left}
+  /* ===== "HOME" — приставка к бренду рядом с RESTORA, тем же начертанием и размером,
+     с крышей-иконкой над буквами. Крыша — реальный вырез из файла заказчика (не отрисовка),
+     img абсолютно спозиционирован, не участвует в baseline-выравнивании ряда —
+     выравнивается только сам текст HOME ===== */
+  .brand-suffix{position:relative;flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;
+    line-height:.86;font-size:clamp(54px,17vw,600px);color:var(--navy);margin-left:.15em}
+  .brand-suffix img{position:absolute;left:50%;bottom:100%;width:60%;height:auto;transform:translateX(-50%);
+    margin-bottom:10px;display:block}
+  .footer-wordmark .brand-suffix{color:#fff}
   .hero-bottom{display:flex;justify-content:space-between;margin-top:36px;font-size:12px;letter-spacing:.08em;
     text-transform:uppercase;color:var(--ink)}
   @media(max-width:700px){
@@ -340,9 +353,10 @@
   }
   /* ===== гигантская надпись повторяется в футере белым по синему — тот же приём, что в hero,
      увеличена (было 300px кап) для более крупного, весомого футера ===== */
-  .footer-wordmark{font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
-    font-size:clamp(64px,21vw,340px);color:#fff;margin-top:56px;overflow:hidden;white-space:nowrap;
-    width:100vw;margin-left:calc(50% - 50vw)}
+  .footer-wordmark{display:flex;align-items:baseline;margin-top:clamp(60px,13vw,220px);
+    white-space:nowrap;width:100vw;margin-left:calc(50% - 50vw)}
+  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
+    font-size:clamp(56px,21vw,340px);color:#fff}
 
   @media(max-width:820px){
     .sect{padding:64px 6vw}
@@ -459,7 +473,7 @@
 0 8 0 8 -92 135 -93 135 -293 427 -293 427 -4 0 -3 0 -254 -260z"/><path class="piece" d="M790 833 l-54 -58 -76 -80 -76 -80 -264 -278 -265 -279 -3 -9 -4 -9
 401 0 401 0 0 425 0 425 -4 0 -3 0 -53 -57z"/></g></svg></a>
   <span class="menu-slot" aria-hidden="true"></span>
-  <nav class="navpills"><a href="#" class="top-cta cta" data-topic="Заявка с сайта">Заявка</a></nav>
+  <nav class="navpills"><a href="smeta" class="top-cta cta">Смета</a><a href="#" class="cta cta-block" data-topic="Заявка с сайта">Заявка</a></nav>
 </div>
 
 <div class="menu-shell" id="menuShell">
@@ -498,7 +512,10 @@
       </div>
     </div>
   </div>
-  <h1 class="hero-word">RESTORA</h1>
+  <div class="hero-wordrow">
+    <h1 class="hero-word">RESTORA</h1>
+    <span class="brand-suffix"><img src="assets/home-roof-navy.svg" alt="" aria-hidden="true">HOME</span>
+  </div>
   <div class="hero-bottom">
     <span>Кострома</span>
     <span>Область</span>
@@ -520,7 +537,7 @@
       <div class="kicker"><i></i>Что мы делаем</div>
     </div>
     <div class="philosophy-body reveal">
-      <p>Демонтаж, черновая и чистовая отделка, электромонтаж, фасадные работы, подшивы, ремонт кровли, восстановление старых домов, бани и хозпостройки — закрываем весь цикл своими бригадами, не только то, что есть в списке услуг. Единственное, чем не занимаемся, — строительство крупных зданий с нуля.<br><br>Один подрядчик ведёт объект от первого замера до сдачи — без субподрядчиков и передачи между разными командами. Смету фиксируем по этапам заранее, до начала работ.</p>
+      <p>Демонтаж, черновая и чистовая отделка, электромонтаж, фасадные работы, подшивы, ремонт кровли, восстановление старых домов, бани и хозпостройки — закрываем весь цикл своими бригадами, не только то, что есть в списке услуг.<br><br>Один подрядчик ведёт объект от первого замера до сдачи — без субподрядчиков и передачи между разными командами. Смету фиксируем по этапам заранее, до начала работ.</p>
       <div class="photo-slot philosophy-photo"><img src="assets/master-portret.jpg" alt="Мастер на объекте" loading="lazy" data-parallax></div>
     </div>
   </section>
@@ -550,7 +567,7 @@
       <div>
         <a href="uslugi/vosstanovlenie-domov" class="photo-slot" aria-label="Восстановление домов"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax></a>
         <h3>Восстановление домов</h3>
-        <p>Купили дом с историей? Не ломаем — оживляем. Сохраняем дерево и характер.</p>
+        <p>Ремонт фундамента, замена венцов сруба, кровля и фасад старого дома под ключ.</p>
         <a href="uslugi/vosstanovlenie-domov" class="link-arrow">Подробнее об услуге</a>
       </div>
       <div class="service-other">
@@ -653,6 +670,16 @@
           <p class="review-card__text">Обращались, чтобы привести в порядок старый сруб — дерево от времени совсем посерело и потеряло вид. Ребята поработали и внутри, и снаружи, всё сделали качественно. Результатом полностью доволен, дом теперь выглядит отлично.</p>
           <div class="review-card__meta"><span class="review-card__name">Сергей Т.</span><span class="review-card__service">Восстановление сруба</span></div>
         </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Огромное спасибо команде Restora Home! Сделали отделку просто на ура — быстро, четко и без лишней головной боли для меня. Пространство теперь вообще не узнать, результат просто супер. Ребята — настоящие профи, очень рад, что доверил работу именно вам!</p>
+          <div class="review-card__meta"><span class="review-card__name">Александр С.</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
+        <div class="review-card">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Искал нормальных мастеров, а нашел лучшую бригаду. Команде Restora Home — огромный респект за шикарную работу! Никаких затягиваний сроков, нервотрепки и кривых углов, всё сделали по красоте и на совесть. Максимально доволен, теперь точно знаю, кого советовать знакомым.</p>
+          <div class="review-card__meta"><span class="review-card__name">Дмитрий Т.</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
         <div class="review-card" aria-hidden="true">
           <span class="review-card__stars">★★★★★</span>
           <p class="review-card__text">Благодарю Ивана за качественное оказание услуги. Смету согласовали, ни на копейку не ушло в сторону. Работы выполнили срок в срок — малярные работы на высочайшем уровне. Интересная и пунктуальная организация, всем советую.</p>
@@ -692,6 +719,16 @@
           <span class="review-card__stars">★★★★★</span>
           <p class="review-card__text">Обращались, чтобы привести в порядок старый сруб — дерево от времени совсем посерело и потеряло вид. Ребята поработали и внутри, и снаружи, всё сделали качественно. Результатом полностью доволен, дом теперь выглядит отлично.</p>
           <div class="review-card__meta"><span class="review-card__name">Сергей Т.</span><span class="review-card__service">Восстановление сруба</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Огромное спасибо команде Restora Home! Сделали отделку просто на ура — быстро, четко и без лишней головной боли для меня. Пространство теперь вообще не узнать, результат просто супер. Ребята — настоящие профи, очень рад, что доверил работу именно вам!</p>
+          <div class="review-card__meta"><span class="review-card__name">Александр С.</span><span class="review-card__service">Отделочные работы</span></div>
+        </div>
+        <div class="review-card" aria-hidden="true">
+          <span class="review-card__stars">★★★★★</span>
+          <p class="review-card__text">Искал нормальных мастеров, а нашел лучшую бригаду. Команде Restora Home — огромный респект за шикарную работу! Никаких затягиваний сроков, нервотрепки и кривых углов, всё сделали по красоте и на совесть. Максимально доволен, теперь точно знаю, кого советовать знакомым.</p>
+          <div class="review-card__meta"><span class="review-card__name">Дмитрий Т.</span><span class="review-card__service">Отделочные работы</span></div>
         </div>
       </div>
     </div>
@@ -737,7 +774,10 @@
         <span>© 2026 RESTORA</span>
         <span>Кострома и Костромская область</span>
       </div>
-      <div class="footer-wordmark">RESTORA</div>
+      <div class="footer-wordmark">
+        <span class="footer-wordmark__text">RESTORA</span>
+        <span class="brand-suffix"><img src="assets/home-roof.svg" alt="" aria-hidden="true">HOME</span>
+      </div>
     </div>
   </footer>
 </main>
@@ -913,6 +953,46 @@
     });
   }, { threshold: 0.1 });
   els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<!-- ===== "RESTORA HOME" растягивается ровно на всю доступную ширину (от левого до правого
+     отступа) на любом экране: измеряем естественную ширину строки на опорном размере шрифта
+     и масштабируем оба слова так, чтобы итоговая ширина точно совпала с шириной контейнера ===== -->
+<script>
+(function(){
+  var rows = [].slice.call(document.querySelectorAll('.hero-wordrow, .footer-wordmark'));
+  if(!rows.length) return;
+  var PROBE = 200;
+  var RATIO = 1;
+
+  function fit(row){
+    var word = row.querySelector('.hero-word, .footer-wordmark__text');
+    var suffix = row.querySelector('.brand-suffix');
+    if(!word || !suffix) return;
+    word.style.fontSize = PROBE + 'px';
+    suffix.style.fontSize = (PROBE * RATIO) + 'px';
+    // scrollWidth не годится: на опорном размере строка обычно МЕНЬШЕ контейнера
+    // (не переполняет его), тогда scrollWidth просто равен clientWidth. Меряем
+    // истинную ширину напрямую по прямоугольникам первого и последнего слова
+    var natural = suffix.getBoundingClientRect().right - word.getBoundingClientRect().left;
+    var available = row.clientWidth;
+    if(!natural || !available) return;
+    var scale = available / natural;
+    word.style.fontSize = (PROBE * scale) + 'px';
+    suffix.style.fontSize = (PROBE * RATIO * scale) + 'px';
+  }
+
+  function fitAll(){ rows.forEach(fit); }
+
+  fitAll();
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitAll); }
+
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(fitAll, 120);
+  });
 })();
 </script>
 

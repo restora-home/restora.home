@@ -71,8 +71,10 @@
   /* invisible placeholder держит исходную высоту/раскладку topbar — сама кнопка теперь
      живёт в .menu-shell (position:fixed), т.к. ей нужно расти поверх остального контента */
   .menu-slot{justify-self:center;width:124px;height:38px;visibility:hidden}
-  .navpills{justify-self:end}
+  .navpills{justify-self:end;display:flex;align-items:center;gap:18px}
   .top-cta{color:var(--ink);text-decoration:underline;text-underline-offset:4px;font-size:14px;font-weight:400}
+  .navpills .cta-block{padding:10px 22px;font-size:13px;border-radius:4px}
+  .navpills .cta-block:hover{padding-left:26px;padding-right:26px}
 
   /* ===== выпадающее меню: кнопка "Меню" сама плавно морфится в развёрнутую панель —
      один и тот же элемент растёт по ширине/высоте и меняет цвет ===== */
@@ -214,9 +216,20 @@
   @media(prefers-reduced-motion:reduce){
     .footer-about p,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
   }
-  .footer-wordmark{font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:.86;
-    font-size:clamp(64px,21vw,340px);color:#fff;margin-top:56px;overflow:hidden;white-space:nowrap;
-    width:100vw;margin-left:calc(50% - 50vw)}
+  /* ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю ширину блока —
+     точный размер шрифта подбирает JS (см. скрипт в конце страницы), под каждый viewport
+     заново, без переноса и без выхода за край. Значения ниже — стартовый фолбэк до расчёта ===== */
+  .footer-wordmark{display:flex;align-items:baseline;margin-top:clamp(60px,13vw,220px);
+    white-space:nowrap;width:100vw;margin-left:calc(50% - 50vw)}
+  .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
+    font-size:clamp(56px,21vw,340px);color:#fff}
+  /* ===== "HOME" — приставка к бренду рядом с RESTORA, тем же начертанием и размером,
+     с крышей-иконкой над буквами (svg абсолютно спозиционирован, не участвует в
+     baseline-выравнивании ряда — выравнивается только сам текст HOME) ===== */
+  .brand-suffix{position:relative;flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;
+    line-height:.86;color:#fff;font-size:clamp(56px,21vw,340px);margin-left:.15em}
+  .brand-suffix img{position:absolute;left:50%;bottom:100%;width:60%;height:auto;transform:translateX(-50%);
+    margin-bottom:10px;display:block}
 
   .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(12,20,40,.45);
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
@@ -275,7 +288,7 @@
 0 8 0 8 -92 135 -93 135 -293 427 -293 427 -4 0 -3 0 -254 -260z"/><path class="piece" d="M790 833 l-54 -58 -76 -80 -76 -80 -264 -278 -265 -279 -3 -9 -4 -9
 401 0 401 0 0 425 0 425 -4 0 -3 0 -53 -57z"/></g></svg></a>
   <span class="menu-slot" aria-hidden="true"></span>
-  <nav class="navpills"><a href="#" class="top-cta cta" data-topic="Отделка и электромонтаж под ключ">Заявка</a></nav>
+  <nav class="navpills"><a href="../smeta" class="top-cta cta">Смета</a><a href="#" class="cta cta-block" data-topic="Отделка и электромонтаж под ключ">Заявка</a></nav>
 </div>
 
 <div class="menu-shell" id="menuShell">
@@ -588,7 +601,10 @@
       <span>© 2026 RESTORA</span>
       <span>Кострома и Костромская область</span>
     </div>
-    <div class="footer-wordmark">RESTORA</div>
+    <div class="footer-wordmark">
+      <span class="footer-wordmark__text">RESTORA</span>
+      <span class="brand-suffix"><img src="../assets/home-roof.svg" alt="" aria-hidden="true">HOME</span>
+    </div>
   </div>
 </footer>
 
@@ -722,6 +738,47 @@
     });
   }, { threshold: 0.1 });
   els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<!-- ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю доступную ширину
+     (от левого до правого отступа) на любом экране: измеряем естественную ширину строки на
+     опорном размере шрифта и масштабируем оба слова так, чтобы итоговая ширина точно совпала
+     с шириной контейнера ===== -->
+<script>
+(function(){
+  var rows = [].slice.call(document.querySelectorAll('.hero-wordrow, .footer-wordmark'));
+  if(!rows.length) return;
+  var PROBE = 200;
+  var RATIO = 1;
+
+  function fit(row){
+    var word = row.querySelector('.hero-word, .footer-wordmark__text');
+    var suffix = row.querySelector('.brand-suffix');
+    if(!word || !suffix) return;
+    word.style.fontSize = PROBE + 'px';
+    suffix.style.fontSize = (PROBE * RATIO) + 'px';
+    // scrollWidth не годится: на опорном размере строка обычно МЕНЬШЕ контейнера
+    // (не переполняет его), тогда scrollWidth просто равен clientWidth. Меряем
+    // истинную ширину напрямую по прямоугольникам первого и последнего слова
+    var natural = suffix.getBoundingClientRect().right - word.getBoundingClientRect().left;
+    var available = row.clientWidth;
+    if(!natural || !available) return;
+    var scale = available / natural;
+    word.style.fontSize = (PROBE * scale) + 'px';
+    suffix.style.fontSize = (PROBE * RATIO * scale) + 'px';
+  }
+
+  function fitAll(){ rows.forEach(fit); }
+
+  fitAll();
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitAll); }
+
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(fitAll, 120);
+  });
 })();
 </script>
 
