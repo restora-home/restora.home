@@ -214,20 +214,12 @@
   @media(prefers-reduced-motion:reduce){
     .footer-about p,.footer-nav a,.footer-social a{opacity:1;transform:none;transition:none}
   }
-  /* ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю ширину блока —
-     точный размер шрифта подбирает JS (см. скрипт в конце страницы), под каждый viewport
-     заново, без переноса и без выхода за край. Значения ниже — стартовый фолбэк до расчёта ===== */
+  /* ===== "RESTORA" всегда растягивается на всю ширину блока — точный размер шрифта
+     подбирает JS (см. скрипт в конце страницы), под каждый viewport заново ===== */
   .footer-wordmark{display:flex;align-items:baseline;margin-top:clamp(60px,13vw,220px);
     white-space:nowrap;width:100vw;margin-left:calc(50% - 50vw)}
   .footer-wordmark__text{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
     font-size:clamp(56px,21vw,340px);color:#fff}
-  /* ===== "HOME" — приставка к бренду рядом с RESTORA, тем же начертанием и размером,
-     с крышей-иконкой над буквами (svg абсолютно спозиционирован, не участвует в
-     baseline-выравнивании ряда — выравнивается только сам текст HOME) ===== */
-  .brand-suffix{position:relative;flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;
-    line-height:.86;color:#fff;font-size:clamp(56px,21vw,340px);margin-left:.15em}
-  .brand-suffix img{position:absolute;left:50%;bottom:100%;width:48%;height:auto;transform:translateX(-50%);
-    margin-bottom:10px;display:block}
 
   .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(12,20,40,.45);
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
@@ -497,7 +489,7 @@
         </div></div>
       </details>
     </div>
-    <p class="price-note">Цены ориентировочные, по рынку Костромы и области. Точную смету считаем после бесплатного выезда и замера — фиксируем по этапам в договоре.</p>
+    <p class="price-note">Точную смету считаем после бесплатного выезда и замера — фиксируем по этапам в договоре.</p>
   </section>
 
   <section class="sect">
@@ -568,7 +560,6 @@
     </div>
     <div class="footer-wordmark">
       <span class="footer-wordmark__text">RESTORA</span>
-      <span class="brand-suffix"><img src="../assets/home-roof.svg" alt="" aria-hidden="true">HOME</span>
     </div>
   </div>
 </footer>
@@ -706,32 +697,24 @@
 })();
 </script>
 
-<!-- ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю доступную ширину
-     (от левого до правого отступа) на любом экране: измеряем естественную ширину строки на
-     опорном размере шрифта и масштабируем оба слова так, чтобы итоговая ширина точно совпала
-     с шириной контейнера ===== -->
+<!-- ===== "RESTORA" растягивается ровно на всю доступную ширину (от левого до правого
+     отступа) на любом экране: измеряем естественную ширину слова на опорном размере шрифта
+     и масштабируем его так, чтобы итоговая ширина точно совпала с шириной контейнера ===== -->
 <script>
 (function(){
   var rows = [].slice.call(document.querySelectorAll('.hero-wordrow, .footer-wordmark'));
   if(!rows.length) return;
   var PROBE = 200;
-  var RATIO = 1;
 
   function fit(row){
     var word = row.querySelector('.hero-word, .footer-wordmark__text');
-    var suffix = row.querySelector('.brand-suffix');
-    if(!word || !suffix) return;
+    if(!word) return;
     word.style.fontSize = PROBE + 'px';
-    suffix.style.fontSize = (PROBE * RATIO) + 'px';
-    // scrollWidth не годится: на опорном размере строка обычно МЕНЬШЕ контейнера
-    // (не переполняет его), тогда scrollWidth просто равен clientWidth. Меряем
-    // истинную ширину напрямую по прямоугольникам первого и последнего слова
-    var natural = suffix.getBoundingClientRect().right - word.getBoundingClientRect().left;
+    var natural = word.getBoundingClientRect().width;
     var available = row.clientWidth;
     if(!natural || !available) return;
     var scale = available / natural;
     word.style.fontSize = (PROBE * scale) + 'px';
-    suffix.style.fontSize = (PROBE * RATIO * scale) + 'px';
   }
 
   function fitAll(){ rows.forEach(fit); }

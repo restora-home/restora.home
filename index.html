@@ -148,22 +148,12 @@
   .hero-tag{max-width:340px;text-align:left;font-size:14px;line-height:1.5;color:var(--ink)}
   .hero-cta{margin-top:26px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
   .hero-cta .trust-line{font-size:12px;color:var(--muted);letter-spacing:.02em;line-height:1.6}
-  /* ===== "RESTORA" + тонкая приставка "HOME" всегда растягиваются на всю ширину блока —
-     точный размер шрифта подбирает JS (см. скрипт в конце страницы), под каждый viewport
-     заново, без переноса и без выхода за край. Значения ниже — стартовый фолбэк до расчёта ===== */
+  /* ===== "RESTORA" всегда растягивается на всю ширину блока — точный размер шрифта
+     подбирает JS (см. скрипт в конце страницы), под каждый viewport заново ===== */
   .hero-wordrow{display:flex;align-items:baseline;white-space:nowrap;width:100%;
     margin-top:clamp(40px,10vw,320px)}
   .hero-word{flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;line-height:.86;
     font-size:clamp(54px,17vw,600px);color:var(--navy);text-align:left}
-  /* ===== "HOME" — приставка к бренду рядом с RESTORA, тем же начертанием и размером,
-     с крышей-иконкой над буквами. Крыша — реальный вырез из файла заказчика (не отрисовка),
-     img абсолютно спозиционирован, не участвует в baseline-выравнивании ряда —
-     выравнивается только сам текст HOME ===== */
-  .brand-suffix{position:relative;flex:none;font-family:var(--sans);font-weight:800;letter-spacing:-.015em;
-    line-height:.86;font-size:clamp(54px,17vw,600px);color:var(--navy);margin-left:.15em}
-  .brand-suffix img{position:absolute;left:50%;bottom:100%;width:48%;height:auto;transform:translateX(-50%);
-    margin-bottom:10px;display:block}
-  .footer-wordmark .brand-suffix{color:#fff}
   .hero-bottom{display:flex;justify-content:space-between;margin-top:36px;font-size:12px;letter-spacing:.08em;
     text-transform:uppercase;color:var(--ink)}
   @media(max-width:700px){
@@ -514,7 +504,6 @@
   </div>
   <div class="hero-wordrow">
     <h1 class="hero-word">RESTORA</h1>
-    <span class="brand-suffix"><img src="assets/home-roof-navy.svg" alt="" aria-hidden="true">HOME</span>
   </div>
   <div class="hero-bottom">
     <span>Кострома</span>
@@ -572,7 +561,7 @@
       </div>
       <div class="service-other">
         <h3>Не увидели свою задачу?</h3>
-        <p>Берёмся практически за любые строительные и ремонтные работы, не только за то, что в списке. Исключение — строительство крупных зданий с нуля.</p>
+        <p>Работаем по договору с фиксированной сметой по этапам, без субподрядчиков — опишите задачу, и мы скажем, что нужно сделать и сколько это будет стоить.</p>
         <a href="#" class="cta cta-block" data-topic="Другая задача">Описать задачу</a>
       </div>
     </div>
@@ -776,7 +765,6 @@
       </div>
       <div class="footer-wordmark">
         <span class="footer-wordmark__text">RESTORA</span>
-        <span class="brand-suffix"><img src="assets/home-roof.svg" alt="" aria-hidden="true">HOME</span>
       </div>
     </div>
   </footer>
@@ -956,31 +944,24 @@
 })();
 </script>
 
-<!-- ===== "RESTORA HOME" растягивается ровно на всю доступную ширину (от левого до правого
-     отступа) на любом экране: измеряем естественную ширину строки на опорном размере шрифта
-     и масштабируем оба слова так, чтобы итоговая ширина точно совпала с шириной контейнера ===== -->
+<!-- ===== "RESTORA" растягивается ровно на всю доступную ширину (от левого до правого
+     отступа) на любом экране: измеряем естественную ширину слова на опорном размере шрифта
+     и масштабируем его так, чтобы итоговая ширина точно совпала с шириной контейнера ===== -->
 <script>
 (function(){
   var rows = [].slice.call(document.querySelectorAll('.hero-wordrow, .footer-wordmark'));
   if(!rows.length) return;
   var PROBE = 200;
-  var RATIO = 1;
 
   function fit(row){
     var word = row.querySelector('.hero-word, .footer-wordmark__text');
-    var suffix = row.querySelector('.brand-suffix');
-    if(!word || !suffix) return;
+    if(!word) return;
     word.style.fontSize = PROBE + 'px';
-    suffix.style.fontSize = (PROBE * RATIO) + 'px';
-    // scrollWidth не годится: на опорном размере строка обычно МЕНЬШЕ контейнера
-    // (не переполняет его), тогда scrollWidth просто равен clientWidth. Меряем
-    // истинную ширину напрямую по прямоугольникам первого и последнего слова
-    var natural = suffix.getBoundingClientRect().right - word.getBoundingClientRect().left;
+    var natural = word.getBoundingClientRect().width;
     var available = row.clientWidth;
     if(!natural || !available) return;
     var scale = available / natural;
     word.style.fontSize = (PROBE * scale) + 'px';
-    suffix.style.fontSize = (PROBE * RATIO * scale) + 'px';
   }
 
   function fitAll(){ rows.forEach(fit); }
