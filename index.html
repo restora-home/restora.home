@@ -130,6 +130,9 @@
     display:flex;align-items:center;justify-content:center}
   .photo-slot svg{width:18%;height:18%;stroke:#c9c9c9;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
   .photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
+  /* ===== такой же синий уголок, как на анимации до/после — фирменная деталь оформления ===== */
+  .photo-slot::after{content:'';position:absolute;right:0;bottom:0;width:22%;height:22%;
+    background:var(--navy);clip-path:polygon(100% 0,100% 100%,0 100%);z-index:1;pointer-events:none}
   /* ===== вертикальный параллакс: картинка на 20% выше контейнера, чтобы при сдвиге
      не открывались пустые поля по краям — см. скрипт параллакса в конце страницы ===== */
   .photo-slot img[data-parallax]{position:absolute;top:-10%;left:0;height:120%;will-change:transform}
