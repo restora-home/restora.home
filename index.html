@@ -223,6 +223,14 @@
   .cta,.link-arrow{display:inline-block;color:var(--ink);text-decoration:underline;text-underline-offset:4px;
     font-family:var(--sans);font-weight:400;font-size:15px;transition:color .25s var(--ease)}
   .cta:hover,.link-arrow:hover{color:var(--navy)}
+  /* ===== "Подробнее об услуге": обведённая кнопка-пилюля со стрелкой вместо простого
+     подчёркнутого текста — заметнее, что можно кликнуть, особенно на телефоне ===== */
+  .link-btn{display:inline-flex;align-items:center;gap:8px;color:var(--navy);text-decoration:none;
+    font-weight:600;font-size:14px;border:1.5px solid var(--navy);border-radius:100px;
+    padding:12px 20px 12px 22px;transition:background .25s var(--ease),color .25s var(--ease)}
+  .link-btn svg{flex:none;transition:transform .25s var(--ease)}
+  .link-btn:hover{background:var(--navy);color:#fff}
+  .link-btn:hover svg{transform:translateX(3px)}
   .cta-block{display:inline-block;border:none;border-radius:4px;background:var(--navy);color:#fff;text-decoration:none;
     font-weight:600;letter-spacing:.02em;padding:16px 30px;font-size:14px;
     transition:background .25s var(--ease),border-radius .25s var(--ease),padding .25s var(--ease)}
@@ -545,7 +553,7 @@
       <a href="uslugi/otdelka-elektromontazh" class="photo-slot" aria-label="Отделка и электромонтаж под ключ"><img src="assets/otdelka-pokraska-valik.jpg" alt="Покраска стены валиком: подготовка и чистовая отделка" loading="lazy" data-parallax></a>
       <h3>Отделка и электромонтаж под ключ</h3>
       <p>Внутренняя и внешняя отделка, монтаж инженерных систем и электрика — одна бригада ведёт объект от чернового этапа до чистовой сдачи.</p>
-      <a href="uslugi/otdelka-elektromontazh" class="link-arrow">Подробнее об услуге</a>
+      <a href="uslugi/otdelka-elektromontazh" class="link-arrow link-btn">Подробнее об услуге <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
 
     <div class="service-grid reveal">
@@ -553,13 +561,13 @@
         <a href="uslugi/fasady-montazh" class="photo-slot" aria-label="Фасадные и монтажные работы"><img src="assets/fasad-montazh-saiding.jpg" alt="Монтаж фасада: обшивка сайдингом" loading="lazy" data-parallax></a>
         <h3>Фасадные и монтажные работы</h3>
         <p>Утепление, отделка фасада, монтаж конструкций снаружи дома.</p>
-        <a href="uslugi/fasady-montazh" class="link-arrow">Подробнее об услуге</a>
+        <a href="uslugi/fasady-montazh" class="link-arrow link-btn">Подробнее об услуге <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
       <div>
         <a href="uslugi/vosstanovlenie-domov" class="photo-slot" aria-label="Восстановление домов"><img src="assets/vosstanovlenie-doma-do-posle.jpg" alt="Восстановление дома: обшивка фасада, до и после" loading="lazy" data-parallax></a>
         <h3>Восстановление домов</h3>
         <p>Восстановление вашего дома под ключ — полный спектр работ: фундамент, венцы сруба, кровля, фасад.</p>
-        <a href="uslugi/vosstanovlenie-domov" class="link-arrow">Подробнее об услуге</a>
+        <a href="uslugi/vosstanovlenie-domov" class="link-arrow link-btn">Подробнее об услуге <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
       <div class="service-other">
         <h3>Не увидели свою задачу?</h3>
