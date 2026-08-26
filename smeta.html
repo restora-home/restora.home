@@ -134,6 +134,14 @@
   .cta,.link-arrow{display:inline-block;color:var(--ink);text-decoration:underline;text-underline-offset:4px;
     font-family:var(--sans);font-weight:400;font-size:15px;transition:color .25s var(--ease)}
   .cta:hover,.link-arrow:hover{color:var(--navy)}
+  /* ===== "Подробнее об услуге": обведённая кнопка-пилюля со стрелкой вместо простого
+     подчёркнутого текста — заметнее, что можно кликнуть, особенно на телефоне ===== */
+  .link-btn{display:inline-flex;align-items:center;gap:8px;color:var(--navy);text-decoration:none;
+    font-weight:600;font-size:14px;border:1.5px solid var(--navy);border-radius:100px;
+    padding:12px 20px 12px 22px;transition:background .25s var(--ease),color .25s var(--ease)}
+  .link-btn svg{flex:none;transition:transform .25s var(--ease)}
+  .link-btn:hover{background:var(--navy);color:#fff}
+  .link-btn:hover svg{transform:translateX(3px)}
   .cta-block{display:inline-block;border:none;border-radius:4px;background:var(--navy);color:#fff;text-decoration:none;
     font-weight:600;letter-spacing:.02em;padding:16px 30px;font-size:14px;
     transition:background .25s var(--ease),border-radius .25s var(--ease),padding .25s var(--ease)}
@@ -146,7 +154,7 @@
   .sect-head .kicker{border-top:1px solid var(--line);padding-top:22px}
   .sect-head h2{font-family:var(--sans);font-weight:400;font-size:clamp(28px,3.3vw,47px);line-height:1.2;
     color:var(--ink);letter-spacing:-.04em;max-width:760px}
-  .sect-head .see-service{margin-top:18px;display:inline-block}
+  .sect-head .see-service{margin-top:18px}
 
   .price-note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
   .price-accordion{margin-top:48px;max-width:760px}
@@ -257,6 +265,19 @@
   @media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none} }
 </style>
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111980118', 'ym');
+
+    ym(111980118, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111980118" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </head><body>
 <!-- ADMIN:EDITABLE:START -->
 
@@ -321,7 +342,7 @@
     <div class="sect-head reveal">
       <h2>Отделка и электромонтаж под ключ</h2>
       <div class="kicker"><i></i>Сколько это стоит</div>
-      <a href="uslugi/otdelka-elektromontazh" class="link-arrow see-service">Подробнее об услуге →</a>
+      <a href="uslugi/otdelka-elektromontazh" class="link-arrow see-service link-btn">Подробнее об услуге <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="price-accordion reveal">
       <details class="faq-item">
@@ -514,7 +535,7 @@
     <div class="sect-head reveal">
       <h2>Восстановление домов</h2>
       <div class="kicker"><i></i>Сколько это стоит</div>
-      <a href="uslugi/vosstanovlenie-domov" class="link-arrow see-service">Подробнее об услуге →</a>
+      <a href="uslugi/vosstanovlenie-domov" class="link-arrow see-service link-btn">Подробнее об услуге <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="price-accordion reveal">
       <details class="faq-item">
@@ -674,7 +695,7 @@
     <div class="sect-head reveal">
       <h2>Фасадные и монтажные работы</h2>
       <div class="kicker"><i></i>Сколько это стоит</div>
-      <a href="uslugi/fasady-montazh" class="link-arrow see-service">Подробнее об услуге →</a>
+      <a href="uslugi/fasady-montazh" class="link-arrow see-service link-btn">Подробнее об услуге <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="price-accordion reveal">
       <details class="faq-item">
