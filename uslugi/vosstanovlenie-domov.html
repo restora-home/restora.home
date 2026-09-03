@@ -265,6 +265,38 @@
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .reveal.in-view{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none} }
+
+  /* ===== плавающая кнопка звонка: держится у большого пальца на мобильном,
+     появляется после того как ушёл hero, прячется на подходе к футеру ===== */
+  .call-fab{position:fixed;right:20px;bottom:22px;z-index:120;width:58px;height:58px;
+    border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 30px rgba(8,20,52,.35);text-decoration:none;
+    opacity:0;visibility:hidden;transform:translateY(24px) scale(.85);
+    transition:opacity .45s var(--ease),transform .45s var(--ease),visibility 0s linear .45s}
+  .call-fab.is-visible{opacity:1;visibility:visible;transform:none;
+    transition:opacity .45s var(--ease),transform .45s var(--ease),visibility 0s}
+  .call-fab svg{width:24px;height:24px;position:relative;z-index:1;transform-origin:70% 30%;
+    animation:call-fab-ring 2.6s ease-in-out infinite}
+  .call-fab::before,.call-fab::after{content:'';position:absolute;inset:0;border-radius:50%;
+    border:1.5px solid rgba(255,255,255,.55);opacity:0;animation:call-fab-pulse 2.6s ease-out infinite}
+  .call-fab::after{animation-delay:.6s}
+  @keyframes call-fab-ring{
+    0%,60%,100%{transform:rotate(0)}
+    63%{transform:rotate(-16deg)}
+    66%{transform:rotate(13deg)}
+    69%{transform:rotate(-9deg)}
+    72%{transform:rotate(6deg)}
+    75%{transform:rotate(0)}
+  }
+  @keyframes call-fab-pulse{
+    0%{transform:scale(.9);opacity:.55}
+    70%,100%{transform:scale(1.5);opacity:0}
+  }
+  @media(max-width:640px){ .call-fab{right:16px;bottom:18px;width:54px;height:54px} }
+  @media(prefers-reduced-motion:reduce){
+    .call-fab svg{animation:none}
+    .call-fab::before,.call-fab::after{display:none}
+  }
 </style>
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head><body>
@@ -572,6 +604,37 @@
     </div>
   </div>
 </footer>
+
+<!-- ===== плавающая кнопка звонка ===== -->
+<a href="tel:+79639303637" class="call-fab" id="callFab" aria-label="Позвонить: +7 963 930-36-37">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</a>
+<script>
+(function(){
+  var fab = document.getElementById('callFab');
+  var footer = document.getElementById('footer');
+  if(!fab || !footer) return;
+
+  var pastHero = false, nearFooter = false;
+  function update(){ fab.classList.toggle('is-visible', pastHero && !nearFooter); }
+
+  function onScroll(){
+    var should = window.scrollY > window.innerHeight * 0.6;
+    if(should !== pastHero){ pastHero = should; update(); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){ nearFooter = entry.isIntersecting; update(); });
+  }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+  io.observe(footer);
+})();
+</script>
+
 
 <div class="modal-backdrop" id="modalBackdrop"></div>
 <div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
